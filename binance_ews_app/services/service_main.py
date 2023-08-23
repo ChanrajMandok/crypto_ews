@@ -1,7 +1,7 @@
 from binance_ews_app.services.service_binance_keyword_search import ServiceBinanceKeywordSearch
+from binance_ews_app.services.service_binance_article_handler import ServiceBinanceArticleHandler
 from binance_ews_app.services.service_binance_news_dict_retriever import ServiceBinanceNewsDictRetriever
 from binance_ews_app.services.service_binance_news_html_retriever import ServiceBinanceyNewsHtmlRetriever
-from binance_ews_app.services.service_binance_article_handler import ServiceBinanceArticleHandler
 
 
 class ServiceMain:

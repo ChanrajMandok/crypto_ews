@@ -3,22 +3,24 @@ import time
 import requests
 
 from singleton_decorator import singleton
+
 from binance_ews_app.services import logger
 from binance_ews_app.decorator.decorator_binance_headers_required import binance_headers_required
 from binance_ews_app.decorator.decorator_binance_urls_required import binance_article_url_required
+
 
 @singleton
 class ServiceBinanceNewsDictRetriever:
     
     """
-    Services finds latest articles realeased from Binance anncouncments Page 
+    Services finds latest articles titles realeased from Binance anncouncments Page 
     """
     
     @binance_headers_required
     @binance_article_url_required
     def retrieve(self, 
                  binance_headers,
-                 binance_news_list_url,
+                 binance_news_dict_url,
                  binance_article_base_url=None) -> list[dict]:
         
         tries = 0
@@ -33,7 +35,7 @@ class ServiceBinanceNewsDictRetriever:
                 session.verify = ssl_verify
                 
                 response = session.get(
-                    url=binance_news_list_url,
+                    url=binance_news_dict_url,
                     headers=binance_headers,
                     timeout=timeout
                 )

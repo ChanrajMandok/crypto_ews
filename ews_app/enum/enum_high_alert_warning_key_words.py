@@ -7,15 +7,8 @@ class EnumHighAlertWarningKeyWords(NoValue):
     SUSPENDED                 = 'suspended'
     SUSPENSION                = 'suspension'
     MIGRATION                 = 'migration'
-    SWAP                      = 'swap'
     DELIST                    = 'delist'
     HARD                      = 'hard'
     FORK                      = 'fork'
     CEASE                     = 'cease'
     REMOVAL                   = 'removal'
-    
-    # low priority
-    CONTRACT                  = 'contract'
-    PROTOCOL                  = 'protocol'
-    NETWORK                   = 'network'
-    UPGRADE                   = 'upgrade'

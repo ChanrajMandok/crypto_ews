@@ -4,9 +4,9 @@ import requests
 from singleton_decorator import singleton
 
 from binance_ews_app.services import logger
+from binance_ews_app.services.service_binance_article_handler import ServiceBinanceArticleHandler
 from binance_ews_app.decorator.decorator_binance_headers_required import binance_headers_required
 from binance_ews_app.decorator.decorator_binance_urls_required import binance_article_url_required
-from binance_ews_app.services.service_binance_article_handler import ServiceBinanceArticleHandler
 
 
 @singleton
@@ -17,7 +17,6 @@ class ServiceBinanceyNewsHtmlRetriever:
     date range. It will output the important events with dates which can be used create alerts.  
     """
     
-
     def __init__(self) -> None:
         self.service_binance_article_handler = ServiceBinanceArticleHandler()
 
@@ -26,7 +25,7 @@ class ServiceBinanceyNewsHtmlRetriever:
     def retrieve(self,
                  articles: list[dict],
                  binance_headers=None,
-                 binance_news_list_url=None,
+                 binance_news_dict_url=None,
                  binance_article_base_url=None):
 
         ssl_verify = False if os.environ.get('SSL_VERIFY', 'True') == "False" else True
@@ -69,14 +68,12 @@ class ServiceBinanceyNewsHtmlRetriever:
                 continue  # If the status code is not in the 200 range, we skip processing for this article.
 
             handled = self.service_binance_article_handler.handle(
-                article_html_content=response.content, title=title)
+                article_html_content=response.content, title=title, url=url)
             
-
             if handled['pop']:
                 articles_to_remove.append(article)
             else:
                 article.update(handled)
-                article.extend({'url':url})
                 
         for article in articles_to_remove:
             articles.remove(article)

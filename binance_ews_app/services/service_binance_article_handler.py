@@ -6,64 +6,66 @@ from binance_ews_app.services import logger
 
 
 class ServiceBinanceArticleHandler:
-    
     """
-    Services extracts important Dates & article from HTML format 
+    Service extracts important Dates, articles, trading pairs, 
+    and specific contract trading pairs from HTML format.
     """
-    
+
     def __init__(self):
-        self.date_time_pattern = re.compile(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\s*\(UTC\)")
-        self.date_pattern = re.compile(r"(\d{4}-\d{2}-\d{2})(?!\s\d{2}:\d{2})")
-    
-    def handle(self, article_html_content: str, title: str) -> dict:
+        self.pairs_pattern = re.compile(r"([A-Z0-9]{3,10})\/([A-Z0-9]{3,10})")
+        self.date_pattern = re.compile(r"(\d{4}-\d{2}-\d{2}(?: \d{2}:\d{2})?)")
+        self.contract_pairs_pattern = re.compile(r"USDⓈ-M ((?:[A-Z0-9]{1,10}[A-Z0-9]{1,10}(?: and )?)+) Perpetual Contract")
+
+    def handle(self, article_html_content: str, title: str, url: str) -> dict:
         try:
-            article_content_text = self.extract_article_content(article_html_content, title)
+            article_content_text = self.extract_article_content(article_html_content)
             important_dates = self.extract_important_dates(article_content_text)
-            
+            trading_pairs = self.extract_trading_pairs(article_content_text)
+            contract_pairs = self.extract_contract_pairs(article_content_text)
+
             return {
+                'url': url,
                 'important_dates': important_dates,
                 'article': article_content_text,
-                'pop': len(important_dates) == 0  # True if no important dates are found
+                'pop': not important_dates,
+                'spot_pairs': trading_pairs,
+                'USDⓈ-M_pairs': contract_pairs
             }
         except Exception as e:
             logger.error(f"{self.__class__.__name__} - Unexpected error: {str(e)} for title: {title}")
             return {
+                'url': url,
                 'important_dates': [],
                 'article': '',
-                'pop': True
+                'pop': True,
+                'trading_pairs': [],
+                'contract_pairs': []
             }
 
-    def extract_article_content(self, article_html_content: str, title: str) -> str:
+    def extract_article_content(self, article_html_content: str) -> str:
         soup = BeautifulSoup(article_html_content, 'html.parser')
         target_div = soup.find("div", {"id": "support_article"})
-
-        if target_div:
-            return target_div.get_text().strip()
-        else:
-            logger.warning(f"{self.__class__.__name__} - WARNING: Could not find target div for URL {title}")
-            return ''
+        return target_div.get_text().strip() if target_div else ''
 
     def extract_important_dates(self, content: str) -> list:
-        today = datetime.datetime.today()
+        today = datetime.datetime.today() - datetime.timedelta(30)
         
-        matches_date_time = self.date_time_pattern.findall(content)
-        matches_date = self.date_pattern.findall(content)
-
         important_dates = []
-        for match in matches_date_time:
-            try:
-                date_obj = datetime.datetime.strptime(match, "%Y-%m-%d %H:%M")
-                if date_obj > today:
-                    important_dates.append(match)
-            except ValueError:
-                logger.warning(f"{self.__class__.__name__} - WARNING: Invalid date-time format: {match}")
+        for match in self.date_pattern.findall(content):
+            if ' ' in match:  # Check if time is included
+                date_format = "%Y-%m-%d %H:%M"
+            else:
+                date_format = "%Y-%m-%d"
 
-        for match in matches_date:
-            try:
-                date_obj = datetime.datetime.strptime(match, "%Y-%m-%d").date()
-                if date_obj > today.date():
-                    important_dates.append(match)
-            except ValueError:
-                logger.warning(f"{self.__class__.__name__} - WARNING: Invalid date format: {match}")
+            date_obj = datetime.datetime.strptime(match, date_format)
+            if date_obj > today:
+                important_dates.append(match)
 
         return important_dates
+
+    def extract_trading_pairs(self, content: str) -> list:
+        return [f"{match[0]}/{match[1]}" for match in self.pairs_pattern.findall(content)]
+
+    def extract_contract_pairs(self, content: str) -> list:
+        matches = self.contract_pairs_pattern.findall(content)
+        return [pair for match in matches for pair in match.split(" and ")]
