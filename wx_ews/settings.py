@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'ews_app.apps.EwsAppConfig'
+    'ews_app.apps.EwsAppConfig',
+    'binance_ews_app.apps.BinanceEwsAppConfig'
 ]
 
 MIDDLEWARE = [

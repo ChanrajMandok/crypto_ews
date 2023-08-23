@@ -48,7 +48,7 @@ class ServiceBinanceArticleHandler:
         return target_div.get_text().strip() if target_div else ''
 
     def extract_important_dates(self, content: str) -> list:
-        today = datetime.datetime.today() - datetime.timedelta(30)
+        today = datetime.datetime.today()
         
         important_dates = []
         for match in self.date_pattern.findall(content):

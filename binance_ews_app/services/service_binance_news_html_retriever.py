@@ -4,6 +4,7 @@ import requests
 from singleton_decorator import singleton
 
 from binance_ews_app.services import logger
+from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from binance_ews_app.services.service_binance_article_handler import ServiceBinanceArticleHandler
 from binance_ews_app.decorator.decorator_binance_headers_required import binance_headers_required
 from binance_ews_app.decorator.decorator_binance_urls_required import binance_article_url_required
@@ -23,7 +24,7 @@ class ServiceBinanceyNewsHtmlRetriever:
     @binance_headers_required
     @binance_article_url_required
     def retrieve(self,
-                 articles: list[dict],
+                 articles: list[ModelBinanceArticle],
                  binance_headers=None,
                  binance_news_dict_url=None,
                  binance_article_base_url=None):
@@ -36,9 +37,10 @@ class ServiceBinanceyNewsHtmlRetriever:
         
         articles_to_remove = []
 
-        for article in articles:
-            code = article.get('code', '')
-            title = article.get('title', '').replace(' ', '-')
+        for article_object in articles:
+            article = article_object.article
+            code = article.code
+            title = article.title.replace(' ', '-')
             url = f"{binance_article_base_url}{code}"
 
             try:
@@ -71,11 +73,11 @@ class ServiceBinanceyNewsHtmlRetriever:
                 article_html_content=response.content, title=title, url=url)
             
             if handled['pop']:
-                articles_to_remove.append(article)
+                articles_to_remove.append(article_object)
             else:
-                article.update(handled)
+                article_object.update(handled)
                 
-        for article in articles_to_remove:
-            articles.remove(article)
+        for article_object in articles_to_remove:
+            articles.remove(article_object)
 
         return articles
