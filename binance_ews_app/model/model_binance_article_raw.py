@@ -12,4 +12,4 @@ class ModelBinanceArticleRaw(models.Model):
         managed = False
 
     def __repr__(self):
-        return f"{self.__class__.__name__} {self.title}"
+        return f"{self.__class__.__name__} {self.id}"

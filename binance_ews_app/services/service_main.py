@@ -1,23 +1,24 @@
-from binance_ews_app.services.service_binance_keyword_search import ServiceBinanceKeywordSearch
-from binance_ews_app.services.service_binance_article_handler import ServiceBinanceArticleHandler
-from binance_ews_app.services.service_binance_article_retriever import ServiceBinanceArticleRetriever
-from binance_ews_app.services.service_binance_news_html_retriever import ServiceBinanceyNewsHtmlRetriever
-
+from binance_ews_app.services import logger
+from binance_ews_app.services.service_binance_raw_article_keyword_classifier import ServiceBinanceRawArticleKeywordClassifier
+from binance_ews_app.services.service_binance_raw_article_retriever import ServiceBinanceRawArticleRetriever
+from binance_ews_app.services.service_binance_article_html_retriever import ServiceBinanceArticleHtmlRetriever
 
 class ServiceMain:
     
     def __init__(self) -> None:
-        self.service_binance_keyword_search = ServiceBinanceKeywordSearch()
-        self.service_binance_article_handler = ServiceBinanceArticleHandler()
-        self.service_binance_article_retriever = ServiceBinanceArticleRetriever()
-        self.service_binance_news_html_retriever = ServiceBinanceyNewsHtmlRetriever()
-        
+        self.__service_binance_raw_article_keyword_classifier = ServiceBinanceRawArticleKeywordClassifier()
+        self.__service_binance_raw_article_retriever = ServiceBinanceRawArticleRetriever()
+        self.__service_binance_article_html_retriever = ServiceBinanceArticleHtmlRetriever()
+    
         
     def main(self):
-        # retrieve all recent news articles & announcements from binance
-        articles = self.service_binance_article_retriever.retrieve()
-        # filter news articles & announcements for specific values
-        key_articles_dict = self.service_binance_keyword_search.search_articles(articles=articles)
-        # now pull articles from binance, via beautiful soup to pull relevent infomation
-        dict_w_articles = self.service_binance_news_html_retriever.retrieve(key_articles_dict)
-        # create store and when relevent updates occur create webhook which notifies relevent parties. 
+        try:
+            # retrieve all recent news articles & announcements from binance
+            articles = self.__service_binance_raw_article_retriever.retrieve()
+            # filter news articles & announcements for specific values
+            key_articles = self.__service_binance_raw_article_keyword_classifier.classify_articles(raw_articles=articles)
+            # now pull html of articles from binance
+            articles_with_html = self.__service_binance_article_html_retriever.retrieve(key_articles)
+            # create store and when relevent updates occur create webhook which notifies relevent parties. 
+        except Exception as e:
+            logger.error(e)

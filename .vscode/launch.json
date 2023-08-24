@@ -42,6 +42,18 @@
                 "migrate"
             ],
             "django": true
+        },
+        {
+            "name": "Populate tables",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runscript",
+                "-v3",
+                "script_populate_tables"
+            ],
+            "django": true
         }
     ]
 }

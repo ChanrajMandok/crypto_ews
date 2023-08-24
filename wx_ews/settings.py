@@ -70,19 +70,21 @@ TEMPLATES = [
     },
 ]
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'wx_ews',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
+        'PORT': '5432'
+    }
+}
+
 WSGI_APPLICATION = 'wx_ews.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -129,4 +131,5 @@ SHELL_PLUS = "ipython"
 
 SHELL_PLUS_IMPORTS = [
     'from binance_ews_app.services.service_main import ServiceMain',
+    'from ews_app.tasks.populate_currencies import TaskPopulateCurrencies',
 ]
