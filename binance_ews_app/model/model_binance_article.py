@@ -1,12 +1,12 @@
 from django.db import models
 
 from ews_app.enum.enum_priority import EnumPriority
-from binance_ews_app.model.model_binance_article_raw import \
-    ModelBinanceArticleRaw
 from ews_app.enum.enum_low_alert_warning_key_words import \
-    EnumLowAlertWarningKeyWords
+                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
-    EnumHighAlertWarningKeyWords
+                                 EnumHighAlertWarningKeyWords
+from binance_ews_app.model.model_binance_article_raw import \
+                                        ModelBinanceArticleRaw
 
 
 class ModelBinanceArticle(models.Model):

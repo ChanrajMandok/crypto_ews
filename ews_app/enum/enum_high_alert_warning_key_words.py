@@ -12,3 +12,4 @@ class EnumHighAlertWarningKeyWords(NoValue):
     FORK                      = 'fork'
     CEASE                     = 'cease'
     REMOVAL                   = 'removal'
+    CONTRACT                  = 'contract'

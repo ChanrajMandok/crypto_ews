@@ -1,12 +1,12 @@
-from datetime import datetime
 from typing import Optional
+from datetime import datetime
 
 from binance_ews_app.converters import logger
-from binance_ews_app.model.model_binance_event import \
-    ModelBinanceEvent
-from binance_ews_app.model.model_binance_article import \
-    ModelBinanceArticle
 from ews_app.model.model_ticker import ModelTicker
+from binance_ews_app.model.model_binance_event import \
+                                         ModelBinanceEvent
+from binance_ews_app.model.model_binance_article import \
+                                       ModelBinanceArticle
 
 
 class ConverterModelArticleToModelEvent:
@@ -15,10 +15,11 @@ class ConverterModelArticleToModelEvent:
                 article_text: str,
                 article: ModelBinanceArticle,
                 important_dates: list[datetime],
-                h_spot_currencies: Optional[list[ModelTicker]] = None,
-                h_usdm_currencies: Optional[list[ModelTicker]] = None,
-                l_spot_currencies: Optional[list[ModelTicker]] = None,
-                l_usdm_currencies: Optional[list[ModelTicker]] = None ):
+                networks: Optional[list[str]] = None,
+                h_spot_tickers: Optional[list[ModelTicker]] = None,
+                h_usdm_tickers: Optional[list[ModelTicker]] = None,
+                l_spot_tickers: Optional[list[ModelTicker]] = None,
+                l_usdm_tickers: Optional[list[ModelTicker]] = None):
     
         
         """
@@ -52,13 +53,14 @@ class ConverterModelArticleToModelEvent:
                     title             = title,
                     article_text      = article_text,
                     id                = id,
+                    networks          = networks,
                     alert_priority    = alert_priority,
                     important_dates   = important_dates,
                     alert_category    = alert_category,
-                    h_spot_currencies = h_spot_currencies,
-                    h_usdm_currencies = h_usdm_currencies,
-                    l_spot_currencies = l_spot_currencies,
-                    l_usdm_currencies = l_usdm_currencies,
+                    h_spot_tickers    = h_spot_tickers,
+                    h_usdm_tickers    = h_usdm_tickers,
+                    l_spot_tickers    = l_spot_tickers,
+                    l_usdm_tickers    = l_usdm_tickers,
                                       )
             
             return event

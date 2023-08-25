@@ -1,6 +1,6 @@
 from binance_ews_app.converters import logger
 from binance_ews_app.model.model_binance_article_raw import \
-    ModelBinanceArticleRaw
+                                       ModelBinanceArticleRaw
 
 
 class ConverterDictToModelBinanceArticleRaw:

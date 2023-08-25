@@ -2,15 +2,18 @@ import os
 from datetime import datetime
 
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.enum.enum_false_altert_phrases import EnumFalseAlertPhrases
-from binance_ews_app.model.model_binance_article import ModelBinanceArticle
-from binance_ews_app.model.model_binance_article_raw import ModelBinanceArticleRaw
+from ews_app.enum.enum_false_altert_phrases import \
+                                 EnumFalseAlertPhrases
+from binance_ews_app.model.model_binance_article import \
+                                       ModelBinanceArticle
 from ews_app.enum.enum_low_alert_warning_key_words import \
-    EnumLowAlertWarningKeyWords
+                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
-    EnumHighAlertWarningKeyWords
+                                  EnumHighAlertWarningKeyWords                            
+from binance_ews_app.model.model_binance_article_raw import \
+                                        ModelBinanceArticleRaw                                                                
 from binance_ews_app.converters.converter_model_raw_article_to_model_article import \
-    ConverterModelRawArticleToModelArticle
+                                                ConverterModelRawArticleToModelArticle
 
 
 class ServiceBinanceRawArticleKeywordClassifier:
@@ -20,7 +23,7 @@ class ServiceBinanceRawArticleKeywordClassifier:
     """
     
     def __init__(self) -> None:
-        self.__lookback_days          = int(os.environ.get('RELEVENT_NEWS_LOOKBACK_DAYS', 30))
+        self.__lookback_days          = int(os.environ.get('RELEVENT_NEWS_LOOKBACK_DAYS', 60))
         self.__max_lookback_time      = self.__lookback_days * 24 * 60 * 60 * 1000
         self.__converter_a_to_ma      = ConverterModelRawArticleToModelArticle()
         self.__false_alert_phrases    = {phrase.name.lower() for phrase in EnumFalseAlertPhrases}

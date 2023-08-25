@@ -3,16 +3,17 @@ import requests
 
 from time import sleep
 from random import randint
+from datetime import datetime
 from singleton_decorator import singleton
 
 from binance_ews_app.services import logger
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from binance_ews_app.decorator.decorator_binance_urls_required import \
-    binance_article_url_required
+                                               binance_article_url_required
 from binance_ews_app.services.service_binance_article_html_handler import \
-    ServiceBinanceArticleHtmlHandler
+                                             ServiceBinanceArticleHtmlHandler
 from binance_ews_app.decorator.decorator_binance_headers_required import \
-    binance_headers_required
+                                                    binance_headers_required
 
 
 @singleton
@@ -34,8 +35,10 @@ class ServiceBinanceArticleHtmlRetriever:
                  binance_news_dict_url=None,
                  binance_article_base_url=None):
 
+        today = int(datetime.now().timestamp())*1000
         timeout = int(os.environ.get('TIMEOUT', 10))
         ssl_verify = False if os.environ.get('SSL_VERIFY', 'True') == "False" else True
+        
         
         session = requests.Session()
         session.verify = ssl_verify
@@ -88,7 +91,8 @@ class ServiceBinanceArticleHtmlRetriever:
             article_object.html = response.content
             
             model_event = self.__service_binance_article_html_handler.handle(article_object)
-            model_event_list.append(model_event)           
+            if max(model_event.important_dates) > today:
+                model_event_list.append(model_event)           
             
         return model_event_list
 
