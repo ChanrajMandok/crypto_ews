@@ -7,8 +7,8 @@ class ConverterDictToModelBinanceArticleRaw:
     """
     ConverterDictToModelBinanceArticleRaw:
     
-    This class is responsible for converting a dictionary containing details of 
-    a Binance article into a `ModelBinanceArticleRaw` object.
+    This class is responsible for converting a dictionary containing details
+    of a Binance article into a `ModelBinanceArticleRaw` object.
 
     """
 
@@ -17,8 +17,8 @@ class ConverterDictToModelBinanceArticleRaw:
         Convert the provided dictionary into a ModelBinanceArticleRaw object.
 
         This method will attempt to extract specific keys from the provided
-        dictionary and use their values to instantiate a `ModelBinanceArticleRaw` object.
-        If any key is missing or if there's an exception during instantiation,
+        dictionary and use their values to instantiate a `ModelBinanceArticleRaw`
+        object.If any key is missing or if there's an exception during instantiation,
         an error will be logged, and the method will return None.
 
         Returns:

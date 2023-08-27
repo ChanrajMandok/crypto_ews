@@ -7,10 +7,20 @@ from binance_ews_app.model.model_binance_event import \
                                        ModelBinanceEvent
 from binance_ews_app.model.model_binance_article import \
                                       ModelBinanceArticle
+from binance_ews_app.converters.converter_model_event_to_ms_teams_message \
+                                 import ConverterModelEventToMsTeamsMessage
 
 
 class ConverterModelArticleToModelEvent:
     
+    """
+    Responsible for converting an instance of `ModelBinanceArticle` into 
+    an instance of `ModelBinanceEvent`.
+    """
+    def __init__(self) -> None:
+        self.converter_model_event_to_ms_teams_message = \
+                      ConverterModelEventToMsTeamsMessage()
+
     def convert(self,
                 article_text    : str,
                 article         : ModelBinanceArticle,
@@ -25,6 +35,10 @@ class ConverterModelArticleToModelEvent:
         """
         Convert a ModelBinanceArticle instance to a ModelBinanceEvent
         instance.
+
+        Utilizes data from the given `ModelBinanceArticle` and combines 
+        it with additional provided parameters to create a `ModelBinanceEvent`
+        instance. If any issues arise during the conversion, errors are logged.
 
         Parameters:
         - article: The ModelBinanceArticle instance to convert.
@@ -46,6 +60,17 @@ class ConverterModelArticleToModelEvent:
             alert_priority = article.alert_priority
             alert_category = article.alert_category
             
+            self.converter_model_event_to_ms_teams_message.convert(
+                url                = url,
+                title              = title,
+                alert_priority     = alert_priority,
+                alert_category     = alert_category,
+                h_spot_tickers     = h_spot_tickers,
+                h_usdm_tickers     = h_usdm_tickers,
+                l_spot_tickers     = l_spot_tickers,
+                l_usdm_tickers     = l_usdm_tickers,
+            )
+
 
             event = ModelBinanceEvent(
                     release_date      = release_date,

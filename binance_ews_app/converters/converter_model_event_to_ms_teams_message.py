@@ -7,12 +7,32 @@ from binance_ews_app.model.model_binance_event import ModelBinanceEvent
 
 
 class ConverterModelEventToMsTeamsMessage:
+    """
+    Converts a `ModelBinanceEvent` instance into a Microsoft Teams Message Card format.
+    
+    The resulting JSON representation of the message card can be used to send messages to a 
+    Microsoft Teams channel via a webhook. This converter additionally offers functionalities
+    to set the priority of the message based on the `alert_priority` of the event.
+    """
 
     def __init__(self) -> None:
         self.webhook = os.environ.get('WEBHOOK_URL')
 
     def convert(self,
                 model_event: ModelBinanceEvent) -> json:
+        
+        """
+        Convert the provided `ModelBinanceEvent` instance into a Microsoft Teams Message Card JSON format.
+
+        The resulting message card includes details like the event title, URL, and associated tickers. It
+        also provides actionable buttons based on the event's alert priority.
+
+        Parameters:
+        - model_event: Instance detailing a Binance event.
+
+        Returns:
+        - A JSON representation of the message card, or None if an error occurs.
+        """
         
         try:    
             url             = model_event.url
@@ -23,7 +43,6 @@ class ConverterModelEventToMsTeamsMessage:
             l_spot_tickers  = model_event.l_spot_tickers
             l_usdm_tickers  = model_event.l_usdm_tickers
             alert_level     = model_event.alert_priority
-
             msg_title = f"[{alert_category.value}]{title}"
             
             # Constructing the list of tickers with required formatting
@@ -50,7 +69,7 @@ class ConverterModelEventToMsTeamsMessage:
                 "sections": [
                     {
                         "startGroup": True,
-                        "activitySubtitle": f"## [{url}]({url})",
+                        "activitySubtitle": f"## URL:{url}",
                     }
                 ] + ticker_sections  # Append the ticker sections after the URL section
             }
