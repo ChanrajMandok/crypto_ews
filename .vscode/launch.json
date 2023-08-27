@@ -54,6 +54,18 @@
                 "script_populate_tables"
             ],
             "django": true
+        },
+        {
+            "name": "Python: WSGI",
+            "type": "python",
+            "request": "launch",
+            "module": "waitress",
+            "args": [
+                "--listen=127.0.0.1:8080",
+                "wx_ews.wsgi:application"
+            ],
+            "jinja": true,
+            "justMyCode": false
         }
     ]
 }

@@ -2,6 +2,7 @@ from django.db import models
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_currency_type import EnumCurrencyType
 
+
 class ModelTicker(models.Model):
     
     quote_currency     = models.CharField(max_length=50, null=False)

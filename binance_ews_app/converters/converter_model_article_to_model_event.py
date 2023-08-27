@@ -4,22 +4,22 @@ from datetime import datetime
 from binance_ews_app.converters import logger
 from ews_app.model.model_ticker import ModelTicker
 from binance_ews_app.model.model_binance_event import \
-                                         ModelBinanceEvent
+                                       ModelBinanceEvent
 from binance_ews_app.model.model_binance_article import \
-                                       ModelBinanceArticle
+                                      ModelBinanceArticle
 
 
 class ConverterModelArticleToModelEvent:
     
     def convert(self,
-                article_text: str,
-                article: ModelBinanceArticle,
-                important_dates: list[datetime],
-                networks: Optional[list[str]] = None,
-                h_spot_tickers: Optional[list[ModelTicker]] = None,
-                h_usdm_tickers: Optional[list[ModelTicker]] = None,
-                l_spot_tickers: Optional[list[ModelTicker]] = None,
-                l_usdm_tickers: Optional[list[ModelTicker]] = None):
+                article_text    : str,
+                article         : ModelBinanceArticle,
+                important_dates : list[datetime],
+                networks        : Optional[list[str]] = None,
+                h_spot_tickers  : Optional[list[ModelTicker]] = None,
+                h_usdm_tickers  : Optional[list[ModelTicker]] = None,
+                l_spot_tickers  : Optional[list[ModelTicker]] = None,
+                l_usdm_tickers  : Optional[list[ModelTicker]] = None):
     
         
         """

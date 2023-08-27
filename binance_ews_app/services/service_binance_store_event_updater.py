@@ -1,6 +1,7 @@
 from binance_ews_app.services import logger
 
 from binance_ews_app.store.stores_binance import StoresBinance
+from binance_ews_app.observers.observer_binance_store_event_updater import ObserverBinanceStoreEvent
 from binance_ews_app.services.service_binance_raw_article_retriever import ServiceBinanceRawArticleRetriever
 from binance_ews_app.services.service_binance_article_html_retriever import ServiceBinanceArticleHtmlRetriever
 from binance_ews_app.services.service_binance_raw_article_keyword_classifier import ServiceBinanceRawArticleKeywordClassifier
@@ -9,11 +10,12 @@ from binance_ews_app.services.service_binance_raw_article_keyword_classifier imp
 class ServiceStoreEventUpdater:
     
     def __init__(self) -> None:
+        self.__observer_binance_store_event_updater = ObserverBinanceStoreEvent()
         self.__service_binance_raw_article_retriever = ServiceBinanceRawArticleRetriever()
         self.__service_binance_article_html_retriever = ServiceBinanceArticleHtmlRetriever()
         self.__service_binance_raw_article_keyword_classifier = ServiceBinanceRawArticleKeywordClassifier()
         
-    def main(self):
+    def update_store(self):
         try:
             # retrieve all recent news articles & announcements from binance
             articles = self.__service_binance_raw_article_retriever.retrieve()
@@ -22,6 +24,7 @@ class ServiceStoreEventUpdater:
             # now pull html of articles from binance
             articles_with_html = self.__service_binance_article_html_retriever.retrieve(key_articles)
             # create store and when relevent updates occur create webhook which notifies relevent parties. 
+            logger.info('populating stores')
             [StoresBinance.store_binance_events.add(key=x.id, instance=x) for x in articles_with_html]
             
         except Exception as e:

@@ -5,20 +5,20 @@ from ews_app.enum.enum_priority import EnumPriority
 from binance_ews_app.model.model_binance_article import \
                                        ModelBinanceArticle
 from ews_app.enum.enum_low_alert_warning_key_words import \
-                                 EnumLowAlertWarningKeyWords
+                                EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 from binance_ews_app.model.model_binance_article_raw import \
-                                        ModelBinanceArticleRaw
+                                       ModelBinanceArticleRaw
 
 
 class ConverterModelRawArticleToModelArticle:
 
     def convert(self, 
-                alert_priority: EnumPriority,
-                model_raw_article: ModelBinanceArticleRaw,
-                alert_category: Union[EnumLowAlertWarningKeyWords, 
-                                      EnumHighAlertWarningKeyWords]):
+                alert_priority    : EnumPriority,
+                model_raw_article : ModelBinanceArticleRaw,
+                alert_category    : Union[EnumLowAlertWarningKeyWords, 
+                                    EnumHighAlertWarningKeyWords]):
         """
         Converts a raw article by adding alert_priority and alert_category
         to create/update an instance of ModelBinanceArticle.
@@ -31,12 +31,12 @@ class ConverterModelRawArticleToModelArticle:
 
         try:
             binance_article_object \
-                        = ModelBinanceArticle(
-                                            raw_article=model_raw_article,
-                                            alert_category=alert_category, 
-                                            alert_priority=alert_priority,
-                                            id=model_raw_article.id
-                                            )
+                = ModelBinanceArticle(
+                                    raw_article     =model_raw_article, 
+                                    alert_category  =alert_category, 
+                                    alert_priority  =alert_priority,
+                                    id              =model_raw_article.id)
+            
             return binance_article_object
 
         except Exception as e:

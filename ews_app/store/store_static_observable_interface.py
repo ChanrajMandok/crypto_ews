@@ -8,37 +8,37 @@ E = TypeVar('E')
 class StoreStaticObservableInterface(Mapping[E, M]):
     
     def __init__(self):
-        self.data: Dict[E, M] = {}
-        self.observers: list[ObserverInterface] = []
+        self.__data: Dict[E, M] = {}
+        self.__observers: list[ObserverInterface] = []
         
     def __getitem__(self, item: E) -> M:
         value = str(item)
-        return self.d[value]
+        return self.__data[value]
 
     def __len__(self) -> int:
-        return len(self.d)
+        return len(self.__data)
 
     def __iter__(self) -> Iterator[E]:
-        return iter(self.d)
+        return iter(self.__data)
 
     def add(self, key: E, instance: M) -> None:
-        if key not in self.data:
-            self.data[key] = instance
+        if key not in self.__data:
+            self.__data[key] = instance
             self._notify_addition(key, instance)
 
     def remove(self, key: E) -> None:
-        if key in self.data:
-            del self.data[key]
+        if key in self.__data:
+            del self.__data[key]
 
     def exists(self, key: E) -> bool:
-        return key in self.data
+        return key in self.__data
 
     def _notify_addition(self, key: E, instance: M) -> None:
-        for observer in self.observers:
+        for observer in self.__observers:
             observer.update(key=key, instance=instance)
 
     def attach(self, observer: ObserverInterface) -> None:
-        self.observers.append(observer)
+        self.__observers.append(observer)
 
     def detach(self, observer: ObserverInterface) -> None:
-        self.observers.remove(observer)
+        self.__observers.remove(observer)

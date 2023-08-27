@@ -24,7 +24,7 @@ class ConverterStrToModelTicker:
         try:
             base, quote = ticker_str.split('/')
             
-            # Initialize as LOW. If currency exists in the respective table, it will be set to HIGH.
+            # Initialize as LOW. If currency exists in db table, it will be set to HIGH.
             priority = EnumPriority.LOW
             
             if type == EnumCurrencyType.SPOT:
@@ -36,17 +36,18 @@ class ConverterStrToModelTicker:
                     priority = EnumPriority.HIGH
 
             ticker = ModelTicker(
-                name=ticker_str,
-                base_currency=base,
-                quote_currency=quote,
-                alert_priority=priority,
-                currency_type=type.value
+                name           = ticker_str,
+                base_currency  = base,
+                quote_currency = quote,
+                alert_priority = priority,
+                currency_type  = type.value
             )
             
             return ticker
         
         except ValueError:
-            logger.error(f"{self.__class__.__name__} - ERROR: Invalid ticker format. Expected format 'BASE/QUOTE', got {ticker_str}.")
+            logger.error(f"{self.__class__.__name__} - ERROR: Invalid ticker format.z\
+                                        Expected format 'BASE/QUOTE', got {ticker_str}.")
         except Exception as e:
             logger.error(f"{self.__class__.__name__} - ERROR: {e}")
 

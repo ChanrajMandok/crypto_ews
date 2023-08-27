@@ -1,7 +1,6 @@
 from abc import ABC
 from typing import Dict, Iterator, Mapping, TypeVar
 
-
 E=TypeVar('E')
 M=TypeVar('M')
 

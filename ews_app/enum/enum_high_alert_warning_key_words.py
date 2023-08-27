@@ -2,14 +2,14 @@ from ews_app.enum.enum_no_value_interface import NoValue
 
 
 class EnumHighAlertWarningKeyWords(NoValue):
-    # high priority
-    CONGESTION                = 'congestion'
-    SUSPENDED                 = 'suspended'
-    SUSPENSION                = 'suspension'
-    MIGRATION                 = 'migration'
-    DELIST                    = 'delist'
+    
     HARD                      = 'hard'
     FORK                      = 'fork'
     CEASE                     = 'cease'
+    DELIST                    = 'delist'
     REMOVAL                   = 'removal'
     CONTRACT                  = 'contract'
+    SUSPENDED                 = 'suspended'
+    MIGRATION                 = 'migration'
+    CONGESTION                = 'congestion'
+    SUSPENSION                = 'suspension'

@@ -6,7 +6,7 @@ from ews_app.enum.enum_low_alert_warning_key_words import \
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                  EnumHighAlertWarningKeyWords
 from binance_ews_app.model.model_binance_article_raw import \
-                                        ModelBinanceArticleRaw
+                                       ModelBinanceArticleRaw
 
 
 class ModelBinanceArticle(models.Model):

@@ -78,7 +78,7 @@ class ServiceBinanceArticleHtmlRetriever:
             if response.status_code - (response.status_code % 100) != 200:
                 logger.error(f"{self.__class__.__name__} {response.status_code} - ERROR: " +
                             f"Failed to get a response from Binance for URL: {url}. {response.content}")
-                continue  # If the status code is not in the 200 range, we skip processing for this article.
+                continue
             
             decoded_content = response.content.decode('utf-8')
 
