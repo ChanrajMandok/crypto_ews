@@ -60,17 +60,18 @@ class ConverterModelArticleToModelEvent:
             alert_priority = article.alert_priority
             alert_category = article.alert_category
             
-            self.converter_model_event_to_ms_teams_message.convert(
-                url                = url,
-                title              = title,
-                alert_priority     = alert_priority,
-                alert_category     = alert_category,
-                h_spot_tickers     = h_spot_tickers,
-                h_usdm_tickers     = h_usdm_tickers,
-                l_spot_tickers     = l_spot_tickers,
-                l_usdm_tickers     = l_usdm_tickers,
-            )
-
+            teams_message = \
+                self.converter_model_event_to_ms_teams_message.convert(
+                    url                = url,
+                    title              = title,
+                    article_text       = article_text,
+                    alert_priority     = alert_priority,
+                    alert_category     = alert_category,
+                    h_spot_tickers     = h_spot_tickers,
+                    h_usdm_tickers     = h_usdm_tickers,
+                    l_spot_tickers     = l_spot_tickers,
+                    l_usdm_tickers     = l_usdm_tickers,
+                )
 
             event = ModelBinanceEvent(
                     release_date      = release_date,
@@ -86,6 +87,7 @@ class ConverterModelArticleToModelEvent:
                     h_usdm_tickers    = h_usdm_tickers,
                     l_spot_tickers    = l_spot_tickers,
                     l_usdm_tickers    = l_usdm_tickers,
+                    ms_teams_message  = teams_message
                                       )
             
             return event

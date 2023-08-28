@@ -132,5 +132,4 @@ SHELL_PLUS = "ipython"
 SHELL_PLUS_IMPORTS = [
     'from binance_ews_app.services.service_binance_store_event_updater import ServiceStoreEventUpdater',
     'from ews_app.tasks.populate_currencies import TaskPopulateCurrencies',
-    'from binance_ews_app.scheduler.scheduler_binance_event_alert_store_updater import SchedularBinanceAlertStoreUpdater'
 ]

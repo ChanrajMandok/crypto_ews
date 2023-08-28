@@ -20,14 +20,14 @@ class ObserverBinanceStoreEvent(ObserverInterface):
                       ConverterModelEventToMsTeamsMessage()
         
     def update(self, key: str, instance: ModelBinanceEvent):
+      pass  
+        # ts_now = int(datetime.now().timestamp())*1000
+        # timestamps = instance.important_dates
         
-        ts_now = int(datetime.now().timestamp())*1000
-        timestamps = instance.important_dates
-        
-        ms_teams_messages = []
+        # ms_teams_messages = []
 
-        for timestamp in timestamps:
-            if timestamp > ts_now:
-                message = self.converter_model_event_to_ms_teams_message.convert(instance)
-                print(message)
+        # for timestamp in timestamps:
+        #     if timestamp > ts_now:
+        #         message = self.converter_model_event_to_ms_teams_message.convert(instance)
+        #         print(message)
 

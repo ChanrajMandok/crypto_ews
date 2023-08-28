@@ -19,10 +19,10 @@ class SchedularBinanceEventStoreUpdater:
                     , job_defaults = {'max_instances': 1})
     
     def run(self):
-        logger.info(f"{__class__.__name__}: Starting scheduler...")
         self.__sched.start()
         self.__sched.add_job(self.retrieve, 'cron', minute=f"*/{self.__refresh_increment_mins}"\
                              , id=f'{self.__class__.__name__}', replace_existing=True)
+        logger.info(f"{__class__.__name__}: Starting {__class__.__name__}...")
 
     def retrieve(self):
 
