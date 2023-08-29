@@ -22,13 +22,13 @@ class SchedularBinanceEventStoreUpdater:
         self.__sched.start()
         self.__sched.add_job(self.retrieve, 'cron', minute=f"*/{self.__refresh_increment_mins}"\
                              , id=f'{self.__class__.__name__}', replace_existing=True)
-        logger.info(f"{__class__.__name__}: Starting {__class__.__name__}...")
+        logger.info(f"Starting {__class__.__name__}...")
 
     def retrieve(self):
 
         try:
             self.__service_binance_store_event_updater.update_store()
-            logger.info(f"{__class__.__name__}: Store being updated")
+            logger.info(f"{__class__.__name__}: Store update completed")
 
         except Exception as e: 
             logger.error(f"{self.__class__.__name__} - ERROR: {str(e)}")

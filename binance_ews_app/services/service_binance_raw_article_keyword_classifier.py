@@ -1,6 +1,8 @@
 import os
 from datetime import datetime
 
+from binance_ews_app.store.stores_binance import\
+                                    StoresBinance
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_false_altert_phrases import \
                                  EnumFalseAlertPhrases
@@ -23,9 +25,11 @@ class ServiceBinanceRawArticleKeywordClassifier:
     """
     
     def __init__(self) -> None:
+        self.__refresh_increment_mins = int(os.environ.get('REFRESH_INCREMENT_MINS', 5))
         self.__lookback_days          = int(os.environ.get('RELEVENT_NEWS_LOOKBACK_DAYS', 60))
-        self.__max_lookback_time      = self.__lookback_days * 24 * 60 * 60 * 1000
+        self.__binance_event_store    = StoresBinance.store_binance_events
         self.__converter_a_to_ma      = ConverterModelRawArticleToModelArticle()
+        self.__max_lookback_time      = self.__lookback_days * 24 * 60 * 60 * 1000
         self.__false_alert_phrases    = {phrase.name.lower() for phrase in EnumFalseAlertPhrases}
         self.__low_priority_keywords  = {keyword.name.lower() for keyword in EnumLowAlertWarningKeyWords}
         self.__high_priority_keywords = {keyword.name.lower() for keyword in EnumHighAlertWarningKeyWords}
@@ -36,9 +40,20 @@ class ServiceBinanceRawArticleKeywordClassifier:
         relevant_articles = []
         current_ts = int(datetime.utcnow().timestamp() * 1000)
         
+        last_update = self.__binance_event_store.get_last_updated_ts()
+
         for model_raw_article_object in raw_articles:
             if not isinstance(model_raw_article_object, ModelBinanceArticleRaw):
                 continue
+
+            # Time check, if not in allowable timeframe, skip in loop
+            ts = model_raw_article_object.release_date
+            if last_update:
+                if current_ts - ts > self.__refresh_increment_mins*60*1000:
+                    continue
+            else:
+                if current_ts - ts > self.__max_lookback_time:
+                    continue
 
             # model object negates need to check type/ Null status
             title = model_raw_article_object.title.lower()
@@ -46,11 +61,6 @@ class ServiceBinanceRawArticleKeywordClassifier:
 
             # False alert check, if false alert skip value in loop
             if self._contains_false_alert(title_words):
-                continue
-
-            # Time check, if not in allowable timeframe, skip in loop
-            ts = model_raw_article_object.release_date
-            if current_ts - ts > self.__max_lookback_time:
                 continue
 
             # High priority check

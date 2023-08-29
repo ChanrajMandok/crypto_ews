@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict, TypeVar, Mapping, Iterator
 from ews_app.observers.observer_interface import ObserverInterface
 
@@ -8,6 +9,7 @@ E = TypeVar('E')
 class StoreStaticObservableInterface(Mapping[E, M]):
     
     def __init__(self):
+        self.__last_updated = None
         self.__data: Dict[E, M] = {}
         self.__observers: list[ObserverInterface] = []
         
@@ -22,6 +24,7 @@ class StoreStaticObservableInterface(Mapping[E, M]):
         return iter(self.__data)
 
     def add(self, key: E, instance: M) -> None:
+        self.log_store_last_update()
         if key not in self.__data:
             self.__data[key] = instance
             self._notify_addition(key, instance)
@@ -32,6 +35,13 @@ class StoreStaticObservableInterface(Mapping[E, M]):
 
     def exists(self, key: E) -> bool:
         return key in self.__data
+    
+    def log_store_last_update(self):
+        now = int(datetime.now().timestamp())*1000
+        self.__last_updated = now
+
+    def get_last_updated_ts(self):
+        return self.__last_updated
 
     def _notify_addition(self, key: E, instance: M) -> None:
         for observer in self.__observers:

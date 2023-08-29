@@ -11,7 +11,6 @@ from binance_ews_app.services.service_binance_raw_article_keyword_classifier imp
 class ServiceStoreEventUpdater:
     
     def __init__(self) -> None:
-        self.__observer_binance_store_event_updater = ObserverBinanceStoreEvent()
         self.__service_binance_raw_article_retriever = ServiceBinanceRawArticleRetriever()
         self.__service_binance_article_html_retriever = ServiceBinanceArticleHtmlRetriever()
         self.__service_send_binance_event_to_ms_teams = ServiceSendModelBinanceEventToMsTeams()
@@ -26,7 +25,7 @@ class ServiceStoreEventUpdater:
             # now pull html of articles from binance
             model_event_objects = self.__service_binance_article_html_retriever.retrieve(key_articles)
             # create store and when relevent updates occur create webhook which notifies relevent parties. 
-            # [StoresBinance.store_binance_events.add(key=x.id, instance=x) for x in articles_with_html]
+            [StoresBinance.store_binance_events.add(key=x.id, instance=x) for x in model_event_objects]
             [self.__service_send_binance_event_to_ms_teams.send_message(x.ms_teams_message) for x in model_event_objects]
             
         except Exception as e:

@@ -27,9 +27,9 @@ class ConverterModelRawArticleToModelArticle:
         try:
             binance_article_object \
                 = ModelBinanceArticle(
-                                    raw_article     =model_raw_article, 
                                     alert_category  =alert_category, 
                                     alert_priority  =alert_priority,
+                                    raw_article     =model_raw_article, 
                                     id              =model_raw_article.id)
             
             return binance_article_object
