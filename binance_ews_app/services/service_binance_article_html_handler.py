@@ -1,10 +1,15 @@
 import re
 
+from typing import Union
 from dateutil import parser
 from bs4 import BeautifulSoup
 
 from binance_ews_app.services import logger
 from ews_app.enum.enum_priority import EnumPriority
+from ews_app.enum.enum_high_alert_warning_key_words import \
+                                EnumHighAlertWarningKeyWords
+from ews_app.enum.enum_low_alert_warning_key_words import \
+                                EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_currency_type import EnumCurrencyType
 from ews_app.converters.converter_str_to_model_ticker import \
                                          ConverterStrToModelTicker
@@ -26,6 +31,7 @@ class ServiceBinanceArticleHtmlHandler:
         self.__date_pattern = re.compile(r"(\d{4}-\d{2}-\d{2}(?: \d{2}:\d{2})?)")
         self.__converter_model_article_to_model_event = ConverterModelArticleToModelEvent()
         self.__network_upgrade_pattern = re.compile(r"\(([A-Z0-9]{1,10})\) network")
+        self.__token_pattern = re.compile(r"will\s+not\s+result\s+in\s+new\s+tokens\s+being\s+created", re.IGNORECASE)
         self.__contract_pairs_pattern = \
             re.compile(r"USDⓈ-M ((?:[A-Z0-9]{1,10}[A-Z0-9]{1,10}(?: and )?)+) Perpetual Contract")
 
@@ -33,22 +39,29 @@ class ServiceBinanceArticleHtmlHandler:
 
         try:
             release_date_ts = article.raw_article.release_date
+            category = article.alert_category
+
             article_content_text = self.extract_article_content(article.html)
+            networks = self.extract_network_upgrades(article_content_text)
+
             h_spot_tickers, l_spot_tickers = self.extract_spot_pairs(article_content_text)
             h_usdm_tickers, l_usdm_tickers = self.extract_usdm_pairs(article_content_text)
-            networks = self.extract_network_upgrades(article_content_text)
+
             important_dates = self.extract_important_dates(content=article_content_text,
                                                            release_date=release_date_ts)
+            new_token_issue = self.extract_new_token_issue(content=article_content_text,
+                                                            alert_category=category)
 
             event = self.__converter_model_article_to_model_event.convert(
+                article=article,
+                networks=networks,
                 h_spot_tickers=h_spot_tickers,
                 h_usdm_tickers=h_usdm_tickers,
                 l_spot_tickers=l_spot_tickers,
                 l_usdm_tickers=l_usdm_tickers,
-                article_text=article_content_text,
+                new_token_issue=new_token_issue,
                 important_dates=important_dates,
-                article=article,
-                networks=networks
+                article_text=article_content_text,
             )
             return event
             
@@ -113,3 +126,12 @@ class ServiceBinanceArticleHtmlHandler:
         matches = self.__network_upgrade_pattern.findall(content)
         unique_networks = list(set(matches))
         return unique_networks
+    
+    def extract_new_token_issue(self, content: str,  
+                                      alert_category :Union[EnumLowAlertWarningKeyWords,        
+                                                            EnumHighAlertWarningKeyWords]) -> bool:
+        
+        if alert_category.name not in ['HARD', 'FORK', 'UPGRADE']:
+            return False
+        matches = self.__token_pattern.findall(content)
+        return False if matches else True

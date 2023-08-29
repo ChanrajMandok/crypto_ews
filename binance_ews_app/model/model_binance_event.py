@@ -11,6 +11,7 @@ from ews_app.enum.enum_high_alert_warning_key_words import \
 class ModelBinanceEvent(models.Model):
 
     ms_teams_message   = models.JSONField(null=False)
+    new_token_created  = models.BooleanField(default=False)
     release_date       = models.BigIntegerField(null=False)
     url                = models.URLField(max_length=200, null=False)
     title              = models.CharField(max_length=100, null=False)

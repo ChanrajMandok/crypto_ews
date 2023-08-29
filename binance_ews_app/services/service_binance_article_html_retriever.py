@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 
 from time import sleep
@@ -50,7 +51,6 @@ class ServiceBinanceArticleHtmlRetriever:
 
             raw_article = article_object.raw_article
             code = raw_article.code
-            id = raw_article.id
             title = raw_article.title.replace(' ', '-')
             url = f"{binance_article_base_url}{code}"
 
@@ -63,8 +63,9 @@ class ServiceBinanceArticleHtmlRetriever:
 
                 if response.status_code == 429:
                     logger.info(f"{self.__class__.__name__} {response.status_code} - INFO: " +
-                                f"Switching to backup URL due to rate limit for: {url}.")
+                                f"60 second break and switch to backup URL due to rate limit for: {url}.")
                     url = f"{binance_article_base_url}-{title}-{code}"
+                    time.sleep(60)
                     response = session.get(
                         url=url,
                         headers=binance_headers,

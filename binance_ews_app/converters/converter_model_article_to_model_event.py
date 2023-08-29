@@ -23,8 +23,9 @@ class ConverterModelArticleToModelEvent:
 
     def convert(self,
                 article_text    : str,
-                article         : ModelBinanceArticle,
+                new_token_issue : bool,
                 important_dates : list[datetime],
+                article         : ModelBinanceArticle,
                 networks        : Optional[list[str]] = None,
                 h_spot_tickers  : Optional[list[ModelTicker]] = None,
                 h_usdm_tickers  : Optional[list[ModelTicker]] = None,
@@ -53,17 +54,20 @@ class ConverterModelArticleToModelEvent:
         
         try:
             raw_article    = article.raw_article
-            release_date   = raw_article.release_date
-            title          = raw_article.title  
-            url            = article.url
+
             id             = article.id
+            url            = article.url
+            title          = raw_article.title  
             alert_priority = article.alert_priority
             alert_category = article.alert_category
+            release_date   = raw_article.release_date
             
             teams_message = \
                 self.converter_model_event_to_ms_teams_message.convert(
                     url                = url,
                     title              = title,
+                    networks           = networks,
+                    new_token_issue    = new_token_issue, 
                     article_text       = article_text,
                     alert_priority     = alert_priority,
                     alert_category     = alert_category,
@@ -71,23 +75,25 @@ class ConverterModelArticleToModelEvent:
                     h_usdm_tickers     = h_usdm_tickers,
                     l_spot_tickers     = l_spot_tickers,
                     l_usdm_tickers     = l_usdm_tickers,
+                    important_dates    = sorted(important_dates,reverse=True)[:3]
                 )
 
             event = ModelBinanceEvent(
                     release_date      = release_date,
+                    id                = id,
                     url               = url,
                     title             = title,
-                    article_text      = article_text,
-                    id                = id,
                     networks          = networks,
-                    alert_priority    = alert_priority,
-                    important_dates   = important_dates,
-                    alert_category    = alert_category,
-                    h_spot_tickers    = h_spot_tickers,
-                    h_usdm_tickers    = h_usdm_tickers,
+                    article_text      = article_text,
+                    ms_teams_message  = teams_message,
                     l_spot_tickers    = l_spot_tickers,
+                    h_usdm_tickers    = h_usdm_tickers,
                     l_usdm_tickers    = l_usdm_tickers,
-                    ms_teams_message  = teams_message
+                    alert_priority    = alert_priority,
+                    h_spot_tickers    = h_spot_tickers,
+                    alert_category    = alert_category,
+                    important_dates   = important_dates,
+                    new_token_created = new_token_issue,
                                       )
             
             return event

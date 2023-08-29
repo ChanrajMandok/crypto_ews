@@ -1,6 +1,6 @@
 import os 
-import json
 
+from datetime import datetime
 from typing import Optional, Union
 
 from binance_ews_app.converters import logger
@@ -28,13 +28,16 @@ class ConverterModelEventToMsTeamsMessage:
                 url            :str,
                 title          :str,
                 article_text   :str,
+                new_token_issue:bool,
                 alert_priority :EnumPriority,
+                important_dates:list[datetime],
+                networks       :Optional[list[str]],
                 alert_category :Union[EnumLowAlertWarningKeyWords,
                                     EnumHighAlertWarningKeyWords],
                 h_spot_tickers :Optional[list[ModelTicker]] = None,
                 h_usdm_tickers :Optional[list[ModelTicker]] = None,
                 l_spot_tickers :Optional[list[ModelTicker]] = None,
-                l_usdm_tickers :Optional[list[ModelTicker]] = None) -> json:
+                l_usdm_tickers :Optional[list[ModelTicker]] = None) -> dict:
         
         """
         Convert the provided `ModelBinanceEvent` instance into a Microsoft Teams Message Card JSON format.
@@ -49,72 +52,73 @@ class ConverterModelEventToMsTeamsMessage:
         - A JSON representation of the message card, or None if an error occurs.
         """
         
-        try:    
-            url             = url
-            title           = title
-            alert_category  = alert_category
-            h_spot_tickers  = h_spot_tickers
-            h_usdm_tickers  = h_usdm_tickers
-            l_spot_tickers  = l_spot_tickers
-            l_usdm_tickers  = l_usdm_tickers
-            alert_level     = alert_priority
-            article_text    = article_text
-            msg_title       = f"[{alert_category.value}]{title}"
+        url             = url
+        title           = title
+        article_text    = article_text
+        alert_category  = alert_category
+        h_spot_tickers  = h_spot_tickers
+        h_usdm_tickers  = h_usdm_tickers
+        l_spot_tickers  = l_spot_tickers
+        l_usdm_tickers  = l_usdm_tickers
+        
+        formatted_dates = [datetime.fromtimestamp(ts/1000).strftime('%Y-%m-%d %H:%M') \
+                           for ts in important_dates] if important_dates else None
+        
+        dates_str       = ', '.join(formatted_dates) if formatted_dates else None
+        network_str     = ', '.join(networks) if networks else None
+        msg_title       = f"{alert_category.name} EVENT -  {title}"
+        
+        try:
+                # Create the base Teams message
+                message = {
+                    "@type": "MessageCard",
+                    "@context": "https://schema.org/extensions",
+                    "summary": f"Binance {alert_category.value} Event",
+                    "themeColor": "FF0000" if alert_priority == EnumPriority.HIGH else "008000",  # Red for HIGH, Yellow for LOW
+                    "title": msg_title,
+                    "sections": [
+                        {
+                            "activityTitle": f"URL: {url}",
+                        },
+                        {
+                            "activityTitle": f"Priority: {alert_priority.name}",
+                        },
+                        {
+                            "activityTitle": f"Event Dates: {dates_str}",
+                        },
 
-            # Constructing the list of tickers with required formatting
-            h_spot_tickers_str = "**" + "**, **".join(h_spot_tickers) + "**" if h_spot_tickers else ""
-            h_usdm_tickers_str = "**" + "**, **".join(h_usdm_tickers) + "**" if h_usdm_tickers else ""
-
-            l_spot_tickers_str = ", ".join(l_spot_tickers) if l_spot_tickers else ""
-            l_usdm_tickers_str = ", ".join(l_usdm_tickers) if l_usdm_tickers else ""
-
-            ticker_sections = []
-            if h_spot_tickers_str:
-                ticker_sections.append({"startGroup": True, "text": f"High Priority Spot Tickers: {h_spot_tickers_str}"})
-            if h_usdm_tickers_str:
-                ticker_sections.append({"startGroup": True, "text": f"High Priority USDM Tickers: {h_usdm_tickers_str}"})
-            if l_spot_tickers_str:
-                ticker_sections.append({"startGroup": True, "text": f"Low Priority Spot Tickers: {l_spot_tickers_str}"})
-            if l_usdm_tickers_str:
-                ticker_sections.append({"startGroup": True, "text": f"Low Priority USDM Tickers: {l_usdm_tickers_str}"})
-
-            article_section = {
-                "startGroup": True,
-                "text": article_text
-                                }
-
-            card = {
-                "@context": "https://schema.org/extensions",
-                "@type": "MessageCard",
-                "title": msg_title,
-                "sections": [
-                    {
-                        "startGroup": True,
-                        "activitySubtitle": f"## URL:{url}",
+                    ]
+                }
+                if networks:
+                    network = {
+                         "activityTitle": f"Network: {network_str}",
                     }
-                ] + ticker_sections  # Append the ticker sections after the URL section
-            }
+                    message["sections"].append(network)
 
-            # Adding alert levels based on `alert_priority`
-            if alert_level == EnumPriority.HIGH.value:
-                card["potentialAction"] = [
-                    {
-                        "@type": "OpenUri",
-                        "name": "Set as Urgent",
-                        "targets": [{"os": "default", "uri": f"{self.webhook}?setUrgent=true"}]
+                if new_token_issue:
+                    token_status = {
+                        "activityTitle": f"New Token issued: {new_token_issue}",
                     }
-                ]
+                    message["sections"].append(token_status)
 
-            elif alert_level == EnumPriority.LOW.value:
-                card["potentialAction"] = [
-                    {
-                        "@type": "OpenUri",
-                        "name": "Set as Important",
-                        "targets": [{"os": "default", "uri": f"{self.webhook}?setImportant=true"}]
+                facts = []
+                if h_spot_tickers:
+                    facts.append({"name": "High Priority Spot Tickers", "value": ", ".join(h_spot_tickers)})
+                if h_usdm_tickers:
+                    facts.append({"name": "High Priority USDM Tickers", "value": ", ".join(h_usdm_tickers)})
+                if l_spot_tickers:
+                    facts.append({"name": "Low Priority Spot Tickers", "value": ", ".join(l_spot_tickers)})
+                if l_usdm_tickers:
+                    facts.append({"name": "Low Priority USDM Tickers", "value": ", ".join(l_usdm_tickers)})
+
+                if facts:
+                    ticker_section = {
+                        "facts": facts
                     }
-                ]
-            
-            return json.dumps(card, indent=4)
+                    message["sections"].append(ticker_section)
+
+                return message
 
         except Exception as e:
             logger.error(f"{self.__class__.__name__} - ERROR: {e}")
+

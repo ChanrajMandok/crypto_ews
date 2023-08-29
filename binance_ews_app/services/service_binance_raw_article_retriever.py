@@ -42,13 +42,22 @@ class ServiceBinanceRawArticleRetriever:
                     headers=binance_headers,
                     timeout=timeout
                 )
+
+                if response.status_code == 429 and not response.content:
+                    logger.warning(
+                        f"{self.__class__.__name__} {response.status_code} - "
+                        f"Received a rate limit warning from Binance. "
+                        f"Sleeping for 60 seconds...")
+                    time.sleep(60)
+                    tries += 1
+                    continue
+
                 code_group = response.status_code - (response.status_code % 100)
                 if code_group != 200:
                     logger.error(
                         f"{self.__class__.__name__} {response.status_code} - "
                         f"ERROR: Failed to get a response from Binance. "
                         f"{response.content}")
-                    time.sleep(5)
                     tries += 1
                     continue
 
@@ -99,7 +108,7 @@ class ServiceBinanceRawArticleRetriever:
                 msg = (f"{self.__class__.__name__} - ERROR: {str(e)} - "
                        f"try {tries} failed")
                 logger.error(msg)
-                time.sleep(5)
+                time.sleep(60)
                 tries += 1
 
-        return []  # Return an empty list if all tries fail
+        return []
