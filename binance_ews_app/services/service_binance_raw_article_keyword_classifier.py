@@ -1,8 +1,8 @@
 import os
 from datetime import datetime
 
-from binance_ews_app.store.stores_binance import\
-                                    StoresBinance
+from binance_ews_app.store.stores_binance import \
+                                        StoreBinance
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_false_altert_phrases import \
                                  EnumFalseAlertPhrases
@@ -21,18 +21,18 @@ from binance_ews_app.converters.converter_model_raw_article_to_model_article imp
 class ServiceBinanceRawArticleKeywordClassifier:
     """
     Services Searches Titles of News Dict (Catalogs) for Keywords and ensures the Events 
-    are within a lookback window of 30 days 
+    are within a lookback window
     """
     
     def __init__(self) -> None:
         self.__refresh_increment_mins = int(os.environ.get('REFRESH_INCREMENT_MINS', 5))
         self.__lookback_days          = int(os.environ.get('RELEVENT_NEWS_LOOKBACK_DAYS', 60))
-        self.__binance_event_store    = StoresBinance.store_binance_events
         self.__converter_a_to_ma      = ConverterModelRawArticleToModelArticle()
+        self.__store_db_last_updated  = StoreBinance.store_db_binance_last_updated
         self.__max_lookback_time      = self.__lookback_days * 24 * 60 * 60 * 1000
-        self.__false_alert_phrases    = {phrase.name.lower() for phrase in EnumFalseAlertPhrases}
-        self.__low_priority_keywords  = {keyword.name.lower() for keyword in EnumLowAlertWarningKeyWords}
-        self.__high_priority_keywords = {keyword.name.lower() for keyword in EnumHighAlertWarningKeyWords}
+        self.__false_alert_phrases    = {phrase.value.lower() for phrase in EnumFalseAlertPhrases}
+        self.__low_priority_keywords  = {keyword.value.lower() for keyword in EnumLowAlertWarningKeyWords}
+        self.__high_priority_keywords = {keyword.value.lower() for keyword in EnumHighAlertWarningKeyWords}
 
 
     def classify_articles(self, raw_articles: list[ModelBinanceArticleRaw]) -> list[ModelBinanceArticle]:
@@ -40,7 +40,7 @@ class ServiceBinanceRawArticleKeywordClassifier:
         relevant_articles = []
         current_ts = int(datetime.utcnow().timestamp() * 1000)
         
-        last_update = self.__binance_event_store.get_last_updated_ts()
+        last_update = self.__store_db_last_updated.get()
 
         for model_raw_article_object in raw_articles:
             if not isinstance(model_raw_article_object, ModelBinanceArticleRaw):

@@ -16,7 +16,8 @@ class ModelBinanceArticle(models.Model):
     id               = models.BigIntegerField(primary_key=True, null=False)
     raw_article      = models.OneToOneField(ModelBinanceArticleRaw, on_delete=models.CASCADE)
     alert_priority   = models.CharField(max_length=50, choices=EnumPriority.choices(), null=True)
-    alert_category   = models.CharField(max_length=50, choices=EnumLowAlertWarningKeyWords.choices() + EnumHighAlertWarningKeyWords.choices(), null=True)
+    alert_category   = models.CharField(max_length=50, choices=EnumLowAlertWarningKeyWords.choices() \
+                                                   + EnumHighAlertWarningKeyWords.choices(), null=True)
     
     class Meta:
         managed = False

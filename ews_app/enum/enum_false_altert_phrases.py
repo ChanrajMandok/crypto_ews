@@ -6,5 +6,6 @@ class EnumFalseAlertPhrases(NoValue):
     LAUNCH              = 'launch'
     INTRODUCING         = 'introducing'
     RECOVERY_PLAN       = 'recovery_plan' 
+    
 
     

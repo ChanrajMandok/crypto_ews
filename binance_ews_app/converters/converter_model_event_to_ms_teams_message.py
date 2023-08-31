@@ -27,7 +27,6 @@ class ConverterModelEventToMsTeamsMessage:
     def convert(self,
                 url            :str,
                 title          :str,
-                article_text   :str,
                 new_token_issue:bool,
                 alert_priority :EnumPriority,
                 important_dates:list[datetime],
@@ -54,7 +53,6 @@ class ConverterModelEventToMsTeamsMessage:
         
         url             = url
         title           = title
-        article_text    = article_text
         alert_category  = alert_category
         h_spot_tickers  = h_spot_tickers
         h_usdm_tickers  = h_usdm_tickers
@@ -66,16 +64,15 @@ class ConverterModelEventToMsTeamsMessage:
         
         dates_str       = ', '.join(formatted_dates) if formatted_dates else None
         network_str     = ', '.join(networks) if networks else None
-        msg_title       = f"{alert_category.name} EVENT -  {title}"
+        msg_title       = f"{alert_category.name} EVENT -{title}"
         
         try:
                 # Create the base Teams message
                 message = {
                     "@type": "MessageCard",
                     "@context": "https://schema.org/extensions",
-                    "summary": f"Binance {alert_category.value} Event",
-                    "themeColor": "FF0000" if alert_priority == EnumPriority.HIGH else "008000",  # Red for HIGH, Yellow for LOW
-                    "title": msg_title,
+                    "summary": f"Binance {alert_category.name} Event",
+                    "themeColor": "FF0000" if alert_priority == EnumPriority.HIGH else "008000", 
                     "sections": [
                         {
                             "activityTitle": f"URL: {url}",

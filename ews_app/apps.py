@@ -13,13 +13,9 @@ class EwsAppConfig(AppConfig):
         if ('markets.wsgi:application' in sys.argv) or ('runserver' in sys.argv):
             
             logger.info("EwsAppConfig: getting ready")
-
-        from binance_ews_app.observers.observer_binance_store_event_updater import \
-                                                        ObserverBinanceStoreEvent
-        ObserverBinanceStoreEvent()
         
-        from binance_ews_app.scheduler.scheduler_binance_event_store_updater import \
-                                                    SchedularBinanceEventStoreUpdater
+        from binance_ews_app.scheduler.scheduler_binance_event_db_updater import \
+                                                    SchedularBinanceEventDbUpdater
 
-        SchedularBinanceEventStoreUpdater().run()
+        SchedularBinanceEventDbUpdater().run()
         

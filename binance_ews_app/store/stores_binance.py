@@ -1,7 +1,6 @@
-from binance_ews_app.model.model_binance_event import ModelBinanceEvent
-from ews_app.store.store_static_observable_interface import StoreStaticObservableInterface
+from ews_app.store.store_simple_interface import StoreSimpleInterface
 
 
-class StoresBinance:
+class StoreBinance():
 
-    store_binance_events =  StoreStaticObservableInterface[str, ModelBinanceEvent]()
+    store_db_binance_last_updated = StoreSimpleInterface()

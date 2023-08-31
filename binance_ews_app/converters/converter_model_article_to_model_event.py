@@ -22,7 +22,6 @@ class ConverterModelArticleToModelEvent:
                       ConverterModelEventToMsTeamsMessage()
 
     def convert(self,
-                article_text    : str,
                 new_token_issue : bool,
                 important_dates : list[datetime],
                 article         : ModelBinanceArticle,
@@ -68,7 +67,6 @@ class ConverterModelArticleToModelEvent:
                     title              = title,
                     networks           = networks,
                     new_token_issue    = new_token_issue, 
-                    article_text       = article_text,
                     alert_priority     = alert_priority,
                     alert_category     = alert_category,
                     h_spot_tickers     = h_spot_tickers,
@@ -84,7 +82,6 @@ class ConverterModelArticleToModelEvent:
                     url               = url,
                     title             = title,
                     networks          = networks,
-                    article_text      = article_text,
                     ms_teams_message  = teams_message,
                     l_spot_tickers    = l_spot_tickers,
                     h_usdm_tickers    = h_usdm_tickers,
