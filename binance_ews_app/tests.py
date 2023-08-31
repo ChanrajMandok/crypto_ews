@@ -1,3 +1,6 @@
 from django.test import TestCase
 
 # Create your tests here.
+from binance_ews_app.test.binance_gala_hard_fork_test_case import  BinanceGalaHardForkTestCase
+from binance_ews_app.test.binance_delisting_event_test_case import BinanceDelistingEventTestCase
+# from binance_ews_app.test.binance_ews_app_all_services_test_case import BinanceEwsAppAllServicesTestCase

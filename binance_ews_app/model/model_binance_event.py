@@ -10,9 +10,9 @@ from ews_app.enum.enum_high_alert_warning_key_words import \
 
 class ModelBinanceEvent(models.Model):
 
-    ms_teams_message   = models.JSONField(null=False)
+    ms_teams_message   = models.JSONField(null=True)
     id                 = models.IntegerField(null=False)
-    new_token_created  = models.BooleanField(default=False)
+    trading_affected  = models.BooleanField(default=False)
     url                = models.URLField(max_length=200, null=False)
     title              = models.CharField(max_length=100, null=False)
     release_date       = models.BigIntegerField(null=False, primary_key=True)
@@ -27,6 +27,7 @@ class ModelBinanceEvent(models.Model):
                                                                 + EnumHighAlertWarningKeyWords.choices())
 
     class Meta:
+        managed = True
         ordering = ['-release_date']
 
     def __repr__(self):

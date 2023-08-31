@@ -5,7 +5,6 @@ from typing import Optional, Union
 
 from binance_ews_app.converters import logger
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.model.model_ticker import ModelTicker
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
@@ -25,18 +24,18 @@ class ConverterModelEventToMsTeamsMessage:
         self.webhook = os.environ.get('WEBHOOK_URL')
 
     def convert(self,
-                url            :str,
-                title          :str,
-                new_token_issue:bool,
-                alert_priority :EnumPriority,
-                important_dates:list[datetime],
-                networks       :Optional[list[str]],
-                alert_category :Union[EnumLowAlertWarningKeyWords,
-                                    EnumHighAlertWarningKeyWords],
-                h_spot_tickers :Optional[list[ModelTicker]] = None,
-                h_usdm_tickers :Optional[list[ModelTicker]] = None,
-                l_spot_tickers :Optional[list[ModelTicker]] = None,
-                l_usdm_tickers :Optional[list[ModelTicker]] = None) -> dict:
+                url              :str,
+                title            :str,
+                trading_affected :bool,
+                alert_priority   :EnumPriority,
+                important_dates  :list[datetime],
+                networks         :Optional[list[str]],
+                alert_category   :Union[EnumLowAlertWarningKeyWords,
+                                      EnumHighAlertWarningKeyWords],
+                h_spot_tickers   :Optional[list[str]] = None,
+                h_usdm_tickers   :Optional[list[str]] = None,
+                l_spot_tickers   :Optional[list[str]] = None,
+                l_usdm_tickers   :Optional[list[str]] = None) -> dict:
         
         """
         Convert the provided `ModelBinanceEvent` instance into a Microsoft Teams Message Card JSON format.
@@ -60,11 +59,11 @@ class ConverterModelEventToMsTeamsMessage:
         l_usdm_tickers  = l_usdm_tickers
         
         formatted_dates = [datetime.fromtimestamp(ts/1000).strftime('%Y-%m-%d %H:%M') \
-                           for ts in important_dates] if important_dates else None
+                           for ts in important_dates[0:2]] if important_dates else None
         
         dates_str       = ', '.join(formatted_dates) if formatted_dates else None
         network_str     = ', '.join(networks) if networks else None
-        msg_title       = f"{alert_category.name} EVENT -{title}"
+        msg_title       = f"{alert_category.name.lower().replace('_', ' ').title()} Event - {title}"
         
         try:
                 # Create the base Teams message
@@ -72,6 +71,7 @@ class ConverterModelEventToMsTeamsMessage:
                     "@type": "MessageCard",
                     "@context": "https://schema.org/extensions",
                     "summary": f"Binance {alert_category.name} Event",
+                    "title": msg_title,
                     "themeColor": "FF0000" if alert_priority == EnumPriority.HIGH else "008000", 
                     "sections": [
                         {
@@ -83,30 +83,33 @@ class ConverterModelEventToMsTeamsMessage:
                         {
                             "activityTitle": f"Event Dates: {dates_str}",
                         },
-
                     ]
                 }
                 if networks:
                     network = {
-                         "activityTitle": f"Network: {network_str}",
+                         "activityTitle": f"Tokens Affected: {network_str}",
                     }
                     message["sections"].append(network)
 
-                if new_token_issue:
+                if trading_affected:
                     token_status = {
-                        "activityTitle": f"New Token issued: {new_token_issue}",
+                        "activityTitle": f"Live Trading Status: Tokens Affected",
                     }
-                    message["sections"].append(token_status)
+                else: 
+                    token_status = {
+                        "activityTitle": f"Live Trading Status: Tokens Not Affected",
+                    }
+                message["sections"].insert(2,token_status )
 
                 facts = []
                 if h_spot_tickers:
-                    facts.append({"name": "High Priority Spot Tickers", "value": ", ".join(h_spot_tickers)})
+                    facts.append({"name": "High Priority Spot Tickers:", "value": ", ".join(h_spot_tickers)})
                 if h_usdm_tickers:
-                    facts.append({"name": "High Priority USDM Tickers", "value": ", ".join(h_usdm_tickers)})
+                    facts.append({"name": "High Priority USDM Tickers:", "value": ", ".join(h_usdm_tickers)})
                 if l_spot_tickers:
-                    facts.append({"name": "Low Priority Spot Tickers", "value": ", ".join(l_spot_tickers)})
+                    facts.append({"name": "Low Priority Spot Tickers:", "value": ", ".join(l_spot_tickers)})
                 if l_usdm_tickers:
-                    facts.append({"name": "Low Priority USDM Tickers", "value": ", ".join(l_usdm_tickers)})
+                    facts.append({"name": "Low Priority USDM Tickers:", "value": ", ".join(l_usdm_tickers)})
 
                 if facts:
                     ticker_section = {

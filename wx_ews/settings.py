@@ -130,6 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SHELL_PLUS = "ipython"
 
 SHELL_PLUS_IMPORTS = [
-    'from binance_ews_app.services.service_binance_store_event_updater import ServiceStoreEventUpdater',
+    'from binance_ews_app.services.service_binance_db_event_updater import ServiceDbEventUpdater',
     'from ews_app.tasks.populate_currencies import TaskPopulateCurrencies',
 ]

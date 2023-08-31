@@ -17,6 +17,7 @@ from binance_ews_app.model.model_binance_event import ModelBinanceEvent
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from binance_ews_app.converters.converter_model_article_to_model_event import \
                                                ConverterModelArticleToModelEvent
+from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 
 
 class ServiceBinanceArticleHtmlHandler:
@@ -31,8 +32,7 @@ class ServiceBinanceArticleHtmlHandler:
         self.__date_pattern = re.compile(r"(\d{4}-\d{2}-\d{2}(?: \d{2}:\d{2})?)")
         self.__converter_model_article_to_model_event = ConverterModelArticleToModelEvent()
         self.__network_upgrade_pattern = re.compile(r"\(([A-Z0-9]{1,10})\) network")
-        self.__token_pattern = re.compile(r"will\s+not\s+result\s+in\s+new\s+tokens\s+being\s+created",\
-                                                                                            re.IGNORECASE)
+        self.__contract_swap_pattern = re.compile(r"\(([A-Z0-9]{1,10})\) contract swap")
         self.__contract_pairs_pattern = \
             re.compile(r"USDⓈ-M ((?:[A-Z0-9]{1,10}[A-Z0-9]{1,10}(?: and )?)+) Perpetual Contract")
 
@@ -43,19 +43,25 @@ class ServiceBinanceArticleHtmlHandler:
             category = article.alert_category
 
             article_content_text = self.extract_article_content(article.html)
-            networks = self.extract_network_upgrades(article_content_text)
+            
 
             h_spot_tickers, l_spot_tickers = self.extract_spot_pairs(article_content_text)
             h_usdm_tickers, l_usdm_tickers = self.extract_usdm_pairs(article_content_text)
 
-            if not h_spot_tickers or not h_usdm_tickers:
-                article.alert_priority = EnumPriority.LOW
-
             important_dates = self.extract_important_dates(content=article_content_text,
                                                            release_date=release_date_ts)
-            new_token_issue = self.extract_new_token_issue(content=article_content_text,
+            trading_affected = self.extract_trading_status(content=article_content_text,
                                                             alert_category=category)
-
+            networks = self.extract_network_name(content=article_content_text,
+                                                            alert_category=category)
+            wx_ccy_affected = any(ModelWirexSpotCurrency.objects.filter(currency=x).exists() \
+                                                                            for x in networks)
+            
+            if (h_spot_tickers or h_usdm_tickers) or \
+                (category.value in ['hard', 'fork', 'upgrade', 'contract'] \
+                                    and trading_affected and wx_ccy_affected):
+                article.alert_priority = EnumPriority.HIGH
+            
             event = self.__converter_model_article_to_model_event.convert(
                 article=article,
                 networks=networks,
@@ -63,7 +69,7 @@ class ServiceBinanceArticleHtmlHandler:
                 h_usdm_tickers=h_usdm_tickers,
                 l_spot_tickers=l_spot_tickers,
                 l_usdm_tickers=l_usdm_tickers,
-                new_token_issue=new_token_issue,
+                trading_affected=trading_affected,
                 important_dates=important_dates,
             )
             return event
@@ -118,7 +124,7 @@ class ServiceBinanceArticleHtmlHandler:
         matches = self.__contract_pairs_pattern.findall(content)
         base_quote_pattern = re.compile(r"([A-Z0-9]{1,10})USDT")
         usdm_tickers = {f"{base}/USDT" for match in matches for base in base_quote_pattern.findall(match)}
-        model_tickers = [self.__converter_str_to_model_ticker.convert(ticker_str=x+'USDT', type=EnumCurrencyType.SPOT) \
+        model_tickers = [self.__converter_str_to_model_ticker.convert(ticker_str=x, type=EnumCurrencyType.SPOT) \
                                                                                                   for x in usdm_tickers]
         
         # Step 4: Categorize into high_priority_tickers and low_priority_tickers
@@ -127,16 +133,37 @@ class ServiceBinanceArticleHtmlHandler:
 
         return (high_priority_tickers, low_priority_tickers)
     
-    def extract_network_upgrades(self, content: str) -> list[str]:
-        matches = self.__network_upgrade_pattern.findall(content)
+    def extract_network_name(self, content: str, 
+                                   alert_category :Union[EnumLowAlertWarningKeyWords,        
+                                                        EnumHighAlertWarningKeyWords]) -> list[str]:
+        
+        if alert_category.value in ['contract']:
+            matches = self.__contract_swap_pattern.findall(content)
+        if  alert_category.value in ['network', 'fork']:
+            matches = self.__network_upgrade_pattern.findall(content)
         unique_networks = list(set(matches))
         return unique_networks
     
-    def extract_new_token_issue(self, content: str,  
+    def extract_trading_status(self, content: str,  
                                       alert_category :Union[EnumLowAlertWarningKeyWords,        
                                                             EnumHighAlertWarningKeyWords]) -> bool:
         
-        if alert_category.name not in ['HARD', 'FORK', 'UPGRADE']:
+        if alert_category.value not in ['hard', 'fork', 'upgrade', 'contract']:
             return False
-        matches = self.__token_pattern.findall(content)
-        return False if matches else True
+        
+        pattern_1 = r'The trading of ((?:\w+\s?){1,5}) will not be affected during'
+        match_1 = re.search(pattern_1, content, re.I)
+
+        pattern_2 = r'deposits and withdrawals of ((?:\w+\s?){1,8}) will be suspended'
+        match_2 = re.search(pattern_2, content, re.I)
+        
+        if match_1 and match_2:
+            return True
+        if match_1:
+            return False
+        if match_2:
+            return True
+        else: 
+            return False
+    
+        

@@ -1,7 +1,11 @@
 from datetime import datetime
 
+from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
+
 from binance_ews_app.services import logger
 from binance_ews_app.store.stores_binance import StoreBinance
+from binance_ews_app.model.model_binance_event import \
+                                        ModelBinanceEvent
 from binance_ews_app.model.model_db_binance_last_updated import \
                                         ModelDbBinanceLastUpdated
 from binance_ews_app.services.service_binance_raw_article_retriever import \
@@ -23,6 +27,7 @@ class ServiceDbEventUpdater:
     def update_db(self):
         try:
             today = int(datetime.now().timestamp())*1000
+            ts = ModelDbBinanceLastUpdated(last_updated=today)
             # retrieve all recent news articles & announcements from binance
             articles = self.__service_raw_article_retriever.retrieve()
             # filter news articles & announcements for specific values
@@ -30,8 +35,13 @@ class ServiceDbEventUpdater:
             # now pull html of articles from binance
             model_event_objects = self.__service_article_html_retriever.retrieve(key_articles)
             # save to db
-            ModelDbBinanceLastUpdated.objects.bulk_create(model_event_objects, ignore_conflicts=True)
-            self.__store_db_binance_last_updated.set(today)
+            ModelBinanceEvent.objects.bulk_create(model_event_objects, ignore_conflicts=True)
+            self.__store_db_binance_last_updated.set(ts)
 
         except Exception as e:
             logger.error(e)
+            
+            
+            
+            
+            

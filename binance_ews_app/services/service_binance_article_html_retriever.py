@@ -33,6 +33,7 @@ class ServiceBinanceArticleHtmlRetriever:
     @binance_article_url_required
     def retrieve(self,
                  articles: list[ModelBinanceArticle],
+                 test : bool = False,
                  binance_headers=None,
                  binance_news_dict_url=None,
                  binance_article_base_url=None) -> list[ModelBinanceEvent]:
@@ -93,8 +94,11 @@ class ServiceBinanceArticleHtmlRetriever:
             article_object.html = response.content
             
             model_event = self.__service_binance_article_html_handler.handle(article_object)
-            if max(model_event.important_dates) > today:
-                model_event_list.append(model_event)           
+            if test:
+                model_event_list.append(model_event)
+            else:
+                if max(model_event.important_dates) > today:
+                    model_event_list.append(model_event)           
             
         return model_event_list
 

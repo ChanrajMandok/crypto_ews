@@ -2,7 +2,6 @@ from typing import Optional
 from datetime import datetime
 
 from binance_ews_app.converters import logger
-from ews_app.model.model_ticker import ModelTicker
 from binance_ews_app.model.model_binance_event import \
                                        ModelBinanceEvent
 from binance_ews_app.model.model_binance_article import \
@@ -22,14 +21,14 @@ class ConverterModelArticleToModelEvent:
                       ConverterModelEventToMsTeamsMessage()
 
     def convert(self,
-                new_token_issue : bool,
+                trading_affected : bool,
                 important_dates : list[datetime],
                 article         : ModelBinanceArticle,
                 networks        : Optional[list[str]] = None,
-                h_spot_tickers  : Optional[list[ModelTicker]] = None,
-                h_usdm_tickers  : Optional[list[ModelTicker]] = None,
-                l_spot_tickers  : Optional[list[ModelTicker]] = None,
-                l_usdm_tickers  : Optional[list[ModelTicker]] = None):
+                h_spot_tickers  : Optional[list[str]] = None,
+                h_usdm_tickers  : Optional[list[str]] = None,
+                l_spot_tickers  : Optional[list[str]] = None,
+                l_usdm_tickers  : Optional[list[str]] = None):
     
         
         """
@@ -66,14 +65,14 @@ class ConverterModelArticleToModelEvent:
                     url                = url,
                     title              = title,
                     networks           = networks,
-                    new_token_issue    = new_token_issue, 
                     alert_priority     = alert_priority,
                     alert_category     = alert_category,
                     h_spot_tickers     = h_spot_tickers,
                     h_usdm_tickers     = h_usdm_tickers,
                     l_spot_tickers     = l_spot_tickers,
                     l_usdm_tickers     = l_usdm_tickers,
-                    important_dates    = sorted(important_dates,reverse=True)[:3]
+                    trading_affected    = trading_affected, 
+                    important_dates    = sorted(important_dates,reverse=True)
                 )
 
             event = ModelBinanceEvent(
@@ -90,7 +89,7 @@ class ConverterModelArticleToModelEvent:
                     h_spot_tickers    = h_spot_tickers,
                     alert_category    = alert_category,
                     important_dates   = important_dates,
-                    new_token_created = new_token_issue,
+                    trading_affected = trading_affected,
                                       )
             
             return event

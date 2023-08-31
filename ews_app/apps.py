@@ -9,13 +9,13 @@ class EwsAppConfig(AppConfig):
     name = 'ews_app'
 
     def ready(self):
-        
-        if ('markets.wsgi:application' in sys.argv) or ('runserver' in sys.argv):
-            
-            logger.info("EwsAppConfig: getting ready")
-        
-        from binance_ews_app.scheduler.scheduler_binance_event_db_updater import \
-                                                    SchedularBinanceEventDbUpdater
 
-        SchedularBinanceEventDbUpdater().run()
-        
+        blocked_commands = ['migrate', 'makemigrations', 'script_populate_tables', 'flush', 'shell_plus', 'test']
+
+        if not any(command in sys.argv for command in blocked_commands):
+            logger.info("EwsAppConfig: getting ready")
+
+            from binance_ews_app.scheduler.scheduler_binance_event_db_updater import \
+                SchedularBinanceEventDbUpdater
+
+            SchedularBinanceEventDbUpdater().run()
