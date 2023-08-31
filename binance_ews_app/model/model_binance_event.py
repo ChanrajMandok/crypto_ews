@@ -22,7 +22,7 @@ class ModelBinanceEvent(models.Model):
     l_spot_tickers     = ArrayField(models.CharField(max_length=50), blank=True, default=list, null=True)
     l_usdm_tickers     = ArrayField(models.CharField(max_length=50), blank=True, default=list, null=True) 
     important_dates    = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
-    networks           = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
+    network_tokens     = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
     alert_category     = models.CharField(max_length=50, choices=EnumLowAlertWarningKeyWords.choices() \
                                                                 + EnumHighAlertWarningKeyWords.choices())
 

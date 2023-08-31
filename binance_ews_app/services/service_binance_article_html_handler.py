@@ -52,10 +52,10 @@ class ServiceBinanceArticleHtmlHandler:
                                                            release_date=release_date_ts)
             trading_affected = self.extract_trading_status(content=article_content_text,
                                                             alert_category=category)
-            networks = self.extract_network_name(content=article_content_text,
+            network_tokens = self.extract_network_token(content=article_content_text,
                                                             alert_category=category)
             wx_ccy_affected = any(ModelWirexSpotCurrency.objects.filter(currency=x).exists() \
-                                                                            for x in networks)
+                                                                            for x in network_tokens)
             
             if (h_spot_tickers or h_usdm_tickers) or \
                 (category.value in ['hard', 'fork', 'upgrade', 'contract'] \
@@ -64,7 +64,7 @@ class ServiceBinanceArticleHtmlHandler:
             
             event = self.__converter_model_article_to_model_event.convert(
                 article=article,
-                networks=networks,
+                network_tokens=network_tokens,
                 h_spot_tickers=h_spot_tickers,
                 h_usdm_tickers=h_usdm_tickers,
                 l_spot_tickers=l_spot_tickers,
@@ -133,13 +133,13 @@ class ServiceBinanceArticleHtmlHandler:
 
         return (high_priority_tickers, low_priority_tickers)
     
-    def extract_network_name(self, content: str, 
+    def extract_network_token(self, content: str, 
                                    alert_category :Union[EnumLowAlertWarningKeyWords,        
                                                         EnumHighAlertWarningKeyWords]) -> list[str]:
         
         if alert_category.value in ['contract']:
             matches = self.__contract_swap_pattern.findall(content)
-        if  alert_category.value in ['network', 'fork']:
+        else:
             matches = self.__network_upgrade_pattern.findall(content)
         unique_networks = list(set(matches))
         return unique_networks

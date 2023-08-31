@@ -28,7 +28,8 @@ class ConverterStrToModelTicker:
             priority = EnumPriority.LOW
             
             if type == EnumCurrencyType.SPOT:
-                if ModelWirexSpotCurrency.objects.filter(currency=base).exists():
+                if ModelWirexSpotCurrency.objects.filter(currency=base).exists() and \
+                quote in ['BTC', 'USDT']:
                     priority = EnumPriority.HIGH
                     
             elif type == EnumCurrencyType.USDM:

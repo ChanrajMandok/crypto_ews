@@ -29,7 +29,7 @@ class ConverterModelEventToMsTeamsMessage:
                 trading_affected :bool,
                 alert_priority   :EnumPriority,
                 important_dates  :list[datetime],
-                networks         :Optional[list[str]],
+                network_tokens   :Optional[list[str]],
                 alert_category   :Union[EnumLowAlertWarningKeyWords,
                                       EnumHighAlertWarningKeyWords],
                 h_spot_tickers   :Optional[list[str]] = None,
@@ -61,9 +61,9 @@ class ConverterModelEventToMsTeamsMessage:
         formatted_dates = [datetime.fromtimestamp(ts/1000).strftime('%Y-%m-%d %H:%M') \
                            for ts in important_dates[0:2]] if important_dates else None
         
-        dates_str       = ', '.join(formatted_dates) if formatted_dates else None
-        network_str     = ', '.join(networks) if networks else None
-        msg_title       = f"{alert_category.name.lower().replace('_', ' ').title()} Event - {title}"
+        dates_str           = ', '.join(formatted_dates) if formatted_dates else None
+        network_tokens_str  = ', '.join(network_tokens) if network_tokens else None
+        msg_title           = f"{alert_category.name.lower().replace('_', ' ').title()} Event - {title}"
         
         try:
                 # Create the base Teams message
@@ -85,9 +85,9 @@ class ConverterModelEventToMsTeamsMessage:
                         },
                     ]
                 }
-                if networks:
+                if network_tokens:
                     network = {
-                         "activityTitle": f"Tokens Affected: {network_str}",
+                         "activityTitle": f"Tokens Affected: {network_tokens_str}",
                     }
                     message["sections"].append(network)
 
