@@ -25,8 +25,8 @@ class ServiceBinanceRawArticleKeywordClassifier:
     """
     
     def __init__(self) -> None:
-        self.__refresh_increment_mins = int(os.environ.get('REFRESH_INCREMENT_MINS', 5))
-        self.__lookback_days          = int(os.environ.get('RELEVENT_NEWS_LOOKBACK_DAYS', 120))
+        self.__refresh_increment_mins = int(os.environ.get('REFRESH_INCREMENT_MINS', 15))
+        self.__lookback_days          = int(os.environ.get('RELEVENT_NEWS_LOOKBACK_DAYS', 30))
         self.__converter_a_to_ma      = ConverterModelRawArticleToModelArticle()
         self.__store_db_last_updated  = StoreBinance.store_db_binance_last_updated
         self.__max_lookback_time      = self.__lookback_days * 24 * 60 * 60 * 1000

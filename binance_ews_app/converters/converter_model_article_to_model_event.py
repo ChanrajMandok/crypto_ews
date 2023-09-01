@@ -64,14 +64,14 @@ class ConverterModelArticleToModelEvent:
                 self.converter_model_event_to_ms_teams_message.convert(
                     url                = url,
                     title              = title,
-                    network_tokens      = network_tokens,
+                    network_tokens     = network_tokens,
                     alert_priority     = alert_priority,
                     alert_category     = alert_category,
                     h_spot_tickers     = h_spot_tickers,
                     h_usdm_tickers     = h_usdm_tickers,
                     l_spot_tickers     = l_spot_tickers,
                     l_usdm_tickers     = l_usdm_tickers,
-                    trading_affected    = trading_affected, 
+                    trading_affected   = trading_affected, 
                     important_dates    = sorted(important_dates,reverse=True)
                 )
 

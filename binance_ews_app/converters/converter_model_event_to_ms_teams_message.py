@@ -59,7 +59,7 @@ class ConverterModelEventToMsTeamsMessage:
         l_usdm_tickers  = l_usdm_tickers
         
         formatted_dates = [datetime.fromtimestamp(ts/1000).strftime('%Y-%m-%d %H:%M') \
-                           for ts in important_dates[0:2]] if important_dates else None
+                           for ts in important_dates] if important_dates else None
         
         dates_str           = ', '.join(formatted_dates) if formatted_dates else None
         network_tokens_str  = ', '.join(network_tokens) if network_tokens else None

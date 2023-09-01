@@ -98,6 +98,7 @@ class ServiceBinanceArticleHtmlRetriever:
                 model_event_list.append(model_event)
             else:
                 if max(model_event.important_dates) > today:
+                    model_event.important_dates = [x for x in model_event.important_dates if x > today]
                     model_event_list.append(model_event)           
             
         return model_event_list
