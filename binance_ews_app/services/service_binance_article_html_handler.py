@@ -6,18 +6,18 @@ from bs4 import BeautifulSoup
 
 from binance_ews_app.services import logger
 from ews_app.enum.enum_priority import EnumPriority
+from ews_app.enum.enum_currency_type import EnumCurrencyType
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
-from ews_app.enum.enum_currency_type import EnumCurrencyType
 from ews_app.converters.converter_str_to_model_ticker import \
                                          ConverterStrToModelTicker
 from binance_ews_app.model.model_binance_event import ModelBinanceEvent
+from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from binance_ews_app.converters.converter_model_article_to_model_event import \
                                                ConverterModelArticleToModelEvent
-from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 
 
 class ServiceBinanceArticleHtmlHandler:
@@ -30,9 +30,9 @@ class ServiceBinanceArticleHtmlHandler:
         self.__converter_str_to_model_ticker = ConverterStrToModelTicker()
         self.__pairs_pattern = re.compile(r"([A-Z0-9]{3,10})\/([A-Z0-9]{3,10})")
         self.__date_pattern = re.compile(r"(\d{4}-\d{2}-\d{2}(?: \d{2}:\d{2})?)")
-        self.__converter_model_article_to_model_event = ConverterModelArticleToModelEvent()
         self.__network_upgrade_pattern = re.compile(r"\(([A-Z0-9]{1,10})\) network")
         self.__contract_swap_pattern = re.compile(r"\(([A-Z0-9]{1,10})\) contract swap")
+        self.__converter_model_article_to_model_event = ConverterModelArticleToModelEvent()
         self.__contract_pairs_pattern = \
             re.compile(r"USDⓈ-M ((?:[A-Z0-9]{1,10}[A-Z0-9]{1,10}(?: and )?)+) Perpetual Contract")
 
@@ -69,8 +69,8 @@ class ServiceBinanceArticleHtmlHandler:
                 h_usdm_tickers=h_usdm_tickers,
                 l_spot_tickers=l_spot_tickers,
                 l_usdm_tickers=l_usdm_tickers,
-                trading_affected=trading_affected,
                 important_dates=important_dates,
+                trading_affected=trading_affected,
             )
             return event
             

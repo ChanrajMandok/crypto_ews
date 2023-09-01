@@ -41,11 +41,11 @@ class BinanceDelistingEventTestCase(TestCase):
         
         model_event_object = \
         self.__converter_model_article_to_model_event.convert(article=key_article,
-                                                                                 trading_affected=False,
-                                                                                 h_spot_tickers=['ALGO/BTC', 'ALICE/BTC', 'ALICE/USDT', \
-                                                                                            'AMP/USDT', 'ANKR/BTC', 'APE/BTC', 'API3/USDT'],
-                                                                                 important_dates=[1693495466000, 1693495446000, 1693495406000],
-                                                                                 )
+                                                              trading_affected=False,
+                                                              h_spot_tickers=['ALGO/BTC', 'ALICE/BTC', 'ALICE/USDT', \
+                                                                      'AMP/USDT', 'ANKR/BTC', 'APE/BTC', 'API3/USDT'],
+                                                              important_dates=[1693495466000, 1693495446000, 1693495406000],
+                                                              )
         
         self.__service_send_binance_event_to_ms_teams.send_message(ms_teams_message=model_event_object.ms_teams_message)
         

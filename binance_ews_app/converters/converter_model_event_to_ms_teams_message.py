@@ -31,7 +31,7 @@ class ConverterModelEventToMsTeamsMessage:
                 important_dates  :list[datetime],
                 network_tokens   :Optional[list[str]],
                 alert_category   :Union[EnumLowAlertWarningKeyWords,
-                                      EnumHighAlertWarningKeyWords],
+                                       EnumHighAlertWarningKeyWords],
                 h_spot_tickers   :Optional[list[str]] = None,
                 h_usdm_tickers   :Optional[list[str]] = None,
                 l_spot_tickers   :Optional[list[str]] = None,

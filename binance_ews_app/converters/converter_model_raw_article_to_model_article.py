@@ -22,7 +22,7 @@ class ConverterModelRawArticleToModelArticle:
                 alert_priority    : EnumPriority,
                 model_raw_article : ModelBinanceArticleRaw,
                 alert_category    : Union[EnumLowAlertWarningKeyWords, 
-                                    EnumHighAlertWarningKeyWords]):
+                                        EnumHighAlertWarningKeyWords]):
 
         try:
             binance_article_object \

@@ -17,7 +17,7 @@ class BinanceEwsAppAllServicesTestCase(TestCase):
         TaskPopulateCurrencies().populate()
         self.__service_raw_article_retriever          = ServiceBinanceRawArticleRetriever()
         self.__service_article_html_retriever         = ServiceBinanceArticleHtmlRetriever()
-        self.__service_send_binance_event_to_ms_teams  = ServiceSendModelBinanceEventToMsTeams()
+        self.__service_send_binance_event_to_ms_teams = ServiceSendModelBinanceEventToMsTeams()
         self.__service_raw_article_keyword_classifier = ServiceBinanceRawArticleKeywordClassifier()
         
     def test(self):
