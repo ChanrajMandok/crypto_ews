@@ -95,20 +95,26 @@ class ServiceBinanceArticleHtmlHandler:
         return content_with_separators
 
     def extract_important_dates(self, content: str, release_date: int) -> list[int]:
+        if not isinstance(release_date, int) or release_date <= 0:
+            logger.error(f"{self.__class__.__name__} - Invalid release_date value: {release_date}")
+            return []
+
         important_date_strings = [match for match in self.__date_pattern.findall(content)]
-        
+            
         # Initialize the set with the release_date
         important_dates = {release_date}
-        
+            
         for date_string in important_date_strings:
             try:
                 dt = parser.parse(date_string)
                 ts = int(dt.timestamp() * 1000)
                 important_dates.add(ts)
             except Exception as e:
-                logger.error(f"{self.__class__.__name__} - {e}")
-            
+                # Add the problematic date_string to the error log for better understanding
+                logger.error(f"{self.__class__.__name__} - Error parsing date string '{date_string}': {e}")
+                
         return list(important_dates)
+
     
     def extract_spot_pairs(self, content: str) -> (list[str], list[str]):
         spot_tickers = {f"{match[0]}/{match[1]}" for match in self.__pairs_pattern.findall(content)}
