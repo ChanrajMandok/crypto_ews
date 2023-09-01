@@ -14,8 +14,9 @@ class ServiceBinanceDbEventManager:
 
     def manage_db(self):
         now = int(datetime.now().timestamp())*1000  # Current timestamp
-        all_events = ModelBinanceEvent.objects.all()
-        expired_events = [event for event in all_events if any(int(ts) < now for ts in event.important_dates)]
+        incomplete_events = ModelBinanceEvent.objects.filter(event_completed=False)
+
+        expired_events = [event for event in incomplete_events if any(int(ts) < now for ts in event.important_dates)]
 
         for event in expired_events:
             reminder_msg = event.ms_teams_message
@@ -24,6 +25,6 @@ class ServiceBinanceDbEventManager:
 
             self.__service_send_binance_event_to_ms_teams.send_message(reminder_msg)
 
-            if all(int(ts) < now for ts in event.important_dates):
+            if all(int(ts)-26000000 < now for ts in event.important_dates):
                 event.event_completed = True 
                 event.save()
