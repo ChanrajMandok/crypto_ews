@@ -5,6 +5,7 @@ from dateutil import parser
 from bs4 import BeautifulSoup
 
 from binance_ews_app.services import logger
+from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_currency_type import EnumCurrencyType
 from ews_app.enum.enum_high_alert_warning_key_words import \
@@ -16,8 +17,8 @@ from ews_app.converters.converter_str_to_model_ticker import \
 from binance_ews_app.model.model_binance_event import ModelBinanceEvent
 from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
-from binance_ews_app.converters.converter_model_article_to_model_event import \
-                                               ConverterModelArticleToModelEvent
+from binance_ews_app.converters.converter_binance_article_to_binance_event \
+                                import ConverterBinanceArticleToBinanceEvent
 
 
 class ServiceBinanceArticleHtmlHandler:
@@ -32,16 +33,16 @@ class ServiceBinanceArticleHtmlHandler:
         self.__date_pattern = re.compile(r"(\d{4}-\d{2}-\d{2}(?: \d{2}:\d{2})?)")
         self.__network_upgrade_pattern = re.compile(r"\(([A-Z0-9]{1,10})\) network")
         self.__contract_swap_pattern = re.compile(r"\(([A-Z0-9]{1,10})\) contract swap")
-        self.__converter_model_article_to_model_event = ConverterModelArticleToModelEvent()
+        self.__converter_model_article_to_model_event = ConverterBinanceArticleToBinanceEvent()
         self.__contract_pairs_pattern = \
             re.compile(r"USDⓈ-M ((?:[A-Z0-9]{1,10}[A-Z0-9]{1,10}(?: and )?)+) Perpetual Contract")
 
     def handle(self, article: ModelBinanceArticle) -> ModelBinanceEvent:
 
         try:
-            release_date_ts = article.raw_article.release_date
-            category = article.alert_category
-
+            source               = EnumSource.BINANCE.name
+            release_date_ts      = article.raw_article.release_date
+            category             = article.alert_category
             article_content_text = self.extract_article_content(article.html)
             
 
@@ -60,9 +61,10 @@ class ServiceBinanceArticleHtmlHandler:
             if (h_spot_tickers or h_usdm_tickers) or \
                 (category.value in ['hard', 'fork', 'upgrade', 'contract'] \
                                     and trading_affected and wx_ccy_affected):
-                article.alert_priority = EnumPriority.HIGH
+                article.alert_priority = EnumPriority.HIGH.name
             
             event = self.__converter_model_article_to_model_event.convert(
+                source=source,
                 article=article,
                 network_tokens=network_tokens,
                 h_spot_tickers=h_spot_tickers,
@@ -121,8 +123,8 @@ class ServiceBinanceArticleHtmlHandler:
         model_tickers = [self.__converter_str_to_model_ticker.convert(ticker_str=x, type=EnumCurrencyType.SPOT) \
                                                                                            for x in spot_tickers]
 
-        high_priority_tickers = [ticker.name for ticker in model_tickers if ticker.alert_priority == EnumPriority.HIGH]
-        low_priority_tickers = [ticker.name for ticker in model_tickers if ticker.alert_priority != EnumPriority.HIGH]
+        high_priority_tickers = [ticker.name for ticker in model_tickers if ticker.alert_priority == EnumPriority.HIGH.name]
+        low_priority_tickers = [ticker.name for ticker in model_tickers if ticker.alert_priority != EnumPriority.HIGH.name]
         
         return (high_priority_tickers, low_priority_tickers)
         
@@ -134,8 +136,8 @@ class ServiceBinanceArticleHtmlHandler:
                                                                                                   for x in usdm_tickers]
         
         # Step 4: Categorize into high_priority_tickers and low_priority_tickers
-        high_priority_tickers = [ticker.name for ticker in model_tickers if ticker.alert_priority == EnumPriority.HIGH]
-        low_priority_tickers = [ticker.name for ticker in model_tickers if ticker.alert_priority != EnumPriority.HIGH]
+        high_priority_tickers = [ticker.name for ticker in model_tickers if ticker.alert_priority == EnumPriority.HIGH.name]
+        low_priority_tickers = [ticker.name for ticker in model_tickers if ticker.alert_priority != EnumPriority.HIGH.name]
 
         return (high_priority_tickers, low_priority_tickers)
     

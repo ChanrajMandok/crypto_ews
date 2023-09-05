@@ -7,10 +7,10 @@ from ews_app.tasks.populate_currencies import TaskPopulateCurrencies
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from binance_ews_app.services.service_send_binance_event_to_ms_teams import \
                                         ServiceSendModelBinanceEventToMsTeams
-from binance_ews_app.converters.converter_model_article_to_model_event import \
-                                               ConverterModelArticleToModelEvent
-from binance_ews_app.converters.converter_dict_to_model_binance_article_raw import \
-                                                ConverterDictToModelBinanceArticleRaw
+from binance_ews_app.converters.converter_binance_article_to_binance_event import \
+                                               ConverterBinanceArticleToBinanceEvent
+from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
+                                                ConverterDictToBinanceArticleRaw
 from ews_app.enum.enum_high_alert_warning_key_words import EnumHighAlertWarningKeyWords
 
 
@@ -18,9 +18,9 @@ class BinanceDelistingEventTestCase(TestCase):
     
     def setUp(self):
         TaskPopulateCurrencies().populate()
-        self.__converter_model_article_to_model_event       = ConverterModelArticleToModelEvent()
+        self.__converter_model_article_to_model_event       = ConverterBinanceArticleToBinanceEvent()
         self.__service_send_binance_event_to_ms_teams       = ServiceSendModelBinanceEventToMsTeams()
-        self.__converter_dict_to_model_binance_article_raw  = ConverterDictToModelBinanceArticleRaw()
+        self.__converter_dict_to_model_binance_article_raw  = ConverterDictToBinanceArticleRaw()
     
     def test(self):
         raw_data = r'./binance_ews_app/test/data/delisting_event_raw_article_data.py'
@@ -33,7 +33,7 @@ class BinanceDelistingEventTestCase(TestCase):
         key_article = \
             ModelBinanceArticle(
                                 raw_article      = model_raw_article,
-                                alert_priority   = EnumPriority.HIGH,
+                                alert_priority   = EnumPriority.HIGH.name,
                                 id               = model_raw_article.id,
                                 alert_category   = EnumHighAlertWarningKeyWords.TOKEN_DELISTING,
                                 url              = 'https://www.binance.com/en/support/announcement/testing_exmaple'

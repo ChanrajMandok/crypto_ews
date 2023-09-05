@@ -12,9 +12,9 @@ from binance_ews_app.services.service_binance_raw_article_retriever import \
 from binance_ews_app.services.service_binance_article_html_retriever import \
                                             ServiceBinanceArticleHtmlRetriever
 from binance_ews_app.services.service_send_binance_event_to_ms_teams import \
-    ServiceSendModelBinanceEventToMsTeams
-from binance_ews_app.services.service_binance_raw_article_keyword_classifier import \
-                                            ServiceBinanceRawArticleKeywordClassifier
+                                         ServiceSendModelBinanceEventToMsTeams
+from binance_ews_app.services.service_binance_raw_article_keyword_classifier \
+                              import ServiceBinanceRawArticleKeywordClassifier
 
 
 class ServiceDbEventUpdater:

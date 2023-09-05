@@ -9,8 +9,8 @@ from binance_ews_app.services.service_send_binance_event_to_ms_teams import \
                                         ServiceSendModelBinanceEventToMsTeams     
 from binance_ews_app.services.service_binance_article_html_retriever import \
                                             ServiceBinanceArticleHtmlRetriever
-from binance_ews_app.converters.converter_dict_to_model_binance_article_raw import \
-                                                ConverterDictToModelBinanceArticleRaw
+from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
+                                                ConverterDictToBinanceArticleRaw
 from ews_app.enum.enum_high_alert_warning_key_words import EnumHighAlertWarningKeyWords
 
 
@@ -21,7 +21,7 @@ class BinanceGalaHardForkTestCase(TestCase):
         TaskPopulateCurrencies().populate()
         self.__service_article_html_retriever              = ServiceBinanceArticleHtmlRetriever()
         self.__service_send_binance_event_to_ms_teams      = ServiceSendModelBinanceEventToMsTeams()
-        self.__converter_dict_to_model_binance_article_raw = ConverterDictToModelBinanceArticleRaw()
+        self.__converter_dict_to_model_binance_article_raw = ConverterDictToBinanceArticleRaw()
     
     def test(self):
         filepath = r'./binance_ews_app/test/data/gala_hard_fork_raw_article_data.py'
@@ -34,7 +34,7 @@ class BinanceGalaHardForkTestCase(TestCase):
                                 html             = None,
                                 id               = model_raw_article.id,
                                 raw_article      = model_raw_article,
-                                alert_priority   = EnumPriority.HIGH,
+                                alert_priority   = EnumPriority.HIGH.name,
                                 alert_category   = EnumHighAlertWarningKeyWords.CONTRACT_UPGRADE
                                 )
     

@@ -25,16 +25,16 @@ class ConverterStrToModelTicker:
             base, quote = ticker_str.split('/')
             
             # Initialize as LOW. If currency exists in db table, it will be set to HIGH.
-            priority = EnumPriority.LOW
+            priority = EnumPriority.LOW.name
             
             if type == EnumCurrencyType.SPOT:
                 if ModelWirexSpotCurrency.objects.filter(currency=base).exists() and \
                 quote in ['BTC', 'USDT']:
-                    priority = EnumPriority.HIGH
+                    priority = EnumPriority.HIGH.name
                     
             elif type == EnumCurrencyType.USDM:
                 if ModelWirexUsdmCurrency.objects.filter(currency=base).exists():
-                    priority = EnumPriority.HIGH
+                    priority = EnumPriority.HIGH.name
 
             ticker = ModelTicker(
                 name           = ticker_str,

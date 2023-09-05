@@ -1,10 +1,10 @@
 from datetime import datetime
 
+from ews_app.enum.enum_priority import EnumPriority
 from binance_ews_app.model.model_binance_event import \
                                         ModelBinanceEvent
-from binance_ews_app.services.service_send_binance_event_to_ms_teams import \
-                                        ServiceSendModelBinanceEventToMsTeams
-from ews_app.enum.enum_priority import EnumPriority
+from binance_ews_app.services.service_send_binance_event_to_ms_teams \
+                           import ServiceSendModelBinanceEventToMsTeams
 
 
 class ServiceBinanceDbEventManager:
@@ -28,9 +28,13 @@ class ServiceBinanceDbEventManager:
 
                 # Pop the expired dates from the event's important_dates list
                 event.important_dates = [ts for ts in event.important_dates if int(ts) not in expired_dates]
+                
+                # If the important_dates list is empty, set the event as completed
+                if not event.important_dates:
+                    event.event_completed = True
                 event.save()
 
                 # Check if all dates are expired, mark the event as completed
-                if all(int(ts)-26000000 < now for ts in event.important_dates):
-                    event.event_completed = True 
+                if all(int(ts) - 26000000 < now for ts in event.important_dates):
+                    event.event_completed = True
                     event.save()

@@ -1,55 +1,56 @@
-from typing import Optional
+import abc
+
 from datetime import datetime
+from typing import Optional, List, Union
 
-from binance_ews_app.converters import logger
-from binance_ews_app.model.model_binance_event import \
-                                       ModelBinanceEvent
+from ews_app.enum.enum_source import EnumSource
 from binance_ews_app.model.model_binance_article import \
-                                      ModelBinanceArticle
-from binance_ews_app.converters.converter_model_event_to_ms_teams_message \
-                                 import ConverterModelEventToMsTeamsMessage
+                                        ModelBinanceArticle
+from okx_ews_app.model.model_okx_article import ModelOkxArticle
+from ews_app.converters.converter_model_event_to_ms_teams_message \
+                         import ConverterModelEventToMsTeamsMessage
 
 
-class ConverterModelArticleToModelEvent:
+class ConverterArticleToEventInterface(metaclass=abc.ABCMeta):
+    """
+    Abstract Base Class that serves as a blueprint for classes that convert 
+    different article models into event models.
+    """
+    @classmethod
+    def __subclasshook__(cls, subclass):
+        return (hasattr(subclass, 'convert') and
+                callable(subclass.convert))
     
-    """
-    Responsible for converting an instance of `ModelBinanceArticle` into 
-    an instance of `ModelBinanceEvent`.
-    """
+    @abc.abstractmethod
+    def model_event(self):
+        raise NotImplementedError   
+    
+    @abc.abstractmethod
+    def class_name(self) -> str:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def logger_instance(self):
+        raise NotImplementedError
+    
     def __init__(self) -> None:
-        self.converter_model_event_to_ms_teams_message = \
-                      ConverterModelEventToMsTeamsMessage()
+        self._converter_model_event_to_ms_teams_message = \
+                        ConverterModelEventToMsTeamsMessage()
 
     def convert(self,
-                trading_affected : bool,
-                important_dates : list[datetime],
-                article         : ModelBinanceArticle,
+                trading_affected: bool,
+                source          : EnumSource,
+                important_dates : List[datetime],
+                article         : Union[ModelBinanceArticle, ModelOkxArticle],  
                 network_tokens  : Optional[list[str]] = None,
-                h_spot_tickers  : Optional[list[str]] = None,
-                h_usdm_tickers  : Optional[list[str]] = None,
-                l_spot_tickers  : Optional[list[str]] = None,
-                l_usdm_tickers  : Optional[list[str]] = None):
-    
-        
+                h_spot_tickers  : Optional[List[str]] = None,
+                h_usdm_tickers  : Optional[List[str]] = None,
+                l_spot_tickers  : Optional[List[str]] = None,
+                l_usdm_tickers  : Optional[List[str]] = None):
         """
-        Convert a ModelBinanceArticle instance to a ModelBinanceEvent
-        instance.
-
-        Utilizes data from the given `ModelBinanceArticle` and combines 
-        it with additional provided parameters to create a `ModelBinanceEvent`
-        instance. If any issues arise during the conversion, errors are logged.
-
-        Parameters:
-        - article: The ModelBinanceArticle instance to convert.
-        - release_date, code, title, spot_pairs, usdm_pairs, 
-        important_dates: Additional data 
-          for the ModelBinanceEvent instance.
-
-        Returns:
-        - A new ModelBinanceEvent instance.
-        
+        Abstract method to convert an article model into an event model.
         """
-        
+
         try:
             raw_article    = article.raw_article
 
@@ -61,9 +62,10 @@ class ConverterModelArticleToModelEvent:
             release_date   = raw_article.release_date
             
             teams_message = \
-                self.converter_model_event_to_ms_teams_message.convert(
+                self._converter_model_event_to_ms_teams_message.convert(
                     url                = url,
                     title              = title,
+                    source             = source,
                     network_tokens     = network_tokens,
                     alert_priority     = alert_priority,
                     alert_category     = alert_category,
@@ -75,12 +77,13 @@ class ConverterModelArticleToModelEvent:
                     important_dates    = sorted(important_dates,reverse=True)
                 )
 
-            event = ModelBinanceEvent(
+            event = self.model_event()(
                     release_date      = release_date,
                     id                = id,
                     url               = url,
                     title             = title,
-                    network_tokens     = network_tokens,
+                    source            = source,
+                    network_tokens    = network_tokens,
                     ms_teams_message  = teams_message,
                     l_spot_tickers    = l_spot_tickers,
                     h_usdm_tickers    = h_usdm_tickers,
@@ -89,10 +92,10 @@ class ConverterModelArticleToModelEvent:
                     h_spot_tickers    = h_spot_tickers,
                     alert_category    = alert_category,
                     important_dates   = important_dates,
-                    trading_affected = trading_affected,
+                    trading_affected  = trading_affected,
                                       )
             
             return event
         
         except Exception as e:
-            logger.error(f"{self.__class__.__name__} - ERROR: {e}")
+            self.logger_instance.error(f"{self.class_name} - ERROR: {e}")

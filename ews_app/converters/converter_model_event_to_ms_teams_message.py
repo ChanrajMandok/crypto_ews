@@ -1,9 +1,8 @@
-import os 
-
 from datetime import datetime
 from typing import Optional, Union
 
-from binance_ews_app.converters import logger
+from ews_app.converters import logger
+from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
@@ -20,13 +19,11 @@ class ConverterModelEventToMsTeamsMessage:
     to set the priority of the message based on the `alert_priority` of the event.
     """
 
-    def __init__(self) -> None:
-        self.webhook = os.environ.get('WEBHOOK_URL')
-
     def convert(self,
                 url              :str,
                 title            :str,
                 trading_affected :bool,
+                source           :EnumSource,
                 alert_priority   :EnumPriority,
                 important_dates  :list[datetime],
                 network_tokens   :Optional[list[str]],
@@ -72,13 +69,16 @@ class ConverterModelEventToMsTeamsMessage:
                     "@context": "https://schema.org/extensions",
                     "summary": f"Binance {alert_category.name} Event",
                     "title": msg_title,
-                    "themeColor": "FF0000" if alert_priority == EnumPriority.HIGH else "008000", 
+                    "themeColor": "FF0000" if alert_priority == EnumPriority.HIGH.name else "008000", 
                     "sections": [
+                        {
+                            "activityTitle": f"Source: {source}",
+                        },
                         {
                             "activityTitle": f"URL: {url}",
                         },
                         {
-                            "activityTitle": f"Priority: {alert_priority.name}",
+                            "activityTitle": f"Priority: {alert_priority}",
                         },
                         {
                             "activityTitle": f"Event Dates: {dates_str}",

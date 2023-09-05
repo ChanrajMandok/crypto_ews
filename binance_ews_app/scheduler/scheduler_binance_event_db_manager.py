@@ -5,8 +5,8 @@ from singleton_decorator import singleton
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from binance_ews_app.scheduler import logger
-from binance_ews_app.services.service_binance_db_event_manager import \
-                                                    ServiceBinanceDbEventManager
+from binance_ews_app.services.service_binance_db_event_manager \
+                            import ServiceBinanceDbEventManager
 
 
 @singleton
