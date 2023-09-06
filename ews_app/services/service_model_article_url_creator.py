@@ -11,13 +11,13 @@ class ServiceModelArticleUrlCreator:
                    instance: ModelArticleRawInterface):
         
         code = instance.code
-        title = instance.title.replace(' ', '-')
+        title = instance.title.strip().replace(' ', '-')
 
         if source == EnumSource.BINANCE:
             final_url = base_url + code
 
         if source == EnumSource.OKX:
-            final_url = base_url + title
+            final_url = instance.url
 
         return final_url
     
@@ -27,9 +27,13 @@ class ServiceModelArticleUrlCreator:
                           instance: ModelArticleRawInterface):
         
         code = instance.code
-        title = instance.title.replace(' ', '-')
+        title = instance.title.strip().replace(' ', '-')
         
         if source == EnumSource.BINANCE:
             final_url = {base_url}-{title}-{code}
+
+        if source == EnumSource.OKX:
+            final_url = base_url + title.lower()
+
 
         return final_url

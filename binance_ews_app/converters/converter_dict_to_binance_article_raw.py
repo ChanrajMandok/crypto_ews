@@ -32,6 +32,10 @@ class ConverterDictToBinanceArticleRaw(ConverterDictToModelArticleRawInterface):
         return 'releaseDate'
     
     @property
+    def url(self) -> str:
+        return None
+    
+    @property
     def logger_instance(self):
         return self._logger_instance
 

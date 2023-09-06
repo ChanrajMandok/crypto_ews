@@ -33,6 +33,10 @@ class ConverterDictToModelokxArticleRaw(ConverterDictToModelArticleRawInterface)
         return 'publishDate'
     
     @property
+    def url(self) -> str:
+        return 'shareLink'
+    
+    @property
     def logger_instance(self):
         return self._logger_instance
 

@@ -101,7 +101,7 @@ class ServiceModelArticleHtmlRetrieverInterface(metaclass=abc.ABCMeta):
 
             if response.status_code - (response.status_code % 100) != 200:
                 self.logger_instance.error(f"{self.class_name} {response.status_code} - ERROR: " +
-                            f"Failed to get a response from Binance for URL: {url}. {response.content}")
+                            f"Failed to get a response from URL: {url}")
                 continue
             
             decoded_content = response.content.decode('utf-8')

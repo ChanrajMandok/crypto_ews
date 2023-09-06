@@ -101,6 +101,8 @@ class ServiceModelArticleHtmlHandlerInterface(metaclass=abc.ABCMeta):
             ## only look for USDM pairs in Binance Articles
             if source == EnumSource.BINANCE:
                 h_usdm_tickers, l_usdm_tickers = self.extract_usdm_pairs(article_content_text)
+            else:
+                h_usdm_tickers, l_usdm_tickers = [], [] 
             
             important_dates = self.extract_important_dates(content=article_content_text,
                                                            release_date=release_date_ts)
@@ -149,7 +151,6 @@ class ServiceModelArticleHtmlHandlerInterface(metaclass=abc.ABCMeta):
                 ts = int(dt.timestamp() * 1000)
                 important_dates.add(ts)
             except Exception as e:
-                # Add the problematic date_string to the error log for better understanding
                 self.logger_instance.error(f"{ self.class_name} - Error parsing date string '{date_string}': {e}")
                 
         return list(important_dates)

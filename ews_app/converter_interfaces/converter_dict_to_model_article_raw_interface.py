@@ -41,6 +41,11 @@ class ConverterDictToModelArticleRawInterface(metaclass=abc.ABCMeta):
     def key_release_date(self) -> str:
         raise NotImplementedError
     
+    @abc.abstractproperty
+    def url(self) -> str:
+        raise NotImplementedError
+    
+    
     def convert(self, article_dict: dict) -> model_article_raw:
         """
         Convert the provided dictionary into a ModelBinanceArticleRaw object.
@@ -57,15 +62,16 @@ class ConverterDictToModelArticleRawInterface(metaclass=abc.ABCMeta):
         """
 
         try:
-            binance_raw_article_object = \
+            raw_article_object = \
                 self.model_article_raw()(
                                         id           = article_dict.get(self.key_id),
                                         code         = article_dict.get(self.key_code),
                                         title        = article_dict.get(self.key_title),
-                                        release_date = article_dict.get(self.key_release_date)
+                                        release_date = article_dict.get(self.key_release_date), 
+                                        url          = article_dict.get(self.url)
                                         )
                 
-            return binance_raw_article_object
+            return raw_article_object
 
         except Exception as e:
             # Logging the exception details, including the class name for clarity.
