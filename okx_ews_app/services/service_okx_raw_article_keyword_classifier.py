@@ -29,13 +29,7 @@ class ServiceOkxRawArticleKeywordClassifier(ServiceBinanceRawArticleKeywordClass
         return f"{self.__class__.__name__}"
     
     def store(self):
-        return self._store
-    
-    def model_article_raw(self):
-        return self._model_article_raw   
-
-    def model_article(self):
-        return self._model_article       
+        return self._store 
     
     def converter_ra_to_a(self):
         return self._converter

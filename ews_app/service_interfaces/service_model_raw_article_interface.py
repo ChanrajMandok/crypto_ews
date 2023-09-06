@@ -38,10 +38,6 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
     @abc.abstractproperty
     def nested_key_1(self) -> str:
         raise NotImplementedError
-    
-    @abc.abstractmethod
-    def model_article_raw(self):
-        raise NotImplementedError   
 
     def retrieve(self):
 

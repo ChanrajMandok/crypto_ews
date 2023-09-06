@@ -1,3 +1,5 @@
+from singleton_decorator import singleton
+
 from binance_ews_app.services import logger
 from binance_ews_app.store.stores_binance import \
                                         StoreBinance
@@ -10,6 +12,7 @@ from binance_ews_app.converters.converter_binance_raw_article_to_binance_article
 from ews_app.service_interfaces.service_model_raw_article_keyword_classifier_interface \
                           import ServiceBinanceRawArticleKeywordClassifierInterface
 
+@singleton
 class ServiceBinanceRawArticleKeywordClassifier(ServiceBinanceRawArticleKeywordClassifierInterface):
 
     def __init__(self) -> None:
@@ -30,12 +33,6 @@ class ServiceBinanceRawArticleKeywordClassifier(ServiceBinanceRawArticleKeywordC
     
     def store(self):
         return self._store
-    
-    def model_article_raw(self):
-        return self._model_article_raw   
-
-    def model_article(self):
-        return self._model_article       
     
     def converter_ra_to_a(self):
         return self._converter

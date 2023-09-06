@@ -52,10 +52,7 @@ class ServiceOkxRawArticleRetriever(ServiceRawArticleRetrieverInterface):
     def class_name(self) -> str:
         return f"{self.__class__.__name__}"
     
-    def model_article_raw(self):
-        return self._model_article_raw
-        
-    def retrieve(self) -> list[model_article_raw]:
+    def retrieve(self) -> list[ModelOkxArticleRaw]:
 
         try:
             notices = super().retrieve()

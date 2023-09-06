@@ -6,18 +6,24 @@ import requests
 from time import sleep
 from random import randint
 from datetime import datetime
-from singleton_decorator import singleton
 
-from binance_ews_app.services import logger
+from ews_app.model_interfaces.model_event_interface import \
+                                         ModelEventInterface
+from ews_app.model_interfaces.model_article_interface import \
+                                         ModelArticleInterface
+from ews_app.services.service_model_article_url_creator import \
+                                    ServiceModelArticleUrlCreator
 
-
-@singleton
 class ServiceModelArticleHtmlRetrieverInterface(metaclass=abc.ABCMeta):
     
     """
     Service iterates over the articles which have been found to have important 
     keywords & are within date range and retrieves the html of the article. 
     """
+    @classmethod
+    def __subclasshook__(cls, subclass):
+        return (hasattr(subclass, 'retrieve') and
+                callable(subclass.retrieve))
 
     @abc.abstractmethod
     def class_name(self) -> str:
@@ -32,31 +38,23 @@ class ServiceModelArticleHtmlRetrieverInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError   
     
     @abc.abstractmethod
-    def model_article(self):
-        raise NotImplementedError  
-
-    @abc.abstractmethod
-    def model_event(self):
-        raise NotImplementedError  
-    
-    @abc.abstractmethod
     def base_url(self):
-        raise NotImplementedError
-    
-    @abc.abstractmethod
-    def dict_url(self):
         raise NotImplementedError
     
     @abc.abstractmethod
     def url_headers(self):
         raise NotImplementedError
+    
+    @abc.abstractmethod
+    def source(self):
+        raise NotImplementedError
 
     def __init__(self) -> None:
-        self._service_model_article_html_handler = self.article_handler
+        self._service_model_article_url_creator   = ServiceModelArticleUrlCreator()
 
     def retrieve(self,
-                 articles: list[model_article],
-                 test : bool = False) -> list[model_event]:
+                 articles: list[ModelArticleInterface],
+                 test : bool = False) -> list[ModelEventInterface]:
 
         today = int(datetime.now().timestamp())*1000
         timeout = int(os.environ.get('TIMEOUT', 10))
@@ -71,34 +69,38 @@ class ServiceModelArticleHtmlRetrieverInterface(metaclass=abc.ABCMeta):
             sleep(randint(1,3))  # Random sleep between 1 and 3 seconds
 
             raw_article = article_object.raw_article
-            code = raw_article.code
-            title = raw_article.title.replace(' ', '-')
-            url = f"{self.base_url}{code}"
-
+            url = self._service_model_article_url_creator.create_url(
+                                                                    base_url=self.base_url,
+                                                                    source=self.source(),
+                                                                    instance=raw_article)
+    
             try:
                 response = session.get(
                     url=url,
                     headers=self.url_headers,
-                    timeout=timeout
-                )
+                    timeout=timeout)
 
                 if response.status_code == 429:
-                    logger.info(f"{self.__class__.__name__} {response.status_code} - INFO: " +
+                    self.logger_instance.info(f"{self.class_name} {response.status_code} - INFO: " +
                                 f"60 second break and switch to backup URL due to rate limit for: {url}.")
-                    url = f"{binance_article_base_url}-{title}-{code}"
-                    time.sleep(60)
-                    response = session.get(
-                        url=url,
-                        headers=binance_headers,
-                        timeout=timeout
-                    )
+                    backup_url = self._service_model_article_url_creator.create_backup_url(
+                                                                                   base_url=self.base_url,
+                                                                                   source=self.source,
+                                                                                   instance=raw_article)
+                    if backup_url:
+                        time.sleep(60)
+                        response = session.get(
+                            url=backup_url,
+                            headers=self.url_headers,
+                            timeout=timeout
+                        )
 
             except requests.RequestException as e:
-                logger.error(f"{self.__class__.__name__} - ERROR: {str(e)}")
+                self.logger_instance.error(f"{self.class_name} - ERROR: {str(e)}")
                 continue
 
             if response.status_code - (response.status_code % 100) != 200:
-                logger.error(f"{self.__class__.__name__} {response.status_code} - ERROR: " +
+                self.logger_instance.error(f"{self.class_name} {response.status_code} - ERROR: " +
                             f"Failed to get a response from Binance for URL: {url}. {response.content}")
                 continue
             
@@ -106,13 +108,13 @@ class ServiceModelArticleHtmlRetrieverInterface(metaclass=abc.ABCMeta):
 
             if not decoded_content.lstrip().startswith(('<!DOCTYPE', '<html')) or \
                 '<body' not in decoded_content:
-                logger.error(f"{self.__class__.__name__} - ERROR: Invalid HTML received for URL: {url}.")
+                self.logger_instance.error(f"{self.class_name} - ERROR: Invalid HTML received for URL: {url}.")
                 continue
             
             article_object.url = url
             article_object.html = response.content
             
-            model_event = self._service_model_article_html_handler().handle(article_object)
+            model_event = self.article_handler().handle(article_object)
             if test:
                 model_event_list.append(model_event)
             else:

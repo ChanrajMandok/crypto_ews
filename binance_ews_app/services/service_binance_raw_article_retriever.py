@@ -1,6 +1,8 @@
+from singleton_decorator import singleton
+
 from binance_ews_app.services import logger
 from binance_ews_app.model.model_binance_article_raw import \
-                                       ModelBinanceArticleRaw
+                                        ModelBinanceArticleRaw
 from binance_ews_app.converters.converter_dict_to_binance_article_raw \
                                 import ConverterDictToBinanceArticleRaw
 from binance_ews_app.decorator.decorator_binance_urls_required import \
@@ -10,7 +12,7 @@ from binance_ews_app.decorator.decorator_binance_headers_required import \
 from ews_app.service_interfaces.service_model_raw_article_interface import \
                                           ServiceRawArticleRetrieverInterface
 
-
+@singleton
 class ServiceBinanceRawArticleRetriever(ServiceRawArticleRetrieverInterface):
 
     @binance_headers_required
@@ -52,10 +54,7 @@ class ServiceBinanceRawArticleRetriever(ServiceRawArticleRetrieverInterface):
     def class_name(self) -> str:
         return f"{self.__class__.__name__}"
     
-    def model_article_raw(self):
-        return self._model_article_raw
-    
-    def retrieve(self) -> list[model_article_raw]:
+    def retrieve(self) -> list[ModelBinanceArticleRaw]:
         try:
             catalogues = super().retrieve()
             binance_raw_articles = []
