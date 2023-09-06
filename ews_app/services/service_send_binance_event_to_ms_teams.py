@@ -1,7 +1,7 @@
 import os
 import requests
 
-from binance_ews_app.services import logger
+from ews_app.services import logger
 
 
 class ServiceSendModelBinanceEventToMsTeams:

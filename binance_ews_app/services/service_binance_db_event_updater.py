@@ -3,16 +3,15 @@ from datetime import datetime
 from binance_ews_app.services import logger
 from binance_ews_app.model.model_binance_event import \
                                         ModelBinanceEvent
-
 from binance_ews_app.store.stores_binance import StoreBinance
 from binance_ews_app.model.model_db_binance_last_updated import \
                                         ModelDbBinanceLastUpdated
+from ews_app.services.service_send_binance_event_to_ms_teams import \
+                                 ServiceSendModelBinanceEventToMsTeams
 from binance_ews_app.services.service_binance_raw_article_retriever import \
                                             ServiceBinanceRawArticleRetriever
 from binance_ews_app.services.service_binance_article_html_retriever import \
                                             ServiceBinanceArticleHtmlRetriever
-from binance_ews_app.services.service_send_binance_event_to_ms_teams import \
-                                         ServiceSendModelBinanceEventToMsTeams
 from binance_ews_app.services.service_binance_raw_article_keyword_classifier \
                               import ServiceBinanceRawArticleKeywordClassifier
 

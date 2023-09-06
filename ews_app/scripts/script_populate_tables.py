@@ -1,5 +1,5 @@
-from ews_app.tasks.populate_currencies import TaskPopulateCurrencies
+from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
 
 
 def run():
-    TaskPopulateCurrencies().populate()
+    TaskPopulateCurrenciesFromEnv().populate()

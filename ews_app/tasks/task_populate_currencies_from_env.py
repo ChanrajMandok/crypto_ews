@@ -3,7 +3,7 @@ from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 from ews_app.model.model_wirex_usdm_currency import ModelWirexUsdmCurrency
 
 
-class TaskPopulateCurrencies():
+class TaskPopulateCurrenciesFromEnv():
     
     def __init__(self) -> None:
         self.spot_currencies = os.environ.get('SPOT_CURRENCIES')

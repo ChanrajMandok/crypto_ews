@@ -1,11 +1,11 @@
 from django.test import TestCase
 
-from ews_app.tasks.populate_currencies import TaskPopulateCurrencies
+from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
 from binance_ews_app.services.service_binance_raw_article_retriever import \
                                             ServiceBinanceRawArticleRetriever
 from binance_ews_app.services.service_binance_article_html_retriever import \
                                             ServiceBinanceArticleHtmlRetriever
-from binance_ews_app.services.service_send_binance_event_to_ms_teams import \
+from ews_app.services.service_send_binance_event_to_ms_teams import \
                                         ServiceSendModelBinanceEventToMsTeams
 from binance_ews_app.services.service_binance_raw_article_keyword_classifier import \
                                             ServiceBinanceRawArticleKeywordClassifier
@@ -14,7 +14,7 @@ from binance_ews_app.services.service_binance_raw_article_keyword_classifier imp
 class BinanceEwsAppAllServicesTestCase(TestCase):
     
     def setUp(self):
-        TaskPopulateCurrencies().populate()
+        TaskPopulateCurrenciesFromEnv().populate()
         self.__service_raw_article_retriever          = ServiceBinanceRawArticleRetriever()
         self.__service_article_html_retriever         = ServiceBinanceArticleHtmlRetriever()
         self.__service_send_binance_event_to_ms_teams = ServiceSendModelBinanceEventToMsTeams()

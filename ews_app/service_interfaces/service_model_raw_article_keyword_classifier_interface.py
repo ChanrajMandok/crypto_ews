@@ -17,6 +17,11 @@ class ServiceBinanceRawArticleKeywordClassifierInterface(metaclass=abc.ABCMeta):
     are within a lookback window
     """
 
+    @classmethod
+    def __subclasshook__(cls, subclass):
+        return (hasattr(subclass, 'classify_articles') and
+                callable(subclass.classify_articles))
+
     @abc.abstractmethod
     def class_name(self) -> str:
         raise NotImplementedError

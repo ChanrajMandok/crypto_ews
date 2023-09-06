@@ -132,8 +132,8 @@ SHELL_PLUS = "ipython"
 
 SHELL_PLUS_IMPORTS = [
     'from binance_ews_app.services.service_binance_db_event_updater import ServiceDbEventUpdater',
-    'from ews_app.tasks.populate_currencies import TaskPopulateCurrencies',
     'from okx_ews_app.services.service_okx_raw_article_retriever import ServiceOkxRawArticleRetriever',
     'from okx_ews_app.services.service_okx_raw_article_keyword_classifier import ServiceOkxRawArticleKeywordClassifier',
-    'from okx_ews_app.services.service_okx_db_event_updater import ServiceOkxDbEventUpdater'
+    'from okx_ews_app.services.service_okx_db_event_updater import ServiceOkxDbEventUpdater',
+    'from ews_app.tasks.task_populate_currencies_from_wx_db import TaskpopulateCurrenciesFromWxDb',
 ]

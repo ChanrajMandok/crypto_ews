@@ -3,7 +3,7 @@ from datetime import datetime
 from ews_app.enum.enum_priority import EnumPriority
 from binance_ews_app.model.model_binance_event import \
                                         ModelBinanceEvent
-from binance_ews_app.services.service_send_binance_event_to_ms_teams \
+from ews_app.services.service_send_binance_event_to_ms_teams \
                            import ServiceSendModelBinanceEventToMsTeams
 
 

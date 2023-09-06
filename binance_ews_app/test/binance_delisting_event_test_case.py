@@ -3,9 +3,9 @@ import json
 from django.test import TestCase
 
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.tasks.populate_currencies import TaskPopulateCurrencies
+from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
-from binance_ews_app.services.service_send_binance_event_to_ms_teams import \
+from ews_app.services.service_send_binance_event_to_ms_teams import \
                                         ServiceSendModelBinanceEventToMsTeams
 from binance_ews_app.converters.converter_binance_article_to_binance_event import \
                                                ConverterBinanceArticleToBinanceEvent
@@ -17,7 +17,7 @@ from ews_app.enum.enum_high_alert_warning_key_words import EnumHighAlertWarningK
 class BinanceDelistingEventTestCase(TestCase):
     
     def setUp(self):
-        TaskPopulateCurrencies().populate()
+        TaskPopulateCurrenciesFromEnv().populate()
         self.__converter_model_article_to_model_event       = ConverterBinanceArticleToBinanceEvent()
         self.__service_send_binance_event_to_ms_teams       = ServiceSendModelBinanceEventToMsTeams()
         self.__converter_dict_to_model_binance_article_raw  = ConverterDictToBinanceArticleRaw()
