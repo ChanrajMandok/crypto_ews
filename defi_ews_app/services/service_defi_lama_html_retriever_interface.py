@@ -65,19 +65,13 @@ class ServiceDefiLamaHtmlRetrieverInterface(metaclass=abc.ABCMeta):
                 html_content = response.content
 
                 soup = BeautifulSoup(html_content, 'html.parser')
-                table_body =\
-                    soup.select_one(self.table_selector)
-                
-                if table_body:
-                    # Extract and process the data as required
-                    rows = table_body.find_all("tr")
-                    for row in rows:
-                        data = [cell.get_text().strip() for cell in row.find_all(["td", "th"])]
-                        print(data)
+                table_body = soup.select_one(self.table_selector)
 
-
-
-
+                if not table_body:
+                    self.logger_instance.error(f"{self.class_name} - ERROR: check css selector logic")
+                    continue                
+                else:
+                    return table_body
 
             except Exception as e:
                 self.logger_instance.error(f"{self.class_name} - ERROR: {str(e)}")

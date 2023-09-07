@@ -137,4 +137,5 @@ SHELL_PLUS_IMPORTS = [
     'from okx_ews_app.services.service_okx_db_event_updater import ServiceOkxDbEventUpdater',
     'from ews_app.tasks.task_populate_currencies_from_wx_db import TaskpopulateCurrenciesFromWxDb',
     'from defi_ews_app.services.service_defi_lama_hacks_retriever import ServiceDefiLamaHacksRetriever',
+    'from ews_app.services.test import test'
 ]
