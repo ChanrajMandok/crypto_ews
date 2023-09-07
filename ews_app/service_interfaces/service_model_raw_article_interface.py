@@ -42,11 +42,12 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
     def retrieve(self):
 
         tries = 0
+        max_tries = 3
         ssl_env = os.environ.get('SSL_VERIFY', 'True')
         ssl_verify = False if ssl_env == "False" else True
         timeout = int(os.environ.get('TIMEOUT', 1000))
 
-        while tries < 3:
+        while tries < max_tries:
             try:
                 session = requests.Session()
                 session.verify = ssl_verify
@@ -93,11 +94,8 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
 
                 return catalogues
 
-            except requests.RequestException as e:
-                logger.error(f"Request error: {str(e)}")
-            except ValueError as e:
-                logger.error(f"Value error (possibly JSON decoding): {str(e)}")
             except Exception as e:
-                logger.error(f"Unexpected error: {str(e)}")
+                self.logger_instance.error(f"{self.class_name} - ERROR: {str(e)}")
+                continue
 
         return []

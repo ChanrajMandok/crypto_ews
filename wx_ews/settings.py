@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'ews_app.apps.EwsAppConfig',
     'binance_ews_app.apps.BinanceEwsAppConfig',
-    'okx_ews_app.apps.OkxEwsAppConfig'
+    'okx_ews_app.apps.OkxEwsAppConfig',
+    'defi_ews_app.apps.DefiEwsAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -131,9 +132,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SHELL_PLUS = "ipython"
 
 SHELL_PLUS_IMPORTS = [
-    'from binance_ews_app.services.service_binance_db_event_updater import ServiceDbEventUpdater',
     'from okx_ews_app.services.service_okx_raw_article_retriever import ServiceOkxRawArticleRetriever',
     'from okx_ews_app.services.service_okx_raw_article_keyword_classifier import ServiceOkxRawArticleKeywordClassifier',
     'from okx_ews_app.services.service_okx_db_event_updater import ServiceOkxDbEventUpdater',
     'from ews_app.tasks.task_populate_currencies_from_wx_db import TaskpopulateCurrenciesFromWxDb',
+    'from defi_ews_app.services.service_defi_lama_hacks_retriever import ServiceDefiLamaHacksRetriever',
 ]
