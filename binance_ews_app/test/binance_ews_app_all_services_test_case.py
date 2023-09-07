@@ -5,8 +5,8 @@ from binance_ews_app.services.service_binance_raw_article_retriever import \
                                             ServiceBinanceRawArticleRetriever
 from binance_ews_app.services.service_binance_article_html_retriever import \
                                             ServiceBinanceArticleHtmlRetriever
-from ews_app.services.service_send_binance_event_to_ms_teams import \
-                                        ServiceSendModelBinanceEventToMsTeams
+from ews_app.services.service_send_model_event_to_ms_teams import \
+                                        ServiceSendModelEventToMsTeams
 from binance_ews_app.services.service_binance_raw_article_keyword_classifier import \
                                             ServiceBinanceRawArticleKeywordClassifier
 
@@ -17,7 +17,7 @@ class BinanceEwsAppAllServicesTestCase(TestCase):
         TaskPopulateCurrenciesFromEnv().populate()
         self.__service_raw_article_retriever          = ServiceBinanceRawArticleRetriever()
         self.__service_article_html_retriever         = ServiceBinanceArticleHtmlRetriever()
-        self.__service_send_binance_event_to_ms_teams = ServiceSendModelBinanceEventToMsTeams()
+        self.__service_send_binance_event_to_ms_teams = ServiceSendModelEventToMsTeams()
         self.__service_raw_article_keyword_classifier = ServiceBinanceRawArticleKeywordClassifier()
         
     def test(self):

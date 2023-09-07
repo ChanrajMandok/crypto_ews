@@ -1,12 +1,12 @@
-from binance_ews_app.services import logger
+from okx_ews_app.services import logger
 
-from binance_ews_app.model.model_binance_event import \
-                                        ModelBinanceEvent
+from okx_ews_app.model.model_okx_event import \
+                                   ModelOkxEvent
 from ews_app.service_interfaces.service_db_event_manager_interface \
                                 import ServiceDbEventManagerInterface
 
 
-class ServiceBinanceDbEventManager(ServiceDbEventManagerInterface):
+class ServiceOkxDbEventManager(ServiceDbEventManagerInterface):
 
     def __init__(self) -> None:
         super().__init__()
@@ -21,7 +21,4 @@ class ServiceBinanceDbEventManager(ServiceDbEventManagerInterface):
         return self._logger_instance
     
     def model_event(self):
-        return ModelBinanceEvent
-    
-
-    
+        return ModelOkxEvent

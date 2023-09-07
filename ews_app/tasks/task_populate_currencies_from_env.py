@@ -22,7 +22,7 @@ class TaskPopulateCurrenciesFromEnv():
         
         usdm_currencies = set()
         for pair in usdm_tickers:
-            usdm_currencies.update(pair.split('/'))
+            usdm_currencies.update(pair.split('-'))
 
         usdm_ccys = {(index, currency) for index, currency in enumerate(sorted(usdm_currencies))}
                 

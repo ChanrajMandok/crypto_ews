@@ -5,8 +5,8 @@ from django.test import TestCase
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
-from ews_app.services.service_send_binance_event_to_ms_teams import \
-                                        ServiceSendModelBinanceEventToMsTeams     
+from ews_app.services.service_send_model_event_to_ms_teams import \
+                                        ServiceSendModelEventToMsTeams     
 from binance_ews_app.services.service_binance_article_html_retriever import \
                                             ServiceBinanceArticleHtmlRetriever
 from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
@@ -20,7 +20,7 @@ class BinanceGalaHardForkReminderTestCase(TestCase):
     def setUp(self):
         TaskPopulateCurrenciesFromEnv().populate()
         self.__service_article_html_retriever              = ServiceBinanceArticleHtmlRetriever()
-        self.__service_send_binance_event_to_ms_teams      = ServiceSendModelBinanceEventToMsTeams()
+        self.__service_send_binance_event_to_ms_teams      = ServiceSendModelEventToMsTeams()
         self.__converter_dict_to_model_binance_article_raw = ConverterDictToBinanceArticleRaw()
     
     def test(self):

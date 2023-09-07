@@ -42,7 +42,7 @@ class ServiceBinanceRawArticleKeywordClassifierInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError   
     
     def __init__(self) -> None:
-        self.__refresh_increment_mins = int(os.environ.get('REFRESH_INCREMENT_MINS', 15))
+        self.__refresh_increment_mins = int(os.environ.get('UPDATE_REFRESH_INCREMENT_MINS', 15))
         self.__lookback_days          = int(os.environ.get('RELEVENT_NEWS_LOOKBACK_DAYS', 30))
         self.__max_lookback_time      = self.__lookback_days * 24 * 60 * 60 * 1000
         self.__false_alert_phrases    = {phrase.value.lower() for phrase in EnumFalseAlertPhrases}

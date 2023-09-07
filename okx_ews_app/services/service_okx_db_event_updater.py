@@ -1,33 +1,57 @@
 from okx_ews_app.services import logger
+from okx_ews_app.model.model_okx_event import \
+                                   ModelOkxEvent
 from okx_ews_app.store.stores_okx import StoreOkx
-
+from okx_ews_app.model.model_db_okx_last_updated import \
+                                    ModelDbOkxLastUpdated
+from ews_app.services.service_send_model_event_to_ms_teams import \
+                                      ServiceSendModelEventToMsTeams
 from okx_ews_app.services.service_okx_raw_article_retriever import \
                                         ServiceOkxRawArticleRetriever
 from okx_ews_app.services.service_okx_article_html_retriever import \
                                         ServiceOkxArticleHtmlRetriever
 from okx_ews_app.services.service_okx_raw_article_keyword_classifier \
-                           import ServiceOkxRawArticleKeywordClassifier
+                          import ServiceOkxRawArticleKeywordClassifier
+from ews_app.service_interfaces.service_db_event_updater_interface import \
+                                             ServiceDbEventUpdaterInterface
 
 
-class ServiceOkxDbEventUpdater:
-    
+class ServiceOkxDbEventUpdater(ServiceDbEventUpdaterInterface):
+
     def __init__(self) -> None:
-        self.__service_raw_article_retriever          = ServiceOkxRawArticleRetriever()
-        self.__service_okx_article_html_retriever     = ServiceOkxArticleHtmlRetriever()
-        self.__store_db_okx_last_updated              = StoreOkx.store_db_okx_last_updated
-        self.__service_raw_article_keyword_classifier = ServiceOkxRawArticleKeywordClassifier()
-        
-    def update_db(self):
-        try:
-            # Retrieve all recent news articles & announcements from okx
-            articles = self.__service_raw_article_retriever.retrieve()
-            
-            # Filter news articles & announcements for specific values
-            key_articles = self.__service_raw_article_keyword_classifier.classify_articles(raw_articles=articles)
-            
-            model_event_objects = self.__service_okx_article_html_retriever.retrieve(key_articles)
+        super().__init__()
+        self._logger_instance = logger
+        self._service_raw_article_retriever          = ServiceOkxRawArticleRetriever()
+        self._service_article_html_retriever         = ServiceOkxArticleHtmlRetriever()
+        self._service_send_model_event_to_ms_teams   = ServiceSendModelEventToMsTeams()
+        self._store_db_okx_last_updated              = StoreOkx.store_db_okx_last_updated
+        self._service_raw_article_keyword_classifier = ServiceOkxRawArticleKeywordClassifier()
 
-            print(model_event_objects)
+    @property
+    def class_name(self) -> str:
+        return f"{self.__class__.__name__}"
+    
+    @property
+    def logger_instance(self):
+        return self._logger_instance
+    
+    def service_raw_article_retriever(self):
+        return self._service_raw_article_retriever
 
-        except Exception as e:
-            logger.error(e)
+    def service_article_html_retriever(self):
+        return self._service_article_html_retriever
+
+    def service_send_model_event_to_ms_teams(self):
+        return self._service_send_model_event_to_ms_teams
+
+    def store_db_last_updated(self):
+        return self._store_db_okx_last_updated 
+
+    def service_raw_article_keyword_classifier(self):
+        return self._service_raw_article_keyword_classifier
+
+    def model_db_last_updated(self):
+        return ModelDbOkxLastUpdated
+
+    def model_event(self):
+        return ModelOkxEvent

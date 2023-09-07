@@ -72,7 +72,7 @@ class ConverterModelEventToMsTeamsMessage:
                     "themeColor": "FF0000" if alert_priority == EnumPriority.HIGH.name else "008000", 
                     "sections": [
                         {
-                            "activityTitle": f"Source: {source}",
+                            "activityTitle": f"Source: {source.name}",
                         },
                         {
                             "activityTitle": f"URL: {url}",
@@ -121,4 +121,3 @@ class ConverterModelEventToMsTeamsMessage:
 
         except Exception as e:
             logger.error(f"{self.__class__.__name__} - ERROR: {e}")
-

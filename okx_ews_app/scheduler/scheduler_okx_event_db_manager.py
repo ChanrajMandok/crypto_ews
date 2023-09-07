@@ -2,21 +2,21 @@ import os
 
 from singleton_decorator import singleton
 
-from binance_ews_app.scheduler import logger
-from binance_ews_app.services.service_binance_db_event_manager \
-                              import ServiceBinanceDbEventManager
+from okx_ews_app.scheduler import logger
+from okx_ews_app.services.service_okx_db_event_manager \
+                          import ServiceOkxDbEventManager
 from ews_app.scheduler_interfaces.scheduler_db_event_manager_interface \
                                  import SchedularDbEventManagerInterface
 
 
 @singleton
-class SchedularBinanceEventDbManager(SchedularDbEventManagerInterface):
+class SchedularOkxEventDbManager(SchedularDbEventManagerInterface):
     
     def __init__(self) -> None:
         super().__init__()
         self._logger_instance = logger
         self._refresh_increment_mins = int(os.environ.get('MANAGER_REFRESH_INCREMENT_MINS',10))
-        self._service_binance_db_event_manager = ServiceBinanceDbEventManager()
+        self._service_okx_db_event_manager = ServiceOkxDbEventManager()
 
     @property
     def class_name(self) -> str:
@@ -35,4 +35,4 @@ class SchedularBinanceEventDbManager(SchedularDbEventManagerInterface):
         return self._refresh_increment_mins
 
     def service_db_event_manager(self):
-        return self._service_binance_db_event_manager
+        return self._service_okx_db_event_manager

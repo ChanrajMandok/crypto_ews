@@ -4,7 +4,7 @@ import requests
 from ews_app.services import logger
 
 
-class ServiceSendModelBinanceEventToMsTeams:
+class ServiceSendModelEventToMsTeams:
 
     def __init__(self) -> None:
         self.webhook = os.environ.get('WEBHOOK_URL')

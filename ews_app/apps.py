@@ -25,3 +25,13 @@ class EwsAppConfig(AppConfig):
 
             SchedularBinanceEventDbManager().run()
 
+            from okx_ews_app.scheduler.scheduler_okx_event_db_updater import \
+                SchedularOkxEventDbUpdater
+
+            SchedularOkxEventDbUpdater().run()
+
+            from okx_ews_app.scheduler.scheduler_okx_event_db_manager import \
+                SchedularOkxEventDbManager
+
+            SchedularOkxEventDbManager().run()
+

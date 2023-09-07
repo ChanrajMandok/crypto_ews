@@ -23,7 +23,7 @@ class ModelEventInterface(models.Model):
     l_usdm_tickers     = ArrayField(models.CharField(max_length=50), blank=True, default=list) 
     important_dates    = ArrayField(models.CharField(max_length=200), blank=True, default=list)
     network_tokens     = ArrayField(models.CharField(max_length=200), blank=True, default=list)
-    source             = models.CharField(max_length=50, choices=EnumSource.choices(), editable=False)
+    source             = models.CharField(max_length=50, choices=EnumSource.choices(), null=True)
     alert_category     = models.CharField(max_length=50, choices=EnumLowAlertWarningKeyWords.choices() \
                                                                 + EnumHighAlertWarningKeyWords.choices())
     ms_teams_message   = models.JSONField(null=True)
