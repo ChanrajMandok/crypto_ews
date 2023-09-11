@@ -12,3 +12,4 @@ class EnumHighAlertWarningKeyWords(NoValue):
     MIGRATION                 = 'migration'
     CONGESTION                = 'congestion'
     SUSPENSION                = 'suspension'
+    HACK                      = 'hack'

@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class ServiceDefiLamaHtmlRetrieverInterface(metaclass=abc.ABCMeta):
+class ServiceDefiHtmlRetrieverInterface(metaclass=abc.ABCMeta):
 
     @classmethod
     def __subclasshook__(cls, subclass):

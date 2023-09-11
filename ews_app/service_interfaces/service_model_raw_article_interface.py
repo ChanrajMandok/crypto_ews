@@ -78,7 +78,7 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
                 response_json = response.json()
                 data = response_json.get('data')
                 if not data:
-                    msg = (f"{self.__class__.__name__} - ERROR: 'data' attribute "
+                    msg = (f"{self.class_name} - ERROR: 'data' attribute "
                            f"missing in the {self.dict_url} response.")
                     logger.error(msg)
                     tries += 1

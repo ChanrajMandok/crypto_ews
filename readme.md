@@ -34,3 +34,8 @@ This Program works by initially pulling from the BINANCE_NEWS_DICT_URL to get a 
 After this classification, the program pulls the entire raw announcements, parsing it into a ModelBinanceEvent and further checking the HTML for specific information such as affected tickers, affected currencies, event priority, event category and token trading status during event. This acts as a secondary filter to ensure that the announcement is pertinent to trading operations. Event priority is assigned based upon if the affected currencies & affected tickers are listed within SPOT_CURRENCIES and USDM CURRENCIES [these Env variables reflect Pairs currently listed within Wirex].
 
 Finally, these ModelBinanceEvent Objects are saved to DB, this DB is managed by a consumer which views at a ModelBinanceEvent’s important dates, if this date is less that the current timestamp, it will check for unicity and then send the ModelBinanceEvent.ms_teams_message into the Webhook_URL. 
+
+
+### to Do 
+
+- identify tokens that could pose a threat

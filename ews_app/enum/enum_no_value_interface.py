@@ -9,3 +9,7 @@ class NoValue(Enum):
     @classmethod
     def choices(cls):
         return tuple((i.name, i.value) for i in cls)
+    
+    @classmethod
+    def get(cls, name):
+        return cls._value2member_map_.get(name, None)
