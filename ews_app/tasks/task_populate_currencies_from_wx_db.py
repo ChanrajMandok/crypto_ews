@@ -1,6 +1,6 @@
-from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 from ews_app.services.service_wx_analytics_currencies_retriever import \
                                     ServiceWxAnalyticsCurrenciesRetriever
+from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 
 
 class TaskpopulateCurrenciesFromWxDb:

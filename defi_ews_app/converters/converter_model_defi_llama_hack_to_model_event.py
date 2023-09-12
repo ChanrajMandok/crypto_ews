@@ -1,5 +1,5 @@
 from ews_app.converters import logger
-from defi_ews_app.model.model_defi_hack import ModelDefiHack
+from defi_ews_app.model.model_defi_llama_hack import ModelDefiLlamaHack
 from defi_ews_app.model.model_defi_event import ModelDefiEvent
 from ews_app.converter_interfaces.converter_model_hack_to_model_event_interface \
                                     import ConverterModelHackToModelEventInterface
@@ -10,7 +10,7 @@ class ConverterModelDefiHackToModelEvent(ConverterModelHackToModelEventInterface
     def __init__(self) -> None:
         super().__init__()
         self._logger_instance = logger
-        self._model_hack      = ModelDefiHack
+        self._model_hack      = ModelDefiLlamaHack
         self._model_event     = ModelDefiEvent
 
     @property

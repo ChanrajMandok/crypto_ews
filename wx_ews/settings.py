@@ -136,7 +136,7 @@ SHELL_PLUS_IMPORTS = [
     'from okx_ews_app.services.service_okx_raw_article_keyword_classifier import ServiceOkxRawArticleKeywordClassifier',
     'from okx_ews_app.services.service_okx_db_event_updater import ServiceOkxDbEventUpdater',
     'from ews_app.tasks.task_populate_currencies_from_wx_db import TaskpopulateCurrenciesFromWxDb',
-    'from defi_ews_app.services.service_defi_lama_model_hack_retriever import ServiceDefiLamaModelHackRetriever',
+    'from defi_ews_app.services.service_defi_llama_model_hack_retriever import ServiceDefiLlamaModelHackRetriever',
     'from ews_app.tasks.task_retrieve_largest_blockchains_from_coin_market_cap import TaskRetrieveLargestBlockchainsFromCoinMarketCap',
-    'from defi_ews_app.services.service_test import ServiceTest',
+    'from defi_ews_app.services.service_defi_llama_db_event_updater import ServiceDefiLlamaDbEventUpdater',
 ]

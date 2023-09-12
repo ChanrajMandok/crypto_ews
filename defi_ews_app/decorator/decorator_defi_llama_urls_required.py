@@ -1,6 +1,6 @@
 import os
 
-def defi_lama_url_required(function=None,
+def defi_llama_url_required(function=None,
                                  env_variable=None):
     """
     Decorator that injects the defi lama api's base url.

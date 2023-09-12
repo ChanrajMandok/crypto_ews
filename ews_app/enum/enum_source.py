@@ -5,4 +5,4 @@ class EnumSource(NoValue):
 
     OKX       = 'Okx'
     BINANCE   = 'Binance'
-    DEFI_LAMA = 'Defi_Lama'
+    DEFI_LLAMA = 'Defi'

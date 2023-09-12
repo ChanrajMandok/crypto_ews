@@ -1,15 +1,15 @@
 from defi_ews_app.converters import logger
-from defi_ews_app.model.model_defi_hack import ModelDefiHack
+from defi_ews_app.model.model_defi_llama_hack import ModelDefiLlamaHack
 from ews_app.converter_interfaces.converter_list_to_model_defi_hack_interface \
                                     import ConverterListToModelHackRawInterface
 
 
-class ConverterDefiLamaListToModelHack(ConverterListToModelHackRawInterface):
+class ConverterDefiLlamaListToModelHack(ConverterListToModelHackRawInterface):
 
     def __init__(self) -> None:
         super().__init__() 
         self._logger_instance = logger
-        self._model_hack      = ModelDefiHack
+        self._model_hack      = ModelDefiLlamaHack
     
     @property
     def class_name(self) -> str:

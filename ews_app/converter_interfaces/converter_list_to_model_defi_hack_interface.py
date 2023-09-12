@@ -57,18 +57,18 @@ class ConverterListToModelHackRawInterface(metaclass=abc.ABCMeta):
     def get_or_none(value: str) -> str:
         return value if value and value.strip() != '' else None
 
-    def convert(self, defi_lama_dict: dict) -> model_hack:
+    def convert(self, defi_llama_dict: dict) -> model_hack:
 
         try:
             alert_priority = EnumPriority.LOW.name
             alert_category = EnumHighAlertWarningKeyWords.HACK.name
 
-            hack_string       = self.get_or_none(defi_lama_dict[int(self.hacked_amount_list_index)])
-            blockchain_string = self.get_or_none(defi_lama_dict[int(self.blockchain_list_index)])
-            protocol          = self.get_or_none(defi_lama_dict[int(self.protocol_list_index)].replace(' ','_'))
-            url_str           = self.get_or_none(defi_lama_dict[int(self.url_list_index)])
+            hack_string       = self.get_or_none(defi_llama_dict[int(self.hacked_amount_list_index)])
+            blockchain_string = self.get_or_none(defi_llama_dict[int(self.blockchain_list_index)])
+            protocol          = self.get_or_none(defi_llama_dict[int(self.protocol_list_index)].replace(' ','_'))
+            url_str           = self.get_or_none(defi_llama_dict[int(self.url_list_index)])
             
-            datetime_str = self.get_or_none(defi_lama_dict[int(self.release_date_list_index)])
+            datetime_str = self.get_or_none(defi_llama_dict[int(self.release_date_list_index)])
             datetime = parser.parse(datetime_str) if datetime_str else None
 
             blockchains = [self.get_or_none(chain.split('/')[-1]) for chain in blockchain_string.split(';')] if blockchain_string else []
@@ -98,7 +98,7 @@ class ConverterListToModelHackRawInterface(metaclass=abc.ABCMeta):
                     protocol         = protocol,
                     hacked_amount_m  = hack_amount,
                     release_date     = int(datetime.timestamp() * 1000) if datetime else None,
-                    exploit          = self.get_or_none(defi_lama_dict[int(self.exploit_list_index)]),
+                    exploit          = self.get_or_none(defi_llama_dict[int(self.exploit_list_index)]),
                     alert_category   = alert_category,
                     alert_priority   = alert_priority,
                     network_tokens   = network_tokens, 
