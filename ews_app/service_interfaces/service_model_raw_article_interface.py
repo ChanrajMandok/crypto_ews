@@ -58,7 +58,7 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
                 )
 
                 if response.status_code == 429 and not response.content:
-                    logger.warning(
+                    self.logger_instance.warning(
                         f"{self.class_name} {response.status_code} - "
                         f"Received a rate limit warning. "
                         f"Sleeping for 60 seconds...")
@@ -68,7 +68,7 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
 
                 code_group = response.status_code - (response.status_code % 100)
                 if code_group != 200:
-                    logger.error(
+                    self.logger_instance.error(
                         f"{self.class_name} {response.status_code} - "
                         f"ERROR: Failed to get a response. "
                         f"{response.content}")
@@ -80,7 +80,7 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
                 if not data:
                     msg = (f"{self.class_name} - ERROR: 'data' attribute "
                            f"missing in the {self.dict_url} response.")
-                    logger.error(msg)
+                    self.logger_instance.error(msg)
                     tries += 1
                     continue
 
@@ -88,7 +88,7 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
                 if not catalogues:
                     msg = (f"{self.class_name} - ERROR: 'catalogs' "
                            f"attribute missing in {self.dict_url} response.")
-                    logger.error(msg)
+                    self.logger_instance.error(msg)
                     tries += 1
                     continue
 

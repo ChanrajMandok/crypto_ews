@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'ews_app.apps.EwsAppConfig',
     'binance_ews_app.apps.BinanceEwsAppConfig',
     'okx_ews_app.apps.OkxEwsAppConfig',
-    'defi_ews_app.apps.DefiEwsAppConfig',
+    'defi_llama_ews_app.apps.DefiLlamaEwsAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -132,11 +132,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SHELL_PLUS = "ipython"
 
 SHELL_PLUS_IMPORTS = [
+    'from ews_app.tasks.task_retrieve_largest_blockchains_from_coin_market_cap import TaskRetrieveLargestBlockchainsFromCoinMarketCap',
+    'from ews_app.tasks.task_populate_currencies_from_wx_db import TaskpopulateCurrenciesFromWxDb',
     'from okx_ews_app.services.service_okx_raw_article_retriever import ServiceOkxRawArticleRetriever',
     'from okx_ews_app.services.service_okx_raw_article_keyword_classifier import ServiceOkxRawArticleKeywordClassifier',
     'from okx_ews_app.services.service_okx_db_event_updater import ServiceOkxDbEventUpdater',
-    'from ews_app.tasks.task_populate_currencies_from_wx_db import TaskpopulateCurrenciesFromWxDb',
-    'from defi_ews_app.services.service_defi_llama_model_hack_retriever import ServiceDefiLlamaModelHackRetriever',
-    'from ews_app.tasks.task_retrieve_largest_blockchains_from_coin_market_cap import TaskRetrieveLargestBlockchainsFromCoinMarketCap',
-    'from defi_ews_app.services.service_defi_llama_db_event_updater import ServiceDefiLlamaDbEventUpdater',
+    'from defi_llama_ews_app.services.service_defi_llama_model_hack_retriever import ServiceDefiLlamaModelHackRetriever',
+    'from defi_llama_ews_app.services.service_defi_llama_hack_db_event_updater import ServiceDefiLlamaHackDbEventUpdater',
+    'from defi_llama_ews_app.services.service_defi_llama_model_stablecoin_retriever import ServiceDefiLlamaModelStablecoinRetriever',
+    'from defi_llama_ews_app.services.service_defi_llama_stablecoin_db_event_updater import ServiceDefiLlamaStableCoinDbEventUpdater',
 ]

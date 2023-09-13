@@ -13,3 +13,4 @@ class EnumHighAlertWarningKeyWords(NoValue):
     CONGESTION                = 'congestion'
     SUSPENSION                = 'suspension'
     HACK                      = 'hack'
+    DEPEG                     = 'depeg'

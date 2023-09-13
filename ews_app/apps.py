@@ -35,7 +35,7 @@ class EwsAppConfig(AppConfig):
 
             SchedularOkxEventDbManager().run()
             
-            from defi_ews_app.scheduler.scheduler_defi_llama_event_db_updater import \
+            from defi_llama_ews_app.scheduler.scheduler_defi_llama_event_db_updater import \
                 SchedularDefiLlamaEventDbUpdater
                 
             SchedularDefiLlamaEventDbUpdater().run()

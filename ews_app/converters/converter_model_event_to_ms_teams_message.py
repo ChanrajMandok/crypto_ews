@@ -59,7 +59,11 @@ class ConverterModelEventToMsTeamsMessage:
         now = int(datetime.now().timestamp()) * 1000
 
         # Adjust the reference time based on the source
-        reference_time = now - 86400000 if source == EnumSource.DEFI_LLAMA.name else now
+        if (source == EnumSource.DEFI_LLAMA.name and 
+            alert_category == EnumHighAlertWarningKeyWords.HACK.name):
+            reference_time = now - 86400000
+        else:
+            reference_time = now
 
         # Count the dates that are greater than the reference time
         future_dates_count = sum(ts >= reference_time for ts in important_dates)

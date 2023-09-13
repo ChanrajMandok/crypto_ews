@@ -1,46 +1,26 @@
-import abc
-
 from typing import Optional, List
 
 from ews_app.enum.enum_source import EnumSource
-from defi_llama_ews_app.model.model_defi_llama_hack import \
-                                            ModelDefiLlamaHack
-from ews_app.enum.enum_high_alert_warning_key_words import \
-                                EnumHighAlertWarningKeyWords
+from defi_llama_ews_app.converters import logger
+from ews_app.enum.enum_priority import EnumPriority
+from defi_llama_ews_app.model.model_defi_stablecoin_event import \
+                                          ModelDefiStableCoinEvent
 from ews_app.converters.converter_model_event_to_ms_teams_message \
                          import ConverterModelEventToMsTeamsMessage
+from defi_llama_ews_app.model.model_stablecoin import ModelStablecoin
 
 
-class ConverterModelHackToModelEventInterface(metaclass=abc.ABCMeta):
+class ConvertModelStablecoinToModelEvent():
 
-    @classmethod
-    def __subclasshook__(cls, subclass):
-        return (hasattr(subclass, 'convert') and
-                callable(subclass.convert))
-    
-    @abc.abstractmethod
-    def class_name(self) -> str:
-        raise NotImplementedError
-    
-    @abc.abstractmethod
-    def logger_instance(self):
-        raise NotImplementedError
-    
-    @abc.abstractmethod
-    def model_hack(self):
-        raise NotImplementedError
-    
-    @abc.abstractmethod
-    def model_event(self):
-        raise NotImplementedError   
-    
     def __init__(self) -> None:
+        self.logger_instance = logger
+        self.class_name = self.__class__.__name__
         self._converter_model_event_to_ms_teams_message = \
                         ConverterModelEventToMsTeamsMessage()
 
     def convert(self,
                 source          : EnumSource,
-                model_hack      : ModelDefiLlamaHack,  
+                model_stablecoin: ModelStablecoin,  
                 h_spot_tickers  : Optional[List[str]] = [],
                 h_usdm_tickers  : Optional[List[str]] = [],
                 l_spot_tickers  : Optional[List[str]] = [],
@@ -50,30 +30,19 @@ class ConverterModelHackToModelEventInterface(metaclass=abc.ABCMeta):
         """
 
         try:
+            network_tokens = []
+            url              = model_stablecoin.url
+            alert_priority   = EnumPriority.HIGH.name
+            release_date     = model_stablecoin.release_date
+            alert_category   = model_stablecoin.alert_category
+            trading_affected = model_stablecoin.trading_affected
+            stablecoin       = model_stablecoin.stablecoin.currency
 
-            exploit          = model_hack.exploit
-            protocol         = model_hack.protocol        
-            blockchain       = model_hack.blockchain
-            release_date     = model_hack.release_date
-            alert_priority   = model_hack.alert_priority
-            
-            if not blockchain:
-                title = f"{protocol} Protocol, Exploit: {exploit}"
-            else:
-                blockchain_str = ', '.join(blockchain).replace(', ', ' & ')
-                network_label = 'Networks' if len(blockchain) > 1 else 'Network'
-                title = f"{protocol} Protocol, {blockchain_str} {network_label}"
-
-            title            = title  
-            url              = model_hack.url
             important_dates  = [release_date]
-            network_tokens   = model_hack.network_tokens
-            trading_affected = model_hack.trading_affected
-            alert_category   = EnumHighAlertWarningKeyWords.HACK
-            hacked_amount    = model_hack.hacked_amount_m if model_hack.hacked_amount_m is not None else 25  
+            title            = f"{stablecoin} {alert_category.name} Event"
 
-            id = int(release_date)/int(round(hacked_amount, ndigits=0)+100000)
-            
+            id = int(release_date)/(int(model_stablecoin.stablecoin.id)+1)
+  
             teams_message = \
                 self._converter_model_event_to_ms_teams_message.convert(
                     url                = url,
@@ -90,7 +59,7 @@ class ConverterModelHackToModelEventInterface(metaclass=abc.ABCMeta):
                     important_dates    = sorted(important_dates,reverse=True)
                 )
 
-            event = self.model_event()(
+            event = ModelDefiStableCoinEvent(
                     release_date      = release_date,
                     id                = int(id),
                     url               = url,
