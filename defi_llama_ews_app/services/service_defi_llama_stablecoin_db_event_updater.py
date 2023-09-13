@@ -60,17 +60,17 @@ class ServiceDefiLlamaStableCoinDbEventUpdater(ServiceDbEventUpdaterInterface):
         try:
             model_stablecoins = self.service_defi_llama_model_stablecoin_retriever.retrieve()
 
+            now = int(datetime.now().timestamp()) * 1000
+            # If there are no model event objects, exit early.
+            if not model_stablecoins:
+                ts = self.model_db_last_updated()(last_updated=now)
+                self.store_db_last_updated().set(ts)
+                return
+            
             model_event_objects = \
                 [self.converter_model_defi_stablecoin_to_model_event.convert(
                                                         source=EnumSource.DEFI_LLAMA,
                                                         model_stablecoin=x) for x in model_stablecoins]
-            
-            now = int(datetime.now().timestamp()) * 1000
-            # If there are no model event objects, exit early.
-            if not model_event_objects:
-                ts = self.model_db_last_updated()(last_updated=now)
-                self.store_db_last_updated().set(ts)
-                return
             
             # Check for duplicates and filter them out using the 'id' field
             existing_ids = self.model_event().objects.filter(id__in=[x.id for x in model_event_objects]).values_list('id', flat=True)

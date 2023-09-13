@@ -45,7 +45,7 @@ class ServiceDbEventManagerInterface(metaclass=abc.ABCMeta):
         
             if expired_dates:
                 # Pop the expired dates from the event's important_dates list
-                event.important_dates = [ts for ts in event.important_dates if int(ts) not in expired_dates]
+                event.important_dates = [ts for ts in event.important_dates if int(ts) > now]
                 
                 # If the important_dates list is empty, set the event as completed
                 if not event.important_dates:
