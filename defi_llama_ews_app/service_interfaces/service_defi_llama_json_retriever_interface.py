@@ -2,8 +2,14 @@ import os
 import abc
 import requests
 
+from defi_llama_ews_app.services.service_defi_lama_url_retriever \
+                                        import ServiceDefiLamaUrlRetriever
+
 
 class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
+
+    def __init__(self) -> None:
+        self.service_defi_lama_static_url_retriever = ServiceDefiLamaUrlRetriever()
 
     @classmethod
     def __subclasshook__(cls, subclass):
@@ -23,7 +29,7 @@ class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
     
     @abc.abstractmethod
-    def url(self):
+    def url_json(self):
         raise NotImplementedError
     
     @abc.abstractmethod
@@ -44,10 +50,10 @@ class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
         max_tries = 3
         timeout = int(os.environ.get('TIMEOUT', 10))
         session = requests.Session()
-        url = self.url
 
         while tries < max_tries:
             try:
+                url = self.service_defi_lama_static_url_retriever.retrieve(self.url_json)
                 response = session.get(
                     url=url,
                     headers=self.url_headers,

@@ -17,6 +17,7 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
     def __init__(self,
                  defi_lama_headers,
                  defi_lama_hacks_url,
+                 defi_lama_base_url       = None,
                  defi_lama_bridge_hacks   = None, 
                  defi_lama_stablecoin_url = None) -> None:
                  

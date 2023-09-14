@@ -13,6 +13,8 @@ def defi_llama_urls_required(function=None,
                 os.environ.get('DEFI_LLAMA_STABLECOIN_URL', None)
             kwargs["defi_lama_bridge_hacks"] = \
                 os.environ.get('DEFI_LLAMA_BRIDGE_HACKS', None)
+            kwargs["defi_lama_base_url"] = \
+                os.environ.get('DEFI_LLAMA_BASE_URL', None)
 
             return func(*args, **kwargs)
         return wrapper

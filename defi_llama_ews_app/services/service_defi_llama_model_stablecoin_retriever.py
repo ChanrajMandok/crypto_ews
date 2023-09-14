@@ -5,29 +5,21 @@ from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
-from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required import \
-                                                      defi_llama_urls_required
-from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required \
-                                        import defi_llama_json_headers_required
 from defi_llama_ews_app.converters.converter_dict_to_model_stablecoin import \
-                                                ConverterDefiLlamaListToModelHack
+                                             ConverterDefiLlamaListToModelHack
+from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required \
+                                       import defi_llama_json_headers_required
 from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_interface \
                                             import ServiceDefiLlamaJsonRetrieverInterface
 
 
 class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInterface):
       
-    @defi_llama_urls_required
     @defi_llama_json_headers_required
-    def __init__(self,
-                defi_lama_json_headers,
-                defi_lama_stablecoin_url,
-                defi_lama_bridge_hacks   = None,
-                defi_lama_hacks_url      = None) -> None:
+    def __init__(self, defi_lama_json_headers) -> None:
         super().__init__()
         self._logger_instance     = logger
         self._headers             = defi_lama_json_headers
-        self._url                 = defi_lama_stablecoin_url
         self._converter           = ConverterDefiLlamaListToModelHack()
         self._peg_boundry         = os.environ.get('PEG_DEVIATION_ALERT', None)
 
@@ -44,8 +36,8 @@ class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInte
         return self._headers
     
     @property
-    def url(self):
-        return self._url
+    def url_json(self):
+        return 'stablecoins.json'
     
     @property
     def intial_key(self):

@@ -16,6 +16,7 @@ class ServiceDefiLlamaBridgeHackRetriever(ServiceDefiLlamaJsonRetrieverInterface
     def __init__(self,
                 defi_lama_json_headers,
                 defi_lama_bridge_hacks,
+                defi_lama_base_url       = None,
                 defi_lama_hacks_url      = None,
                 defi_lama_stablecoin_url = None) -> None:
         super().__init__()
