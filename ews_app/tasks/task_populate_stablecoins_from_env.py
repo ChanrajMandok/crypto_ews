@@ -1,4 +1,5 @@
 import os
+
 from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
 
 class TaskPopulateWirexStableCoinsFromEnv:

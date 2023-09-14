@@ -1,13 +1,13 @@
 from django.db import models
+from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                  EnumHighAlertWarningKeyWords
-from ews_app.enum.enum_priority import EnumPriority
 from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
 
 
-class ModelStablecoin(models.Model):
+class ModelDefiStablecoin(models.Model):
 
     price                = models.FloatField(null=False)
     release_date         = models.BigIntegerField(null=True)

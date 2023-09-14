@@ -19,9 +19,7 @@ class ServiceDefiLamaUrlRetriever:
     def __init__(self,
                 defi_lama_base_url,
                 defi_lama_json_headers,
-                defi_lama_stablecoin_url = None,
-                defi_lama_bridge_hacks   = None,
-                defi_lama_hacks_url      = None) -> None:
+                defi_lama_hacks_url = None) -> None:
         self.base_url = defi_lama_base_url
         self.logger_instance = logger
         self.class_name = self.__class__.__name__
@@ -29,11 +27,14 @@ class ServiceDefiLamaUrlRetriever:
 
     def get_hash_from_main_page(self, session):
         # Get the HTML content of the main page
-        response = session.get(self.base_url, headers=self.url_headers)
+        response = session.get(
+                               url=self.base_url,
+                               headers=self.url_headers)
 
         # Check status code
         if response.status_code - (response.status_code % 100) != 200:
-            self.logger_instance.error(f"{self.class_name} {response.status_code} - ERROR: Failed to get a response from base URL: {self.base_url}")
+            self.logger_instance.error(f"{self.class_name} {response.status_code}\
+                             - ERROR: Failed to get a response from base URL: {self.base_url}")
             return None
 
         # Parse the HTML
@@ -60,7 +61,8 @@ class ServiceDefiLamaUrlRetriever:
                 
                 # If hash code isn't found, log the error and retry
                 if not hash_code:
-                    self.logger_instance.error(f"{self.class_name} - ERROR: Hash code not found.")
+                    self.logger_instance.error(f"{self.class_name}\
+                                                - ERROR: Hash code not found.")
                     continue
                 
                 # Construct the full URL
@@ -74,5 +76,6 @@ class ServiceDefiLamaUrlRetriever:
                 self.logger_instance.error(f"{self.class_name} - ERROR: {str(e)}")
                 continue
 
-        self.logger_instance.error(f"{self.class_name} - ERROR: Max retries reached. Exiting...")
+        self.logger_instance.error(f"{self.class_name}\
+                                    - ERROR: Max retries reached. Exiting...")
         return None

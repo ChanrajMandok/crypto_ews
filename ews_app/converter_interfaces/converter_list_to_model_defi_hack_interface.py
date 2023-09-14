@@ -61,7 +61,7 @@ class ConverterListToModelHackInterface(metaclass=abc.ABCMeta):
 
         try:
             alert_priority = EnumPriority.LOW.name
-            alert_category = EnumHighAlertWarningKeyWords.HACK.name
+            alert_category = EnumHighAlertWarningKeyWords.HACK
 
             hack_string       = self.get_or_none(defi_llama_dict[int(self.hacked_amount_list_index)])
             blockchain_string = self.get_or_none(defi_llama_dict[int(self.blockchain_list_index)])

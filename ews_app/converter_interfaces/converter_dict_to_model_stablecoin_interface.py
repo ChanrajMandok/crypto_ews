@@ -3,14 +3,13 @@ import abc
 from typing import Union
 from datetime import datetime
 
-from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
-from defi_llama_ews_app.model.model_stablecoin import ModelStablecoin
 from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
+from defi_llama_ews_app.model.model_defi_stablecoin import ModelDefiStablecoin
 
 
 class ConverterDictToModelStablecoinInterface(metaclass=abc.ABCMeta):
@@ -58,7 +57,7 @@ class ConverterDictToModelStablecoinInterface(metaclass=abc.ABCMeta):
                 trading_affected : bool,
                 alert_priority   : EnumPriority,
                 alert_category   : Union[EnumLowAlertWarningKeyWords, 
-                                        EnumHighAlertWarningKeyWords])-> ModelStablecoin:
+                                        EnumHighAlertWarningKeyWords])-> ModelDefiStablecoin:
         
         try:
             name = dict.get(self.stablecoin_key)

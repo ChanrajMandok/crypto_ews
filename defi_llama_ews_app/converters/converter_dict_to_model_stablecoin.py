@@ -1,7 +1,7 @@
 from defi_llama_ews_app.converters import logger
-from defi_llama_ews_app.model.model_stablecoin import ModelStablecoin
+from defi_llama_ews_app.model.model_defi_stablecoin import ModelDefiStablecoin
 from ews_app.converter_interfaces.converter_dict_to_model_stablecoin_interface \
-                                    import ConverterDictToModelStablecoinInterface
+                                   import ConverterDictToModelStablecoinInterface
 
 
 class ConverterDefiLlamaDictToModelStableCoin(ConverterDictToModelStablecoinInterface):
@@ -9,7 +9,7 @@ class ConverterDefiLlamaDictToModelStableCoin(ConverterDictToModelStablecoinInte
     def __init__(self) -> None:
         super().__init__() 
         self._logger_instance = logger
-        self._model_stable    = ModelStablecoin
+        self._model_stable    = ModelDefiStablecoin
     
     @property
     def class_name(self) -> str:

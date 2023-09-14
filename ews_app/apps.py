@@ -1,5 +1,6 @@
 import sys
 
+
 from ews_app import logger
 from django.apps import AppConfig
 
@@ -15,22 +16,22 @@ class EwsAppConfig(AppConfig):
         if not any(command in sys.argv for command in blocked_commands):
             logger.info(f"{self.__class__.__name__}:  Getting Ready")
 
-            from binance_ews_app.scheduler   .scheduler_binance_event_db_updater import \
+            from binance_ews_app.scheduler.scheduler_binance_event_db_updater import \
                 SchedularBinanceEventDbUpdater
 
             SchedularBinanceEventDbUpdater().run()
 
-            from binance_ews_app.scheduler   .scheduler_binance_event_db_manager import \
+            from binance_ews_app.scheduler.scheduler_binance_event_db_manager import \
                 SchedularBinanceEventDbManager
 
             SchedularBinanceEventDbManager().run()
 
-            from okx_ews_app.scheduler       .scheduler_okx_event_db_updater import \
+            from okx_ews_app.scheduler.scheduler_okx_event_db_updater import \
                 SchedularOkxEventDbUpdater
 
             SchedularOkxEventDbUpdater().run()
 
-            from okx_ews_app.scheduler       .scheduler_okx_event_db_manager import \
+            from okx_ews_app.scheduler.scheduler_okx_event_db_manager import \
                 SchedularOkxEventDbManager
 
             SchedularOkxEventDbManager().run()
@@ -44,3 +45,8 @@ class EwsAppConfig(AppConfig):
                 SchedularDefiLlamaStableCoinEventDbUpdater
             
             SchedularDefiLlamaStableCoinEventDbUpdater().run()
+
+            from defi_llama_ews_app.scheduler.scheduler_defi_lama_bridge_hack_event_db_updater import \
+                SchedularDefiLlamaBridgeHackEventDbUpdater
+
+            SchedularDefiLlamaBridgeHackEventDbUpdater().run()

@@ -3,8 +3,6 @@ import abc
 import time
 import requests
 
-from binance_ews_app.services import logger
-
 
 class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
     """

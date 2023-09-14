@@ -3,12 +3,9 @@ import abc
 from typing import Optional, List
 
 from ews_app.enum.enum_source import EnumSource
-from defi_llama_ews_app.model.model_defi_llama_hack import \
-                                            ModelDefiLlamaHack
-from ews_app.enum.enum_high_alert_warning_key_words import \
-                                EnumHighAlertWarningKeyWords
 from ews_app.converters.converter_model_event_to_ms_teams_message \
                          import ConverterModelEventToMsTeamsMessage
+from ews_app.model_interfaces.model_hack_interface import ModelHackInterface
 
 
 class ConverterModelHackToModelEventInterface(metaclass=abc.ABCMeta):
@@ -40,7 +37,7 @@ class ConverterModelHackToModelEventInterface(metaclass=abc.ABCMeta):
 
     def convert(self,
                 source          : EnumSource,
-                model_hack      : ModelDefiLlamaHack,  
+                model_hack      : ModelHackInterface,  
                 h_spot_tickers  : Optional[List[str]] = [],
                 h_usdm_tickers  : Optional[List[str]] = [],
                 l_spot_tickers  : Optional[List[str]] = [],
@@ -50,26 +47,25 @@ class ConverterModelHackToModelEventInterface(metaclass=abc.ABCMeta):
         """
 
         try:
-
             exploit          = model_hack.exploit
             protocol         = model_hack.protocol        
             blockchain       = model_hack.blockchain
             release_date     = model_hack.release_date
             alert_priority   = model_hack.alert_priority
+            alert_category   = model_hack.alert_category
             
             if not blockchain:
-                title = f"{protocol} Protocol, Exploit: {exploit}"
+                title = f"{protocol} Protocol {alert_category.value.title()}, Exploit: {exploit}"
             else:
                 blockchain_str = ', '.join(blockchain).replace(', ', ' & ')
                 network_label = 'Networks' if len(blockchain) > 1 else 'Network'
-                title = f"{protocol} Protocol, {blockchain_str} {network_label}"
+                title = f"{protocol} Protocol {alert_category.value.title()}, {blockchain_str} {network_label}"
 
             title            = title  
             url              = model_hack.url
             important_dates  = [release_date]
             network_tokens   = model_hack.network_tokens
             trading_affected = model_hack.trading_affected
-            alert_category   = EnumHighAlertWarningKeyWords.HACK
             hacked_amount    = model_hack.hacked_amount_m if model_hack.hacked_amount_m is not None else 25  
 
             id = int(release_date)/int(round(hacked_amount, ndigits=0)+100000)

@@ -14,6 +14,7 @@ from ews_app.model_interfaces.model_article_interface import \
 from ews_app.services.service_model_article_url_creator import \
                                     ServiceModelArticleUrlCreator
 
+
 class ServiceModelArticleHtmlRetrieverInterface(metaclass=abc.ABCMeta):
     
     """

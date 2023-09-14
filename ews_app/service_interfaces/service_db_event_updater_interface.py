@@ -2,6 +2,7 @@ import abc
 
 from datetime import datetime
 
+
 class ServiceDbEventUpdaterInterface(metaclass=abc.ABCMeta):
 
     @classmethod

@@ -3,11 +3,12 @@ from typing import Optional, List
 from ews_app.enum.enum_source import EnumSource
 from defi_llama_ews_app.converters import logger
 from ews_app.enum.enum_priority import EnumPriority
+from defi_llama_ews_app.model.model_defi_stablecoin import \
+                                         ModelDefiStablecoin
 from defi_llama_ews_app.model.model_defi_stablecoin_event import \
                                           ModelDefiStableCoinEvent
 from ews_app.converters.converter_model_event_to_ms_teams_message \
                          import ConverterModelEventToMsTeamsMessage
-from defi_llama_ews_app.model.model_stablecoin import ModelStablecoin
 
 
 class ConvertModelStablecoinToModelEvent():
@@ -20,7 +21,7 @@ class ConvertModelStablecoinToModelEvent():
 
     def convert(self,
                 source          : EnumSource,
-                model_stablecoin: ModelStablecoin,  
+                model_stablecoin: ModelDefiStablecoin,  
                 h_spot_tickers  : Optional[List[str]] = [],
                 h_usdm_tickers  : Optional[List[str]] = [],
                 l_spot_tickers  : Optional[List[str]] = [],
@@ -40,7 +41,7 @@ class ConvertModelStablecoinToModelEvent():
             network_tokens   = [stablecoin]
 
             important_dates  = [release_date]
-            title            = f"{stablecoin} {alert_category.name}: Price ${price}"
+            title            = f"{stablecoin} {alert_category.name.title()}: Price ${price}"
 
             id = int(release_date)/(int(model_stablecoin.stablecoin.id)+10000)
   

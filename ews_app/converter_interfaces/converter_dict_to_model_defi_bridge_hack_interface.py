@@ -1,7 +1,5 @@
 import abc 
 
-from dateutil import parser
-
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.model.model_wirex_spot_currency import \
                                 ModelWirexSpotCurrency
@@ -57,7 +55,7 @@ class ConverterDictToModelBridgeHackInterface(metaclass=abc.ABCMeta):
 
         try:
             alert_priority = EnumPriority.LOW.name
-            alert_category = EnumHighAlertWarningKeyWords.BRIDGE_HACK.name
+            alert_category = EnumHighAlertWarningKeyWords.BRIDGE_HACK
 
             hack_amount    = defi_llama_dict.get(self.hack_amount_key)
             release_date   = defi_llama_dict.get(self.release_date_key)

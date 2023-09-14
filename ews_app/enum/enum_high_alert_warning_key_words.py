@@ -14,4 +14,4 @@ class EnumHighAlertWarningKeyWords(NoValue):
     SUSPENSION                = 'suspension'
     HACK                      = 'hack'
     DEPEG                     = 'depeg'
-    BRIDGE_HACK               = 'bridge_hack'
+    BRIDGE_HACK               = 'bridge hack'

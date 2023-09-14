@@ -45,7 +45,7 @@ class ServiceDefiLlamaBridgeHackRetriever(ServiceDefiLlamaJsonRetrieverInterface
         return 'data'
     
     def filter_results(self, object_list):
-        now = int(datetime.now().timestamp()) - int(20000059200)
+        now = int(datetime.now().timestamp()) - int(259200)
         filtered_objects =  [x for x in object_list if int(x['date']) >= now and x['bridge'] == True] 
         return filtered_objects
     
