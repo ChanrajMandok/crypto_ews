@@ -50,10 +50,10 @@ class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInte
     def second_key(self):
         return 'filteredPeggedAssets'
     
-    def filter_results(self, stablecoins):
+    def filter_results(self, object_list):
         currency_list = ModelWirexStableCoin.objects.values_list('currency', flat=True)
-        wx_stables =  [x for x in stablecoins if x['symbol'] in currency_list and int(x['pegDeviation']) >= int(self._peg_boundry)] 
-        return wx_stables
+        filtered_objects =  [x for x in object_list if x['symbol'] in currency_list and int(x['pegDeviation']) >= int(self._peg_boundry)] 
+        return filtered_objects
 
     def retrieve(self):
         jsons = super().retrieve()

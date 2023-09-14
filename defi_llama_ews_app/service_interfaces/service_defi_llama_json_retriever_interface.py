@@ -80,7 +80,7 @@ class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
                         tries += 1
 
                 ## this will only be populated if there are stablecoins which are depegged (<0.05)
-                filtered_results = self.filter_results(stablecoins=info_dict)
+                filtered_results = self.filter_results(object_list=info_dict)
                 final_result = filtered_results if filtered_results else []
                 return final_result 
 

@@ -1,11 +1,11 @@
+from datetime import datetime
 from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
-from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
-from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required import \
-                                                      defi_llama_urls_required
 from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required \
                                         import defi_llama_json_headers_required
+from defi_llama_ews_app.converters.converter_dict_to_model_bridge_hack import \
+                                                  ConverterDictToModelBridgeHack
 from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_interface \
                                             import ServiceDefiLlamaJsonRetrieverInterface
 
@@ -13,18 +13,12 @@ from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_int
 @singleton
 class ServiceDefiLlamaBridgeHackRetriever(ServiceDefiLlamaJsonRetrieverInterface):
       
-    @defi_llama_urls_required
     @defi_llama_json_headers_required
-    def __init__(self,
-                defi_lama_json_headers,
-                defi_lama_bridge_hacks,
-                defi_lama_base_url       = None,
-                defi_lama_hacks_url      = None,
-                defi_lama_stablecoin_url = None) -> None:
+    def __init__(self, defi_lama_json_headers) -> None:
         super().__init__()
         self._logger_instance     = logger
         self._headers             = defi_lama_json_headers
-        self._url                 = defi_lama_bridge_hacks
+        self._converter           = ConverterDictToModelBridgeHack()
 
     @property
     def logger_instance(self):
@@ -39,9 +33,30 @@ class ServiceDefiLlamaBridgeHackRetriever(ServiceDefiLlamaJsonRetrieverInterface
         return self._headers
     
     @property
-    def url(self):
-        return self._url
+    def url_json(self):
+        return 'hacks.json'
     
     @property
     def intial_key(self):
         return 'pageProps'
+    
+    @property
+    def second_key(self):
+        return 'data'
+    
+    def filter_results(self, object_list):
+        now = int(datetime.now().timestamp()) - int(20000059200)
+        filtered_objects =  [x for x in object_list if int(x['date']) >= now and x['bridge'] == True] 
+        return filtered_objects
+    
+    def retrieve(self):
+        bridge_hack_objects = super().retrieve()
+        model_objects = []
+        if bridge_hack_objects:
+            for value in bridge_hack_objects:
+                obj = self._converter.convert(defi_llama_dict=value)
+                model_objects.append(obj)
+
+        return model_objects
+
+

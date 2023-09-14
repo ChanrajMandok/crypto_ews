@@ -1,10 +1,10 @@
 from defi_llama_ews_app.converters import logger
 from defi_llama_ews_app.model.model_defi_llama_hack import ModelDefiLlamaHack
 from ews_app.converter_interfaces.converter_list_to_model_defi_hack_interface \
-                                    import ConverterListToModelHackRawInterface
+                                    import ConverterListToModelHackInterface
 
 
-class ConverterDefiLlamaListToModelHack(ConverterListToModelHackRawInterface):
+class ConverterDefiLlamaListToModelHack(ConverterListToModelHackInterface):
 
     def __init__(self) -> None:
         super().__init__() 

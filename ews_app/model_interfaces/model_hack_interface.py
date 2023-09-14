@@ -8,7 +8,7 @@ from ews_app.enum.enum_high_alert_warning_key_words import \
                                  EnumHighAlertWarningKeyWords
 
 
-class ModelHackRawInterface(models.Model):
+class ModelHackInterface(models.Model):
 
     hacked_amount_m  = models.FloatField(null=True)
     release_date     = models.BigIntegerField(null=True)
