@@ -1,3 +1,5 @@
+from singleton_decorator import singleton
+
 from binance_ews_app.services import logger
 from binance_ews_app.model.model_binance_event import \
                                         ModelBinanceEvent
@@ -16,6 +18,7 @@ from binance_ews_app.services.service_binance_raw_article_keyword_classifier \
                               import ServiceBinanceRawArticleKeywordClassifier
 
 
+@singleton
 class ServiceBinanceDbEventUpdater(ServiceDbEventUpdaterInterface):
 
     def __init__(self) -> None:

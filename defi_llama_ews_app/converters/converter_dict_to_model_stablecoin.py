@@ -4,7 +4,7 @@ from ews_app.converter_interfaces.converter_dict_to_model_stablecoin_interface \
                                     import ConverterDictToModelStablecoinInterface
 
 
-class ConverterDefiLlamaListToModelHack(ConverterDictToModelStablecoinInterface):
+class ConverterDefiLlamaDictToModelStableCoin(ConverterDictToModelStablecoinInterface):
 
     def __init__(self) -> None:
         super().__init__() 

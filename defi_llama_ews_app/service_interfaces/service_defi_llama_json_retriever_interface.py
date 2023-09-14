@@ -3,18 +3,18 @@ import abc
 import requests
 
 from defi_llama_ews_app.services.service_defi_lama_url_retriever \
-                                        import ServiceDefiLamaUrlRetriever
+                                 import ServiceDefiLamaUrlRetriever
 
 
 class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
-
-    def __init__(self) -> None:
-        self.service_defi_lama_static_url_retriever = ServiceDefiLamaUrlRetriever()
 
     @classmethod
     def __subclasshook__(cls, subclass):
         return (hasattr(subclass, 'retrieve') and
                 callable(subclass.retrieve))        
+
+    def __init__(self) -> None:
+        self.service_defi_lama_static_url_retriever = ServiceDefiLamaUrlRetriever()
 
     @abc.abstractmethod
     def class_name(self) -> str:

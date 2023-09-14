@@ -15,27 +15,32 @@ class EwsAppConfig(AppConfig):
         if not any(command in sys.argv for command in blocked_commands):
             logger.info(f"{self.__class__.__name__}:  Getting Ready")
 
-            from binance_ews_app.scheduler.scheduler_binance_event_db_updater import \
+            from binance_ews_app.scheduler   .scheduler_binance_event_db_updater import \
                 SchedularBinanceEventDbUpdater
 
             SchedularBinanceEventDbUpdater().run()
 
-            from binance_ews_app.scheduler.scheduler_binance_event_db_manager import \
+            from binance_ews_app.scheduler   .scheduler_binance_event_db_manager import \
                 SchedularBinanceEventDbManager
 
             SchedularBinanceEventDbManager().run()
 
-            from okx_ews_app.scheduler.scheduler_okx_event_db_updater import \
+            from okx_ews_app.scheduler       .scheduler_okx_event_db_updater import \
                 SchedularOkxEventDbUpdater
 
             SchedularOkxEventDbUpdater().run()
 
-            from okx_ews_app.scheduler.scheduler_okx_event_db_manager import \
+            from okx_ews_app.scheduler       .scheduler_okx_event_db_manager import \
                 SchedularOkxEventDbManager
 
             SchedularOkxEventDbManager().run()
             
-            from defi_llama_ews_app.scheduler.scheduler_defi_llama_event_db_updater import \
-                SchedularDefiLlamaEventDbUpdater
+            from defi_llama_ews_app.scheduler.scheduler_defi_llama_hack_event_db_updater import \
+                SchedularDefiLlamaHackEventDbUpdater
                 
-            SchedularDefiLlamaEventDbUpdater().run()
+            SchedularDefiLlamaHackEventDbUpdater().run()
+
+            from defi_llama_ews_app.scheduler.scheduler_defi_llama_stablecoin_event_db_updater import \
+                SchedularDefiLlamaStableCoinEventDbUpdater
+            
+            SchedularDefiLlamaStableCoinEventDbUpdater().run()

@@ -30,18 +30,19 @@ class ConvertModelStablecoinToModelEvent():
         """
 
         try:
-            network_tokens = []
             url              = model_stablecoin.url
             alert_priority   = EnumPriority.HIGH.name
             release_date     = model_stablecoin.release_date
             alert_category   = model_stablecoin.alert_category
             trading_affected = model_stablecoin.trading_affected
             stablecoin       = model_stablecoin.stablecoin.currency
+            price            = model_stablecoin.price
+            network_tokens   = [stablecoin]
 
             important_dates  = [release_date]
-            title            = f"{stablecoin} {alert_category.name} Event"
+            title            = f"{stablecoin} {alert_category.name}: Price ${price}"
 
-            id = int(release_date)/(int(model_stablecoin.stablecoin.id)+1)
+            id = int(release_date)/(int(model_stablecoin.stablecoin.id)+10000)
   
             teams_message = \
                 self._converter_model_event_to_ms_teams_message.convert(

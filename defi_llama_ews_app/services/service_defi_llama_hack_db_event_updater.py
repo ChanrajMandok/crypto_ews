@@ -1,7 +1,7 @@
 from datetime import datetime
+from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
-
 from ews_app.enum.enum_source import EnumSource
 from defi_llama_ews_app.store.stores_defi import StoreDefi
 from defi_llama_ews_app.model.model_db_defi_last_updated import \
@@ -17,6 +17,7 @@ from defi_llama_ews_app.converters.converter_model_defi_llama_hack_to_model_even
                                             import ConverterModelDefiHackToModelEvent
 
 
+@singleton
 class ServiceDefiLlamaHackDbEventUpdater(ServiceDbEventUpdaterInterface):
 
     def __init__(self) -> None:

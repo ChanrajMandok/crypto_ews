@@ -1,7 +1,7 @@
 import logging
 
 # create logger
-logger = logging.getLogger('binance_ews_app.scheduler')
+logger = logging.getLogger('binance_ews_app.scheduler   ')
 logger.setLevel(logging.DEBUG)
 
 logger.propagate = 0

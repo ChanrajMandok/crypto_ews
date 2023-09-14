@@ -74,7 +74,10 @@ class ConverterModelEventToMsTeamsMessage:
             event_status = EnumEventStatus.ONGOING.name
         else:
             event_status = EnumEventStatus.UPCOMING.name
-                
+
+        if alert_category == EnumHighAlertWarningKeyWords.DEPEG:
+            event_status = EnumEventStatus.ONGOING.name
+
         formatted_dates = [datetime.fromtimestamp(ts/1000).strftime('%Y-%m-%d %H:%M') \
                            for ts in important_dates] if important_dates else None
         

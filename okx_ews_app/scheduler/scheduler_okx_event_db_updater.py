@@ -2,7 +2,7 @@ import os
 
 from singleton_decorator import singleton
 
-from okx_ews_app.scheduler import logger
+from okx_ews_app.scheduler        import logger
 from okx_ews_app.services.service_okx_db_event_updater import \
                                         ServiceOkxDbEventUpdater
 from ews_app.scheduler_interfaces.scheduler_db_event_updater_interface \

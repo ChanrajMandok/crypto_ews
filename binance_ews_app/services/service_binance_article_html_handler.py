@@ -1,5 +1,7 @@
 import re
 
+from singleton_decorator import singleton
+
 from binance_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from binance_ews_app.converters.converter_binance_article_to_binance_event \
@@ -8,6 +10,7 @@ from ews_app.service_interfaces.service_model_article_html_handler_interface \
                                 import ServiceModelArticleHtmlHandlerInterface
 
 
+@singleton
 class ServiceBinanceArticleHtmlHandler(ServiceModelArticleHtmlHandlerInterface):
     """
     Service extracts important Dates, articles, trading pairs, 

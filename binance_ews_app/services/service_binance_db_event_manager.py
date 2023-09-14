@@ -1,11 +1,13 @@
-from binance_ews_app.services import logger
+from singleton_decorator import singleton
 
+from binance_ews_app.services import logger
 from binance_ews_app.model.model_binance_event import \
                                         ModelBinanceEvent
 from ews_app.service_interfaces.service_db_event_manager_interface \
                                 import ServiceDbEventManagerInterface
 
 
+@singleton
 class ServiceBinanceDbEventManager(ServiceDbEventManagerInterface):
 
     def __init__(self) -> None:

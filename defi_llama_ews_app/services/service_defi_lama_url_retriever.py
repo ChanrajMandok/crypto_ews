@@ -1,7 +1,8 @@
-import os
 import re
-import requests 
+import requests
+
 from bs4 import BeautifulSoup
+from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
 from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required \
@@ -10,6 +11,7 @@ from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required \
                                         import defi_llama_json_headers_required
 
 
+@singleton
 class ServiceDefiLamaUrlRetriever:
 
     @defi_llama_urls_required
@@ -49,7 +51,6 @@ class ServiceDefiLamaUrlRetriever:
 
     def retrieve(self, endpoint):
         max_tries = 3
-        timeout = int(os.environ.get('TIMEOUT', 10))
         session = requests.Session()
 
         for _ in range(max_tries):

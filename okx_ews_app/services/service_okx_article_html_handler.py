@@ -1,5 +1,7 @@
 import re
 
+from singleton_decorator import singleton
+
 from okx_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from okx_ews_app.converters.converter_okx_article_to_okx_event \
@@ -8,6 +10,7 @@ from ews_app.service_interfaces.service_model_article_html_handler_interface \
                                 import ServiceModelArticleHtmlHandlerInterface
 
 
+@singleton
 class ServiceOkxArticleHtmlHandler(ServiceModelArticleHtmlHandlerInterface):
     """
     Service extracts important Dates, articles, trading pairs, 

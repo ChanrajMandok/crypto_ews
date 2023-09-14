@@ -12,6 +12,7 @@ from binance_ews_app.decorator.decorator_binance_headers_required import \
 from ews_app.service_interfaces.service_model_raw_article_interface import \
                                           ServiceRawArticleRetrieverInterface
 
+
 @singleton
 class ServiceBinanceRawArticleRetriever(ServiceRawArticleRetrieverInterface):
 

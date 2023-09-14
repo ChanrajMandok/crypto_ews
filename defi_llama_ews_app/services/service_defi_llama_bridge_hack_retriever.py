@@ -1,3 +1,5 @@
+from singleton_decorator import singleton
+
 from defi_llama_ews_app.services import logger
 from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
 from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required import \
@@ -8,7 +10,7 @@ from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_int
                                             import ServiceDefiLlamaJsonRetrieverInterface
 
 
-
+@singleton
 class ServiceDefiLlamaBridgeHackRetriever(ServiceDefiLlamaJsonRetrieverInterface):
       
     @defi_llama_urls_required

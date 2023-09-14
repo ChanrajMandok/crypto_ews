@@ -1,15 +1,19 @@
+from datetime import datetime
+from singleton_decorator import singleton
+
 from defi_llama_ews_app.services import logger
 from defi_llama_ews_app.store.stores_defi import StoreDefi
-from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required import \
-                                                 defi_llama_urls_required
-from defi_llama_ews_app.decorator.decorator_defi_llama_headers_required import \
-                                               defi_llama_headers_required
-from defi_llama_ews_app.converters.converter_defi_llama_list_to_model_hack \
-                               import ConverterDefiLlamaListToModelHack
 from ews_app.service_interfaces.service_html_retriever_interface \
-                                    import ServiceHtmlRetrieverInterface
+                               import ServiceHtmlRetrieverInterface
+from defi_llama_ews_app.converters.converter_defi_llama_list_to_model_hack \
+                                    import ConverterDefiLlamaListToModelHack
+from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required import \
+                                                      defi_llama_urls_required
+from defi_llama_ews_app.decorator.decorator_defi_llama_headers_required import \
+                                                     defi_llama_headers_required
 
 
+@singleton
 class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
 
     @defi_llama_urls_required
@@ -61,14 +65,17 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
 
             final_data = [[extract_data(cell) for cell in row.find_all(["td", "th"])] for row in rows]
             
+            now = int(datetime.now().timestamp()) * 1000
             last_updated = self._store_db_defi_last_updated.get()
             model_instances = []
             for value in final_data:
                 if len(value) > 2 :
                     model_instance = self._converter.convert(value)
-                if not last_updated:
+                # if not last_updated look for hacks that happened over the last 3 days
+                if not last_updated and model_instance.release_date > (now - 259200000):
                     model_instances.append(model_instance)
-                if last_updated and model_instance.release_date > (last_updated.last_updated - 26000000):
+                # if last updated look for hacks that 
+                if last_updated and model_instance.release_date > (last_updated.last_updated - 43200000):
                     model_instances.append(model_instance)
                 
             return model_instances

@@ -1,7 +1,7 @@
 import logging
 
 # create logger
-logger = logging.getLogger('okx_ews_app.scheduler')
+logger = logging.getLogger('okx_ews_app.scheduler       ')
 logger.setLevel(logging.DEBUG)
 
 logger.propagate = 0

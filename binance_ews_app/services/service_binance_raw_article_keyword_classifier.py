@@ -12,6 +12,7 @@ from binance_ews_app.converters.converter_binance_raw_article_to_binance_article
 from ews_app.service_interfaces.service_model_raw_article_keyword_classifier_interface \
                           import ServiceBinanceRawArticleKeywordClassifierInterface
 
+
 @singleton
 class ServiceBinanceRawArticleKeywordClassifier(ServiceBinanceRawArticleKeywordClassifierInterface):
 
