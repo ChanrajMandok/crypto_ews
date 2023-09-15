@@ -1,0 +1,22 @@
+{
+  "circulating": 83013740435.30215,
+  "mcap": 83008427555.91,
+  "name": "Tether",
+  "symbol": "USDT",
+  "gecko_id": "tether",
+  "chains": [
+    "Tron",
+    "Ethereum"
+  ],
+  "price": 1,
+  "pegType": "peggedUSD",
+  "pegMechanism": "fiat-backed",
+  "change_1d": 0.008286426115377022,
+  "change_7d": 0.17246480652200158,
+  "change_1m": -0.3839220951802525,
+  "pegDeviation": 0,
+  "pegDeviation_1m": -0.20890000000000075,
+  "circulatingPrevDay": 83011848203.53214,
+  "circulatingPrevWeek": 82890066232.58817,
+  "circulatingPrevMonth": 83307387979.1741
+}

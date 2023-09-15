@@ -1,0 +1,11 @@
+{
+    "chains": ["Ethereum"],
+    "classification": "Protocol Logic",
+    "date": 1671926400,
+    "target": "DeFi Protocol",
+    "amount": 1.41,
+    "name": "Rubic",
+    "technique": "Router Exploit",
+    "bridge": true,
+    "link": "https://twitter.com/peckshield/status/1606937055761952770?s=20&t=Vdvjv2C7zUazmgvQ2SOQow"
+  }
