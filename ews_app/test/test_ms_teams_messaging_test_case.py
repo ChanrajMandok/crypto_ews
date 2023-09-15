@@ -3,27 +3,27 @@ import json
 from django.test import TestCase
 
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
-from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from ews_app.services.service_send_model_event_to_ms_teams import \
-                                        ServiceSendModelEventToMsTeams
+                                      ServiceSendModelEventToMsTeams
+from binance_ews_app.model.model_binance_article import ModelBinanceArticle
+from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
+                                               ConverterDictToBinanceArticleRaw
 from binance_ews_app.converters.converter_binance_article_to_binance_event import \
                                                ConverterBinanceArticleToBinanceEvent
-from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
-                                                ConverterDictToBinanceArticleRaw
 from ews_app.enum.enum_high_alert_warning_key_words import EnumHighAlertWarningKeyWords
+from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
 
 
-class BinanceDelistingEventTestCase(TestCase):
+class TestMsTeamsMessagingTestCase(TestCase):
     
     def setUp(self):
         TaskPopulateCurrenciesFromEnv().populate()
-        self.__converter_model_article_to_model_event       = ConverterBinanceArticleToBinanceEvent()
         self.__service_send_binance_event_to_ms_teams       = ServiceSendModelEventToMsTeams()
         self.__converter_dict_to_model_binance_article_raw  = ConverterDictToBinanceArticleRaw()
+        self.__converter_model_article_to_model_event       = ConverterBinanceArticleToBinanceEvent()
     
     def test(self):
-        raw_data = r'./binance_ews_app/test/data/delisting_event_raw_article_data.py'
+        raw_data = r'./ews_app\test\data\delisting_event_raw_article_data.json'
         
         parsed_dictionary = open (raw_data, "r")
         article_dict = json.loads(parsed_dictionary.read())
@@ -47,7 +47,5 @@ class BinanceDelistingEventTestCase(TestCase):
                                                               important_dates=[1693495466000, 1693495446000, 1693495406000],
                                                               )
         
-        self.__service_send_binance_event_to_ms_teams.send_message(ms_teams_message=model_event_object.ms_teams_message)
-        
-        
-        
+        self.assertIsNotNone(model_event_object)
+        # self.__service_send_binance_event_to_ms_teams.send_message(ms_teams_message=model_event_object.ms_teams_message)

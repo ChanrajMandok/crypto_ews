@@ -3,19 +3,18 @@ import json
 from django.test import TestCase
 
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from ews_app.services.service_send_model_event_to_ms_teams import \
-                                        ServiceSendModelEventToMsTeams     
+                                      ServiceSendModelEventToMsTeams
 from binance_ews_app.services.service_binance_article_html_retriever import \
                                             ServiceBinanceArticleHtmlRetriever
 from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
                                                 ConverterDictToBinanceArticleRaw
 from ews_app.enum.enum_high_alert_warning_key_words import EnumHighAlertWarningKeyWords
+from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
 
 
-
-class BinanceGalaHardForkTestCase(TestCase):
+class TestMsTeamsMessagingReminderTestCase(TestCase):
     
     def setUp(self):
         TaskPopulateCurrenciesFromEnv().populate()
@@ -24,7 +23,8 @@ class BinanceGalaHardForkTestCase(TestCase):
         self.__converter_dict_to_model_binance_article_raw = ConverterDictToBinanceArticleRaw()
     
     def test(self):
-        filepath = r'./binance_ews_app/test/data/gala_hard_fork_raw_article_data.py'
+        filepath = r'./ews_app\test\data\gala_hard_fork_raw_article_data.json'
+
         f = open (filepath, "r")
         article_dict = json.loads(f.read())
         
@@ -39,7 +39,8 @@ class BinanceGalaHardForkTestCase(TestCase):
                                 )
     
         model_event_object = self.__service_article_html_retriever.retrieve(articles=[key_article], test=True)
-        self.__service_send_binance_event_to_ms_teams.send_message(ms_teams_message=model_event_object[0].ms_teams_message)
-        
-        
-        
+        reminder_msg = model_event_object[0].ms_teams_message
+        reminder_msg['title'] = 'REMINDER ' + reminder_msg['title']
+        reminder_msg['sections'][1] = {"activityTitle": f"Priority: {EnumPriority.REMINDER.name}"}
+        self.assertIsNotNone(reminder_msg)
+        # self.__service_send_binance_event_to_ms_teams.send_message(reminder_msg)

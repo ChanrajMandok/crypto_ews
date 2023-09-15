@@ -5,7 +5,7 @@ from ews_app.converter_interfaces.converter_dict_to_model_article_raw_interface 
                                     import ConverterDictToModelArticleRawInterface
 
 
-class ConverterDictToModelokxArticleRaw(ConverterDictToModelArticleRawInterface):
+class ConverterDictToOkxArticleRaw(ConverterDictToModelArticleRawInterface):
 
     def __init__(self) -> None:
         super().__init__() 

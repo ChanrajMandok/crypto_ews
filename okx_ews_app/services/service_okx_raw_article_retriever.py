@@ -8,7 +8,7 @@ from okx_ews_app.decorator.decorator_okx_urls_required import \
 from okx_ews_app.decorator.decorator_okx_headers_required import \
                                               okx_headers_required
 from okx_ews_app.converters.converter_dict_to_okx_article_raw import \
-                                     ConverterDictToModelokxArticleRaw
+                                     ConverterDictToOkxArticleRaw
 from okx_ews_app.model.model_okx_article_raw import ModelOkxArticleRaw 
 from ews_app.service_interfaces.service_model_raw_article_interface import \
                                           ServiceRawArticleRetrieverInterface
@@ -30,7 +30,7 @@ class ServiceOkxRawArticleRetriever(ServiceRawArticleRetrieverInterface):
         self._dict_url            = okx_news_dict_url
         self._model_article_raw   = ModelOkxArticleRaw
         self._base_url            = okx_article_base_url
-        self.__converter          = ConverterDictToModelokxArticleRaw()
+        self.__converter          = ConverterDictToOkxArticleRaw()
         
     @property
     def url_headers(self):
