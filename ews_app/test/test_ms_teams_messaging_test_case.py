@@ -48,4 +48,4 @@ class TestMsTeamsMessagingTestCase(TestCase):
                                                               )
         
         self.assertIsNotNone(model_event_object)
-        # self.__service_send_binance_event_to_ms_teams.send_message(ms_teams_message=model_event_object.ms_teams_message)
+        # self.__service_send_binance_event_to_ms_teams.send_message(source = model_event_object.source,ms_teams_message=reminder_msg))

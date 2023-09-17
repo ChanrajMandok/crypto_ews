@@ -33,6 +33,7 @@ class ServiceDbEventManagerInterface(metaclass=abc.ABCMeta):
         incomplete_events = self.model_event().objects.filter(event_completed=False)
 
         for event in incomplete_events:
+            source = event.source 
             event_priority = event.alert_priority
             expired_dates = [int(ts) for ts in event.important_dates if int(ts) < now]
 
@@ -41,7 +42,8 @@ class ServiceDbEventManagerInterface(metaclass=abc.ABCMeta):
                 reminder_msg = event.ms_teams_message
                 reminder_msg['title'] = 'REMINDER ' + event.ms_teams_message['title']
                 reminder_msg['sections'][1] = {"activityTitle": f"Priority: {EnumPriority.REMINDER.name}"}
-                self._service_send_binance_event_to_ms_teams.send_message(reminder_msg)
+                self._service_send_binance_event_to_ms_teams.send_message(source=source, 
+                                                                          ms_teams_message=reminder_msg)
         
             if expired_dates:
                 # Pop the expired dates from the event's important_dates list

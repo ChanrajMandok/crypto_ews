@@ -43,4 +43,5 @@ class TestMsTeamsMessagingReminderTestCase(TestCase):
         reminder_msg['title'] = 'REMINDER ' + reminder_msg['title']
         reminder_msg['sections'][1] = {"activityTitle": f"Priority: {EnumPriority.REMINDER.name}"}
         self.assertIsNotNone(reminder_msg)
-        # self.__service_send_binance_event_to_ms_teams.send_message(reminder_msg)
+        source = model_event_object.source
+        # self.__service_send_binance_event_to_ms_teams.send_message(source=source, ms_teams_message=reminder_msg)

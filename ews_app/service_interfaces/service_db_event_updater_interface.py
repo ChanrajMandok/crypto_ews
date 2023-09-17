@@ -71,8 +71,10 @@ class ServiceDbEventUpdaterInterface(metaclass=abc.ABCMeta):
             
             # Save to DB and send messages for new events
             for event in new_events:
+                source = event.source
+                self.service_send_model_event_to_ms_teams().send_message(source=source, 
+                                                                        ms_teams_message=event.ms_teams_message)
                 event.save()
-                self.service_send_model_event_to_ms_teams().send_message(event.ms_teams_message)
 
             ts = self.model_db_last_updated()(last_updated=now)
             self.store_db_last_updated().set(ts)

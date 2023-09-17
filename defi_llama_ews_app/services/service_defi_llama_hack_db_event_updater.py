@@ -80,7 +80,9 @@ class ServiceDefiLlamaHackDbEventUpdater(ServiceDbEventUpdaterInterface):
             
             # Save to DB and send messages for new events
             for event in new_events:
-                self._service_send_model_event_to_ms_teams.send_message(event.ms_teams_message)
+                source = event.source
+                self._service_send_model_event_to_ms_teams.send_message(source=source, 
+                                                                        ms_teams_message=event.ms_teams_message)
                 event.event_completed = True
                 event.save()
 

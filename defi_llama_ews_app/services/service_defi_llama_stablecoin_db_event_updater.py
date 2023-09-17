@@ -87,8 +87,10 @@ class ServiceDefiLlamaStableCoinDbEventUpdater(ServiceDbEventUpdaterInterface):
 
             # For new events: save them and send a message
             for event in model_event_objects:
+                source = EnumSource.DEFI_LLAMA_STABLECOINS
                 if event.title in new_events_titles:
-                    self._service_send_model_event_to_ms_teams.send_message(event.ms_teams_message)
+                    self._service_send_model_event_to_ms_teams.send_message(source=source, 
+                                                                            ms_teams_message=event.ms_teams_message)
                     event.save()
 
              # For expired events: update event_completed to True in DB in a single query
