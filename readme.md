@@ -45,15 +45,22 @@
 
 This repository offers a comprehensive infrastructure designed to monitor announcements from **Binance**, one of the world's leading cryptocurrency exchanges, based on classified keywords. Notably, its capabilities have recently been expanded to encompass an even broader range of event monitoring.
 
-## Workflow:
+## Binance Workflow:
 1. The process initiates by pulling data from the `BINANCE_NEWS_DICT_URL`, gathering a detailed list of all recent Binance announcements.
-2. Using **Regular Expressions (Regex)**, it performs keyword classification based on the specified terms in the `EnumLowAlertWarningKeyWords` & `EnumHighAlertWarningKeyWords` files. This results in a list of `BinanceRawArticle` objects that contain the matched keywords.
+2. Using **Regular Expressions (Regex)**, it performs keyword classification based on the specified terms in the `EnumLowAlertWarningKeyWords` & `EnumHighAlertWarningKeyWords` files, matching against the Title and Summaries of the annoucments. This results in a list of `BinanceRawArticle` objects that contain the matched keywords.
 3. As an enhancement, the program retrieves the complete announcement details, parsing the information into a `ModelBinanceEvent`. It further inspects the HTML for specific details such as the affected tickers, affected currencies, event priority, event category, and the trading status of the token during the event. This rigorous scrutiny ensures the pertinence of the announcement to trading activities.
 4. Event priority is determined based on the currencies and tickers mentioned in the `SPOT_CURRENCIES` and `USDM CURRENCIES` environment variables, which represent pairs currently listed on Wirex.
 5. Finally, the `ModelBinanceEvent` objects are stored in a database. A dedicated consumer manages this database. If the event's important date is earlier than the current timestamp, the consumer checks for unicity before dispatching the `ModelBinanceEvent.ms_teams_message` to the `Webhook_URL`.
 
+## OKX Workflow:
+1. The process initiates by pulling data from the `OKX_NEWS_DICT_URL`, gathering a detailed list of all recent OKX announcements.
+2. Using **Regular Expressions (Regex)**, it performs keyword classification based on the specified terms in the `EnumLowAlertWarningKeyWords` & `EnumHighAlertWarningKeyWords` files, matching against the Title and Summaries of the annoucments. This results in a list of `OkxRawArticle` objects that contain the matched keywords.
+3. As an enhancement, the program retrieves the complete announcement details, parsing the information into a `ModelOkxEvent`. It further inspects the HTML for specific details such as the affected tickers, affected currencies, event priority, event category, and the trading status of the token during the event. This rigorous scrutiny ensures the pertinence of the announcement to trading activities.
+4. Event priority is determined based on the currencies and tickers mentioned in the `SPOT_CURRENCIES` and `USDM CURRENCIES` environment variables, which represent pairs currently listed on Wirex.
+5. Finally, the `ModelOkxEvent` objects are stored in a database. A dedicated consumer manages this database. If the event's important date is earlier than the current timestamp, the consumer checks for unicity before dispatching the `ModelOkxEvent.ms_teams_message` to the `Webhook_URL`.
+
+
 ## New Enhancements:
-- **Broader Exchange Coverage:** Beyond Binance, the code has been fortified to track events on **OKX**, another major exchange platform. This augmentation ensures complete monitoring of significant cryptocurrency events, including hard forks, on centralized exchanges.
   
 - **Integration with DeFi Llama:** An important addition is the integration with **DeFi Llama**. This enables the system to:
   - Monitor potential stablecoin de-pegs, a significant event where a stablecoin deviates from its pegged value.
