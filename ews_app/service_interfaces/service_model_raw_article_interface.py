@@ -69,7 +69,7 @@ class ServiceRawArticleRetrieverInterface(metaclass=abc.ABCMeta):
                     self.logger_instance.error(
                         f"{self.class_name} {response.status_code} - "
                         f"ERROR: Failed to get a response. "
-                        f"{response.content}")
+                        f"{self.dict_url}")
                     tries += 1
                     continue
 

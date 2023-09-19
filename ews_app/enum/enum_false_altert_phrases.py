@@ -11,9 +11,3 @@ class EnumFalseAlertPhrases(NoValue):
     MARGIN_TRADING      = 'margin_trading'
     MARGIN              = 'margin'
     LOANABLE            = 'loanable'
-
-
-
-    
-
-    
