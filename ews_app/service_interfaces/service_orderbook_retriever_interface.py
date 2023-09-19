@@ -80,14 +80,13 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                     timeout=timeout
                 )
 
-                # Check for successful status code
                 if 200 <= response.status_code < 300:
                     response_raw = json.loads(response.content)
 
                     if self.key_1:
                         if not str(self.key_1) in response_raw:
                             self.logger_instance.error(f"{self.class_name}: {self.url} failed to get the book tickers")
-                            return {}  # Or decide on another behavior
+                            return {}
                         orderbook_data = response_raw[self.key_1]
                     else:
                         orderbook_data = response_raw
@@ -102,6 +101,11 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
 
                     if symbol not in self.tickers_list:
                         continue
+
+                    if '-' in symbol:
+                        wx_symbol = symbol.replace('-', '')
+                    else:
+                        wx_symbol = symbol
 
                     if self.time_key:
                         time = int(orderbook[self.time_key])
@@ -122,7 +126,7 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                         source  = self.source
                                     )
 
-                    prices_dict[symbol] = ModelOrderBookLevel1(bid=bid, ask=ask)
+                    prices_dict[wx_symbol] = ModelOrderBookLevel1(bid=bid, ask=ask, source=self.source)
 
                 self.logger_instance.info(f"{self.class_name}: {len(prices_dict)} {self.source.name} orderbooks retrieved..")
 

@@ -26,7 +26,7 @@ class ServiceOkxArticleHtmlRetriever(ServiceModelArticleHtmlRetrieverInterface):
     def __init__(self,
                  okx_headers,
                  okx_article_base_url,
-                 okx_news_dict_url=None) -> None:
+                 **kwargs) -> None:
         super().__init__() 
         self._logger_instance     = logger
         self._headers             = okx_headers

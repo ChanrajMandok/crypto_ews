@@ -21,7 +21,7 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
     def __init__(self,
                  defi_lama_headers,
                  defi_lama_hacks_url,
-                 defi_lama_base_url = None) -> None:
+                 **kwarg ) -> None:
         super().__init__()
         self._logger_instance            = logger
         self._headers                    = defi_lama_headers

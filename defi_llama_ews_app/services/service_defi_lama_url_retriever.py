@@ -19,7 +19,7 @@ class ServiceDefiLamaUrlRetriever:
     def __init__(self,
                 defi_lama_base_url,
                 defi_lama_json_headers,
-                defi_lama_hacks_url = None) -> None:
+                **kwargs) -> None:
         self.base_url = defi_lama_base_url
         self.logger_instance = logger
         self.class_name = self.__class__.__name__

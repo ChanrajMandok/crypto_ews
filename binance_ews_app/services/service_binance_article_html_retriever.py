@@ -26,7 +26,7 @@ class ServiceBinanceArticleHtmlRetriever(ServiceModelArticleHtmlRetrieverInterfa
     def __init__(self,
                  binance_headers,
                  binance_article_base_url,
-                 binance_news_dict_url=None) -> None:
+                 **kwargs) -> None:
         super().__init__() 
         self._logger_instance     = logger
         self._headers             = binance_headers

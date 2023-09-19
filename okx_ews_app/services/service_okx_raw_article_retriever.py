@@ -22,7 +22,7 @@ class ServiceOkxRawArticleRetriever(ServiceRawArticleRetrieverInterface):
     def __init__(self, 
                  okx_headers,
                  okx_news_dict_url,
-                 okx_article_base_url=None, 
+                 okx_article_base_url, 
                  **kwargs) -> None:
         super().__init__() 
         self._logger_instance     = logger

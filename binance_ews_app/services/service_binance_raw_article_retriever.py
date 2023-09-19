@@ -21,7 +21,7 @@ class ServiceBinanceRawArticleRetriever(ServiceRawArticleRetrieverInterface):
     def __init__(self,
                  binance_headers,
                  binance_news_dict_url,
-                 binance_article_base_url=None,
+                 binance_article_base_url,
                  **kwargs) -> None:
         super().__init__() 
         self._logger_instance     = logger

@@ -14,7 +14,8 @@ from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_int
 class ServiceDefiLlamaBridgeHackRetriever(ServiceDefiLlamaJsonRetrieverInterface):
       
     @defi_llama_json_headers_required
-    def __init__(self, defi_lama_json_headers) -> None:
+    def __init__(self, 
+                 defi_lama_json_headers) -> None:
         super().__init__()
         self._logger_instance     = logger
         self._headers             = defi_lama_json_headers

@@ -148,4 +148,5 @@ SHELL_PLUS_IMPORTS = [
     'from defi_llama_ews_app.services.service_defi_llama_bridge_hack_db_event_updater import ServiceDefiLlamaBridgeHackDbEventUpdater',
     'from binance_ews_app.services.service_binance_db_event_updater import ServiceBinanceDbEventUpdater',
     'from binance_ews_app.services.service_binance_orderbook_retriever import ServiceBinanceOrderbookRetriever',
+    'from token_risk_view_app.services.service_update_view import ServiceUpdateVeiw',
 ]
