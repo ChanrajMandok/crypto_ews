@@ -24,7 +24,7 @@ class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInte
         self._headers             = defi_lama_json_headers
         self._converter           = ConverterDefiLlamaDictToModelStableCoin()
         self._url                 = 'https://defillama.com/stablecoins'
-        self._peg_boundry         = os.environ.get('PEG_DEVIATION_ALERT', None)
+        self._peg_boundry         = os.environ.get('PEG_DEVIATION_ALERT', 1)
 
     @property
     def logger_instance(self):
@@ -51,8 +51,57 @@ class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInte
         return 'filteredPeggedAssets'
     
     def filter_results(self, object_list):
-        currency_list = ModelWirexStableCoin.objects.values_list('currency', flat=True)
-        filtered_objects =  [x for x in object_list if x['symbol'] in currency_list and int(x['pegDeviation']) >= int(self._peg_boundry)] 
+        # Fetching currency list and handling potential exceptions
+        try:
+            currency_list = ModelWirexStableCoin.objects.values_list('currency', flat=True)
+        except Exception as e:
+            self.logger_instance.error(f"{self.class_name} - ERROR: Failed to fetch currency list. Reason: {e}")
+            return []
+
+        peg_boundries = {
+            'peggedUSD': float(self._peg_boundry),
+            'peggedEUR': float(self._peg_boundry)+0.075
+        }
+
+        filtered_objects = []
+
+        for x in object_list:
+            if not isinstance(x, dict):  # Ensure each object is a dictionary
+                continue
+
+            if x.get('symbol') not in currency_list:
+                continue
+
+            pegType = x.get('pegType')
+            price = x.get('price')
+
+            # Check if necessary keys are present
+            if not pegType or not price:
+                self.logger_instance.error(f"{self.class_name} - ERROR: 'pegType' or 'price' key missing for symbol {x.get('symbol', 'UNKNOWN')}")
+                continue
+
+            # Ensure that price is a valid number
+            try:
+                price = float(price)
+            except (ValueError, TypeError):
+                self.logger_instance.error(f"{self.class_name} - ERROR: Invalid price value for symbol {x.get('symbol', 'UNKNOWN')}")
+                continue
+
+            peg_value = peg_boundries.get(pegType)
+            
+            # If pegType is not recognized
+            if peg_value is None:
+                self.logger_instance.error(f"{self.class_name} - ERROR: Unrecognized pegType '{pegType}' for symbol {x.get('symbol', 'UNKNOWN')}")
+                continue
+
+            try:
+                peg_deviation = price - peg_value
+            except Exception as e:
+                self.logger_instance.error(f"{self.class_name} - ERROR: Failed to calculate peg deviation for symbol {x.get('symbol', 'UNKNOWN')}. Reason: {e}")
+                continue
+
+            if peg_deviation < -0.05 or peg_deviation > 0.05:
+                filtered_objects.append(x)
         return filtered_objects
 
     def retrieve(self):

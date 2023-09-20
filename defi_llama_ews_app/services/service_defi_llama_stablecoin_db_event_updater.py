@@ -65,7 +65,7 @@ class ServiceDefiLlamaStableCoinDbEventUpdater(ServiceDbEventUpdaterInterface):
             model_stablecoins = self.service_defi_llama_model_stablecoin_retriever.retrieve()
 
             now = int(datetime.now().timestamp()) * 1000
-            start_timeframe = now - (1.5 * int(self._defi_llama_refresh_increment))
+            start_timeframe = now - (int(1.15 * int(self._defi_llama_refresh_increment)* 60* 1000))
             
             if not model_stablecoins:
                 self.model_event().objects.filter(event_completed=False).update(event_completed=True)
@@ -73,7 +73,7 @@ class ServiceDefiLlamaStableCoinDbEventUpdater(ServiceDbEventUpdaterInterface):
                 self.store_db_last_updated().set(ts)
                 return
             
-            model_event_objects = [self.converter_model_defi_stablecoin_to_model_event.convert(source=EnumSource.DEFI_LLAMA, model_stablecoin=x) for x in model_stablecoins]
+            model_event_objects = [self.converter_model_defi_stablecoin_to_model_event.convert(source=EnumSource.DEFI_LLAMA_STABLECOINS, model_stablecoin=x) for x in model_stablecoins]
             
             # Get titles from model_event_objects
             current_titles = set([event.title for event in model_event_objects])
@@ -87,7 +87,7 @@ class ServiceDefiLlamaStableCoinDbEventUpdater(ServiceDbEventUpdaterInterface):
 
             # For new events: save them and send a message
             for event in model_event_objects:
-                source = EnumSource.DEFI_LLAMA_STABLECOINS
+                source = EnumSource.DEFI_LLAMA_STABLECOINS.name
                 if event.title in new_events_titles:
                     self._service_send_model_event_to_ms_teams.send_message(source=source, 
                                                                             ms_teams_message=event.ms_teams_message)
