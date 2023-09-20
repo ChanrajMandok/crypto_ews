@@ -50,10 +50,14 @@ class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInte
     def second_key(self):
         return 'filteredPeggedAssets'
     
-    def filter_results(self, object_list):
+    def filter_results(self, object_list, test: bool = False):
+        
         # Fetching currency list and handling potential exceptions
         try:
             currency_list = ModelWirexStableCoin.objects.values_list('currency', flat=True)
+            if test:
+                test_stables = [x for x in object_list if x['symbol'] in currency_list]
+                return test_stables
         except Exception as e:
             self.logger_instance.error(f"{self.class_name} - ERROR: Failed to fetch currency list. Reason: {e}")
             return []
@@ -104,8 +108,8 @@ class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInte
                 filtered_objects.append(x)
         return filtered_objects
 
-    def retrieve(self):
-        jsons = super().retrieve()
+    def retrieve(self, test: bool= False):
+        jsons = super().retrieve(test=test)
         model_objects = []
         if jsons:
             for value in jsons:

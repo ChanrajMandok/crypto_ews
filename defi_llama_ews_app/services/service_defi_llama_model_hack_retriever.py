@@ -50,7 +50,7 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
     def table_selector(self):
         return self._table_selector
     
-    def retrieve(self):
+    def retrieve(self, test: bool= False):
         try:
             table_body = super().retrieve()
             rows = table_body.find_all("tr")
@@ -63,7 +63,7 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
             final_data = [[extract_data(cell) for cell in row.find_all(["td", "th"])] for row in rows]
             
             now = int(datetime.now().timestamp()) * 1000
-            last_updated = self._store_db_defi_last_updated.get()
+            last_updated = self._store_db_defi_last_updated.get() if not test else None
             model_instances = []
             for value in final_data:
                 if len(value) > 2 :

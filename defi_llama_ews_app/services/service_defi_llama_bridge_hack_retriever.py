@@ -45,13 +45,16 @@ class ServiceDefiLlamaBridgeHackRetriever(ServiceDefiLlamaJsonRetrieverInterface
     def second_key(self):
         return 'data'
     
-    def filter_results(self, object_list):
+    def filter_results(self, object_list, test: bool = False):
+        if test:
+            return object_list
+        
         now = int(datetime.now().timestamp()) - int(259200)
         filtered_objects =  [x for x in object_list if int(x['date']) >= now and x['bridge'] == True] 
         return filtered_objects
     
-    def retrieve(self):
-        bridge_hack_objects = super().retrieve()
+    def retrieve(self, test: bool = False):
+        bridge_hack_objects = super().retrieve(test=test)
         model_objects = []
         if bridge_hack_objects:
             for value in bridge_hack_objects:

@@ -44,8 +44,7 @@ class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
     def filter_results(self) -> str:
         raise NotImplementedError 
 
-    def retrieve(self):
-
+    def retrieve(self, test: bool = False):
         tries = 0
         max_tries = 3
         timeout = int(os.environ.get('TIMEOUT', 10))
@@ -80,7 +79,7 @@ class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
                         tries += 1
 
                 ## this will only be populated if there are stablecoins which are depegged (<0.05)
-                filtered_results = self.filter_results(object_list=info_dict)
+                filtered_results = self.filter_results(object_list=info_dict, test=test)
                 final_result = filtered_results if filtered_results else []
                 return final_result 
 
