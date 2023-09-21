@@ -6,7 +6,7 @@ from binance_ews_app.model.model_binance_article_raw import \
 from binance_ews_app.converters.converter_dict_to_binance_article_raw \
                                 import ConverterDictToBinanceArticleRaw
 from binance_ews_app.decorator.decorator_binance_urls_required import \
-                                             binance_article_url_required
+                                                binance_url_required
 from binance_ews_app.decorator.decorator_binance_headers_required import \
                                                    binance_headers_required
 from ews_app.service_interfaces.service_model_raw_article_interface import \
@@ -17,7 +17,7 @@ from ews_app.service_interfaces.service_model_raw_article_interface import \
 class ServiceBinanceRawArticleRetriever(ServiceRawArticleRetrieverInterface):
 
     @binance_headers_required
-    @binance_article_url_required
+    @binance_url_required
     def __init__(self,
                  binance_headers,
                  binance_news_dict_url,

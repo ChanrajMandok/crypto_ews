@@ -20,15 +20,19 @@
 |Environment variable|value|
 | :-| :-
 |TIMEOUT|10
-|PEG_DEVIATION_ALERT|5
+|PEG_DEVIATION_ALERT|1
 |RELEVENT_NEWS_LOOKBACK_DAYS|30
 |UPDATE_REFRESH_INCREMENT_MINS|10
 |MANAGER_REFRESH_INCREMENT_MINS|15
 |DEFI_LLAMA_STABLECOIN_REFRESH_INCREMENT|5
-|BINANCE_ARTICLE_BASE_URL|https://www.binance.com/en/support/announcement/
-|BINANCE_NEWS_DICT_URL|https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&pageSize=20&pageNo=1
-|OKX_ARTICLE_BASE_URL|https://www.okx.com/help-center/
-|OKX_NEWS_DICT_URL|https://www.okx.com/v2/support/home/web
+|OKX_ARTICLE_BASE_URL|=https://www.okx.com/help-center/
+|OKX_NEWS_DICT_URL|=https://www.okx.com/v2/support/home/web
+|OKX_ORDERBOOK_URL|=https://www.okx.com/api/v5/market/tickers?instType=SPOT
+|OKX_DELIST_URL|=https://www.okx.com/api/v5/public/instruments?instType=SPOT
+|BINANCE_ORDERBOOK_URL|=https://api.binance.com/api/v3/ticker/bookTicker
+|BINANCE_ARTICLE_BASE_UR|L=https://www.binance.com/en/support/announcement/
+|BINANCE_DELIST_URL|=https://www.binance.com/bapi/asset/v2/public/asset-service/product/get-products?includeEtf=true
+|BINANCE_NEWS_DICT_URL|=https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&pageSize=20&pageNo=1
 |DEFI_LLAMA_BASE_URL|https://defillama.com/
 |DEFI_LLAMA_HACKS_URL|https://defillama.com/hacks
 |DEFI_LLAMA_BRIDGE_HACKS|https://defillama.com/_next/data/3b1dcc58094f2a2d31f11f4ea026016f4b4b8391/hacks.json

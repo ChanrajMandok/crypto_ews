@@ -1,6 +1,6 @@
 import os
 
-def binance_article_url_required(function=None,
+def binance_url_required(function=None,
                                  env_variable=None):
     """
     Decorator that injects the okx api's base url.
@@ -11,7 +11,11 @@ def binance_article_url_required(function=None,
                 os.environ.get('BINANCE_ARTICLE_BASE_URL', None)
             kwargs["binance_news_dict_url"] = \
                 os.environ.get('BINANCE_NEWS_DICT_URL', None)
+            kwargs["binance_delist_url"] = \
+                os.environ.get('BINANCE_DELIST_URL', None)
             return func(*args, **kwargs)
+        
+        
         return wrapper
 
     if function:

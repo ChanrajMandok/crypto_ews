@@ -4,7 +4,7 @@ from okx_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from okx_ews_app.model.model_okx_event import ModelOkxEvent
 from okx_ews_app.decorator.decorator_okx_urls_required import \
-                                       okx_article_url_required
+                                               okx_url_required
 from okx_ews_app.model.model_okx_article import ModelOkxArticle
 from okx_ews_app.decorator.decorator_okx_headers_required import \
                                               okx_headers_required
@@ -22,7 +22,7 @@ class ServiceOkxArticleHtmlRetriever(ServiceModelArticleHtmlRetrieverInterface):
     keywords & are within date range and retrieves the html of the article. 
     """
     @okx_headers_required
-    @okx_article_url_required
+    @okx_url_required
     def __init__(self,
                  okx_headers,
                  okx_article_base_url,

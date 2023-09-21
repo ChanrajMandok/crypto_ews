@@ -64,14 +64,16 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def source(self):
         raise NotImplementedError
-    
+
     def retrieve(self) -> dict[ModelQuote]:
+
+        tries = 0
         max_tries = 3
         ssl_env = os.environ.get('SSL_VERIFY', 'True')
         ssl_verify = False if ssl_env == "False" else True
         timeout = int(os.environ.get('TIMEOUT', 1000))
 
-        for _ in range(max_tries):
+        while tries < max_tries:
             try:
                 session = requests.Session()
                 session.verify = ssl_verify
@@ -80,24 +82,37 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                     timeout=timeout
                 )
 
-                if 200 <= response.status_code < 300:
-                    response_raw = json.loads(response.content)
+                code_group = response.status_code - (response.status_code % 100)
+                if code_group != 200:
+                    self.logger_instance.error(
+                        f"{self.class_name} {response.status_code} - "
+                        f"ERROR: Failed to get a response. "
+                        f"{self.dict_url}")
+                    tries += 1
+                    continue
 
-                    if self.key_1:
-                        if not str(self.key_1) in response_raw:
-                            self.logger_instance.error(f"{self.class_name}: {self.url} failed to get the book tickers")
-                            return {}
-                        orderbook_data = response_raw[self.key_1]
-                    else:
-                        orderbook_data = response_raw
+                response_raw = response.json()
+                if self.key_1:
+                    if not str(self.key_1) in response_raw:
+                        self.logger_instance.error(
+                        f"{self.class_name}: {self.url} failed to get the book tickers")
+                        tries += 1
+                        continue
 
-                    prices_dict = {}
+                    orderbook_data = response_raw[self.key_1]
+                else:
+                    orderbook_data = response_raw
+
+                prices_dict = {}
 
                 for orderbook in orderbook_data:
 
                     symbol = orderbook[str(self.symbol_key)]
                     if not symbol:
-                        self.logger_instance.error(f"{self.class_name}: failed to get the orderbooks, check response formatting")
+                        self.logger_instance.error(
+                        f"{self.class_name}: failed to get the orderbooks, check response formatting")
+                        tries += 1
+                        continue
 
                     if symbol not in self.tickers_list:
                         continue
@@ -128,7 +143,8 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
 
                     prices_dict[wx_symbol] = ModelOrderBookLevel1(bid=bid, ask=ask, source=self.source)
 
-                self.logger_instance.info(f"{self.class_name}: {len(prices_dict)} {self.source.name} orderbooks retrieved..")
+                self.logger_instance.info(
+                    f"{self.class_name}: {len(prices_dict)} {self.source.name} orderbooks retrieved..")
 
                 return prices_dict
             

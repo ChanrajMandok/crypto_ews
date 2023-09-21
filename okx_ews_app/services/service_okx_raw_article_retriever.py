@@ -4,7 +4,7 @@ from singleton_decorator import singleton
 
 from okx_ews_app.services import logger
 from okx_ews_app.decorator.decorator_okx_urls_required import \
-                                       okx_article_url_required
+                                               okx_url_required
 from okx_ews_app.decorator.decorator_okx_headers_required import \
                                               okx_headers_required
 from okx_ews_app.converters.converter_dict_to_okx_article_raw import \
@@ -18,7 +18,7 @@ from ews_app.service_interfaces.service_model_raw_article_interface import \
 class ServiceOkxRawArticleRetriever(ServiceRawArticleRetrieverInterface):
 
     @okx_headers_required
-    @okx_article_url_required
+    @okx_url_required
     def __init__(self, 
                  okx_headers,
                  okx_news_dict_url,

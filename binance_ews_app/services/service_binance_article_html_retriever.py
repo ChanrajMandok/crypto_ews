@@ -4,7 +4,7 @@ from binance_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from binance_ews_app.model.model_binance_event import ModelBinanceEvent
 from binance_ews_app.decorator.decorator_binance_urls_required import \
-                                            binance_article_url_required
+                                                    binance_url_required
 from binance_ews_app.decorator.decorator_binance_headers_required import \
                                                   binance_headers_required
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
@@ -22,7 +22,7 @@ class ServiceBinanceArticleHtmlRetriever(ServiceModelArticleHtmlRetrieverInterfa
     keywords & are within date range and retrieves the html of the article. 
     """
     @binance_headers_required
-    @binance_article_url_required
+    @binance_url_required
     def __init__(self,
                  binance_headers,
                  binance_article_base_url,
