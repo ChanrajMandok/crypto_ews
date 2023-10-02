@@ -142,8 +142,8 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
 
                     prices_dict[wx_symbol] = ModelOrderBook(symbol=wx_symbol, bid=bid, ask=ask, source=self.source)
 
-                self.logger_instance.info(
-                    f"{self.class_name}: {len(prices_dict)} {self.source.name} orderbooks retrieved..")
+                # self.logger_instance.info(
+                #     f"{self.class_name}: {len(prices_dict)} {self.source.name} orderbooks retrieved..")
 
                 return prices_dict
             

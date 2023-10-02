@@ -8,5 +8,5 @@ from ews_app.tasks.task_populate_currencies_from_wx_db import \
 
 def run():
     TaskPopulateCurrenciesFromEnv().populate()
-    TaskpopulateCurrenciesFromWxDb().populate()
+    # TaskpopulateCurrenciesFromWxDb().populate()
     TaskPopulateWirexStableCoinsFromEnv().populate()

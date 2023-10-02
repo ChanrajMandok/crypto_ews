@@ -1,6 +1,10 @@
 from django.test import TestCase
+
+from ews_app.model.model_order_book import ModelOrderBook
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
+from okx_ews_app.services.service_okx_orderbook_retriever import \
+                                      ServiceOkxOrderbookRetriever
 from okx_ews_app.services.service_okx_raw_article_retriever import \
                                        ServiceOkxRawArticleRetriever
 from okx_ews_app.model.model_okx_article_raw import ModelOkxArticleRaw
@@ -49,3 +53,14 @@ class TestOkxEwsAppAllServicesTestCase(TestCase):
             self.assertIsNotNone(model_event_objects)
         except Exception as e:
             raise Exception(f"Failure in service_article_html_retriever: {e}")
+        
+    def test_service_okx_orderbook_retriever(self):
+        try:
+            service_okx_orderbook_retriever = ServiceOkxOrderbookRetriever()
+            wirex_asset_orderbooks = service_okx_orderbook_retriever.retrieve()
+            
+            self.assertIsNotNone(wirex_asset_orderbooks)
+            self.assertTrue(isinstance(wirex_asset_orderbooks, dict))
+            self.assertTrue(list(wirex_asset_orderbooks.values())[0], ModelOrderBook)
+        except Exception as e:
+            raise Exception(f"Failure in service_okx_orderbook_retriever: {e}")

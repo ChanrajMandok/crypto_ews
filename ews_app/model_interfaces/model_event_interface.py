@@ -1,4 +1,5 @@
 from django.db import models
+from polymorphic.models import PolymorphicModel
 from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
 from django.contrib.postgres.fields import ArrayField
@@ -8,7 +9,7 @@ from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 
 
-class ModelEventInterface(models.Model):
+class ModelEventInterface(PolymorphicModel):
 
     id                 = models.IntegerField(null=False, primary_key=True)
     trading_affected   = models.BooleanField(default=False)
@@ -27,9 +28,6 @@ class ModelEventInterface(models.Model):
                                                                 + EnumHighAlertWarningKeyWords.choices())
     ms_teams_message   = models.JSONField(null=True)
     event_completed    = models.BooleanField(default=False)
-
-    class Meta:
-        abstract = True
 
     def __repr__(self):
         return f"{self.__class__.__name__} Category: {self.alert_category.name}, Priotity: {self.alert_priority.value} "

@@ -1,6 +1,7 @@
 import json
 
 from django.test import TestCase
+
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords

@@ -51,7 +51,9 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
         return self._table_selector
     
     def retrieve(self, test: bool= False):
+        
         try:
+            lookback = 2073600000 if test else 259200000
             table_body = super().retrieve()
             rows = table_body.find_all("tr")
 
@@ -69,10 +71,10 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
                 if len(value) > 2 :
                     model_instance = self._converter.convert(value)
                 # if not last_updated look for hacks that happened over the last 3 days
-                if not last_updated and model_instance.release_date > (now - 259200000):
+                if not last_updated and model_instance.release_date > (now - lookback):
                     model_instances.append(model_instance)
                 # if last updated look for hacks that 
-                if last_updated and model_instance.release_date > (last_updated.last_updated - 259200000):
+                if last_updated and model_instance.release_date > (last_updated.last_updated - lookback):
                     model_instances.append(model_instance)
                 
             return model_instances

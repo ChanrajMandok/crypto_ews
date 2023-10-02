@@ -1,6 +1,7 @@
 import json
 
 from django.test import TestCase
+
 from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
 from okx_ews_app.model.model_okx_event import ModelOkxEvent

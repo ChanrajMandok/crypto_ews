@@ -1,15 +1,18 @@
 from django.test import TestCase
+
+from ews_app.model.model_order_book import ModelOrderBook
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
 from binance_ews_app.model.model_binance_article_raw import \
                                        ModelBinanceArticleRaw
+from binance_ews_app.services.service_binance_orderbook_retriever import \
+                                          ServiceBinanceOrderbookRetriever
 from binance_ews_app.services.service_binance_raw_article_retriever import \
                                            ServiceBinanceRawArticleRetriever
 from binance_ews_app.services.service_binance_article_html_retriever import \
                                            ServiceBinanceArticleHtmlRetriever
 from binance_ews_app.services.service_binance_raw_article_keyword_classifier import \
                                             ServiceBinanceRawArticleKeywordClassifier
-
 
 class TestBinanceEwsAppAllServicesTestCase(TestCase):
 
@@ -50,3 +53,14 @@ class TestBinanceEwsAppAllServicesTestCase(TestCase):
             self.assertIsNotNone(model_event_objects)
         except Exception as e:
             raise Exception(f"Failure in service_article_html_retriever: {e}")
+        
+    def test_service_binance_orderbook_retriever(self):
+        try:
+            service_binance_orderbook_retriever = ServiceBinanceOrderbookRetriever()
+            wirex_asset_orderbooks = service_binance_orderbook_retriever.retrieve()
+            
+            self.assertIsNotNone(wirex_asset_orderbooks)
+            self.assertTrue(isinstance(wirex_asset_orderbooks, dict))
+            self.assertTrue(list(wirex_asset_orderbooks.values())[0], ModelOrderBook)
+        except Exception as e:
+            raise Exception(f"Failure in service_binance_orderbook_retriever: {e}")
