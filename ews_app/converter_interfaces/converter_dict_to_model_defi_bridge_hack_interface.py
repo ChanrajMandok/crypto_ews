@@ -1,11 +1,10 @@
-import abc 
+import abc
 
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.model.model_wirex_spot_currency import \
-                                ModelWirexSpotCurrency
-from ews_app.enum.enum_high_alert_warning_key_words \
-                    import EnumHighAlertWarningKeyWords
 from ews_app.enum.enum_blockchain import EnumBlockchain
+from ews_app.enum.enum_high_alert_warning_key_words import \
+                                EnumHighAlertWarningKeyWords
+from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 
 
 class ConverterDictToModelBridgeHackInterface(metaclass=abc.ABCMeta):

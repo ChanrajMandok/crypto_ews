@@ -2,15 +2,15 @@ from singleton_decorator import singleton
 
 from binance_ews_app.services import logger
 from binance_ews_app.model.model_binance_article_raw import \
-                                        ModelBinanceArticleRaw
-from binance_ews_app.converters.converter_dict_to_binance_article_raw \
-                                import ConverterDictToBinanceArticleRaw
+                                       ModelBinanceArticleRaw
 from binance_ews_app.decorator.decorator_binance_urls_required import \
-                                                binance_url_required
+                                                   binance_url_required
 from binance_ews_app.decorator.decorator_binance_headers_required import \
-                                                   binance_headers_required
+                                                  binance_headers_required
 from ews_app.service_interfaces.service_model_raw_article_interface import \
-                                          ServiceRawArticleRetrieverInterface
+                                         ServiceRawArticleRetrieverInterface
+from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
+                                              ConverterDictToBinanceArticleRaw
 
 
 @singleton

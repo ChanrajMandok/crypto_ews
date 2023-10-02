@@ -1,21 +1,20 @@
 from django.test import TestCase
-
-from defi_llama_ews_app.model.model_defi_stablecoin import \
-                                          ModelDefiStablecoin
+from ews_app.tasks.task_populate_currencies_from_env import \
+                                TaskPopulateCurrenciesFromEnv
+from ews_app.tasks.task_populate_stablecoins_from_env import \
+                           TaskPopulateWirexStableCoinsFromEnv
 from defi_llama_ews_app.model.model_defi_llama_bridge_hack import \
-                                            ModelDefiLlamaBridgeHack
+                                           ModelDefiLlamaBridgeHack
 from defi_llama_ews_app.services.service_defi_lama_url_retriever import \
-                                                ServiceDefiLamaUrlRetriever
+                                              ServiceDefiLamaUrlRetriever
 from defi_llama_ews_app.model.model_defi_llama_hack import ModelDefiLlamaHack
+from defi_llama_ews_app.model.model_defi_stablecoin import ModelDefiStablecoin
 from defi_llama_ews_app.services.service_defi_llama_model_hack_retriever import \
-                                                ServiceDefiLlamaModelHackRetriever
+                                               ServiceDefiLlamaModelHackRetriever
 from defi_llama_ews_app.services.service_defi_llama_bridge_hack_retriever import \
-                                                ServiceDefiLlamaBridgeHackRetriever
+                                               ServiceDefiLlamaBridgeHackRetriever
 from defi_llama_ews_app.services.service_defi_llama_model_stablecoin_retriever import \
-                                                ServiceDefiLlamaModelStablecoinRetriever
-from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
-from ews_app.tasks.task_populate_stablecoins_from_env import TaskPopulateWirexStableCoinsFromEnv
-
+                                               ServiceDefiLlamaModelStablecoinRetriever
 
 class TestDefiLlamaServicesTestCase(TestCase):
 

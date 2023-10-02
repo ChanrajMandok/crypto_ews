@@ -1,8 +1,7 @@
 from binance_ews_app.converters import logger
-from binance_ews_app.model.model_binance_event import \
-                                       ModelBinanceEvent
-from ews_app.converter_interfaces.converter_model_article_to_model_event_interface \
-                                              import ConverterArticleToEventInterface
+from binance_ews_app.model.model_binance_event import ModelBinanceEvent
+from ews_app.converter_interfaces.converter_model_article_to_model_event_interface import \
+                                                           ConverterArticleToEventInterface
 
 
 class ConverterBinanceArticleToBinanceEvent(ConverterArticleToEventInterface):

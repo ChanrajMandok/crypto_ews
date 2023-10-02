@@ -5,16 +5,16 @@ from defi_llama_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from defi_llama_ews_app.store.stores_defi import StoreDefi
 from defi_llama_ews_app.model.model_db_defi_last_updated import \
-                                            ModelDbDefiLastUpdated
+                                           ModelDbDefiLastUpdated
 from ews_app.services.service_send_model_event_to_ms_teams import \
-                                      ServiceSendModelEventToMsTeams
-from defi_llama_ews_app.services.service_defi_llama_model_hack_retriever \
-                                  import ServiceDefiLlamaModelHackRetriever
+                                     ServiceSendModelEventToMsTeams
 from ews_app.service_interfaces.service_db_event_updater_interface import \
-                                              ServiceDbEventUpdaterInterface
+                                             ServiceDbEventUpdaterInterface
 from defi_llama_ews_app.model.model_defi_hack_event import ModelDefiHackEvent
-from defi_llama_ews_app.converters.converter_model_defi_llama_hack_to_model_event \
-                                            import ConverterModelDefiHackToModelEvent
+from defi_llama_ews_app.services.service_defi_llama_model_hack_retriever import \
+                                               ServiceDefiLlamaModelHackRetriever
+from defi_llama_ews_app.converters.converter_model_defi_llama_hack_to_model_event import \
+                                                        ConverterModelDefiHackToModelEvent
 
 
 @singleton

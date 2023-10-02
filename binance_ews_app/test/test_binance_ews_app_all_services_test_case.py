@@ -1,15 +1,14 @@
 from django.test import TestCase
-
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
 from binance_ews_app.model.model_binance_article_raw import \
-                                        ModelBinanceArticleRaw
+                                       ModelBinanceArticleRaw
 from binance_ews_app.services.service_binance_raw_article_retriever import \
-                                            ServiceBinanceRawArticleRetriever
+                                           ServiceBinanceRawArticleRetriever
 from binance_ews_app.services.service_binance_article_html_retriever import \
-                                            ServiceBinanceArticleHtmlRetriever
-from binance_ews_app.services.service_binance_raw_article_keyword_classifier \
-                              import ServiceBinanceRawArticleKeywordClassifier
+                                           ServiceBinanceArticleHtmlRetriever
+from binance_ews_app.services.service_binance_raw_article_keyword_classifier import \
+                                            ServiceBinanceRawArticleKeywordClassifier
 
 
 class TestBinanceEwsAppAllServicesTestCase(TestCase):

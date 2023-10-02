@@ -1,7 +1,7 @@
 from defi_llama_ews_app.converters import logger
 from defi_llama_ews_app.model.model_defi_stablecoin import ModelDefiStablecoin
-from ews_app.converter_interfaces.converter_dict_to_model_stablecoin_interface \
-                                   import ConverterDictToModelStablecoinInterface
+from ews_app.converter_interfaces.converter_dict_to_model_stablecoin_interface import \
+                                                ConverterDictToModelStablecoinInterface
 
 
 class ConverterDefiLlamaDictToModelStableCoin(ConverterDictToModelStablecoinInterface):

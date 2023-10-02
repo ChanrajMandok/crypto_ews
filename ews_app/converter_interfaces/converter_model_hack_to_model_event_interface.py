@@ -3,8 +3,8 @@ import abc
 from typing import Optional, List
 
 from ews_app.enum.enum_source import EnumSource
-from ews_app.converters.converter_model_event_to_ms_teams_message \
-                         import ConverterModelEventToMsTeamsMessage
+from ews_app.converters.converter_model_event_to_ms_teams_message import \
+                                       ConverterModelEventToMsTeamsMessage
 from ews_app.model_interfaces.model_hack_interface import ModelHackInterface
 
 

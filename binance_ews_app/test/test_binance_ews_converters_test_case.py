@@ -1,22 +1,22 @@
 import json
 
 from django.test import TestCase
-
 from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
+from binance_ews_app.model.model_binance_article_raw import \
+                                       ModelBinanceArticleRaw
 from binance_ews_app.model.model_binance_event import ModelBinanceEvent
-from binance_ews_app.model.model_binance_article import ModelBinanceArticle    
+from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
-                                                ConverterDictToBinanceArticleRaw
-from binance_ews_app.model.model_binance_article_raw import ModelBinanceArticleRaw
+                                              ConverterDictToBinanceArticleRaw
 from binance_ews_app.converters.converter_binance_article_to_binance_event import \
-                                                ConverterBinanceArticleToBinanceEvent
+                                              ConverterBinanceArticleToBinanceEvent
 from binance_ews_app.converters.converter_binance_raw_article_to_binance_article import \
-                                                ConverterBinanceRawArticleToBinanceArticle
+                                               ConverterBinanceRawArticleToBinanceArticle
 
 
 class TestBinanceConvertersTestCase(TestCase):

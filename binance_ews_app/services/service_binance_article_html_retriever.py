@@ -4,14 +4,14 @@ from binance_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from binance_ews_app.model.model_binance_event import ModelBinanceEvent
 from binance_ews_app.decorator.decorator_binance_urls_required import \
-                                                    binance_url_required
+                                                   binance_url_required
 from binance_ews_app.decorator.decorator_binance_headers_required import \
                                                   binance_headers_required
 from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from binance_ews_app.services.service_binance_article_html_handler import \
-                                             ServiceBinanceArticleHtmlHandler
-from ews_app.service_interfaces.service_model_article_html_retriever_interface \
-                                import ServiceModelArticleHtmlRetrieverInterface
+                                           ServiceBinanceArticleHtmlHandler
+from ews_app.service_interfaces.service_model_article_html_retriever_interface import \
+                                              ServiceModelArticleHtmlRetrieverInterface
 
 
 @singleton

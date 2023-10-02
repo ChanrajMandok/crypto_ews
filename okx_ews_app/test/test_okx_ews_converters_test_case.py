@@ -1,7 +1,6 @@
 import json
 
 from django.test import TestCase
-
 from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
 from okx_ews_app.model.model_okx_event import ModelOkxEvent
@@ -9,14 +8,14 @@ from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
-from okx_ews_app.model.model_okx_article import ModelOkxArticle    
+from okx_ews_app.model.model_okx_article import ModelOkxArticle
 from okx_ews_app.model.model_okx_article_raw import ModelOkxArticleRaw
 from okx_ews_app.converters.converter_dict_to_okx_article_raw import \
                                           ConverterDictToOkxArticleRaw
 from okx_ews_app.converters.converter_okx_article_to_okx_event import \
-                                           ConverterOkxArticleToOkxEvent
+                                          ConverterOkxArticleToOkxEvent
 from okx_ews_app.converters.converter_okx_raw_article_to_okx_article import \
-                                            ConverterOkxRawArticleToOkxArticle
+                                           ConverterOkxRawArticleToOkxArticle
 
 
 class TestOkxConvertersTestCase(TestCase):

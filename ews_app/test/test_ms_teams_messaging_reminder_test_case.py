@@ -1,17 +1,18 @@
 import json
 
 from django.test import TestCase
-
 from ews_app.enum.enum_priority import EnumPriority
-from binance_ews_app.model.model_binance_article import ModelBinanceArticle
+from ews_app.enum.enum_high_alert_warning_key_words import \
+                                EnumHighAlertWarningKeyWords
+from ews_app.tasks.task_populate_currencies_from_env import \
+                                TaskPopulateCurrenciesFromEnv
 from ews_app.services.service_send_model_event_to_ms_teams import \
-                                      ServiceSendModelEventToMsTeams
+                                     ServiceSendModelEventToMsTeams
+from binance_ews_app.model.model_binance_article import ModelBinanceArticle
 from binance_ews_app.services.service_binance_article_html_retriever import \
-                                            ServiceBinanceArticleHtmlRetriever
+                                           ServiceBinanceArticleHtmlRetriever
 from binance_ews_app.converters.converter_dict_to_binance_article_raw import \
-                                                ConverterDictToBinanceArticleRaw
-from ews_app.enum.enum_high_alert_warning_key_words import EnumHighAlertWarningKeyWords
-from ews_app.tasks.task_populate_currencies_from_env import TaskPopulateCurrenciesFromEnv
+                                              ConverterDictToBinanceArticleRaw
 
 
 class TestMsTeamsMessagingReminderTestCase(TestCase):

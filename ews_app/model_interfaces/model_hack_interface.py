@@ -1,11 +1,10 @@
 from django.db import models
-
 from ews_app.enum.enum_priority import EnumPriority
 from django.contrib.postgres.fields import ArrayField
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
-                                 EnumHighAlertWarningKeyWords
+                                EnumHighAlertWarningKeyWords
 
 
 class ModelHackInterface(models.Model):

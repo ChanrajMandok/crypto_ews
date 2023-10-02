@@ -3,7 +3,7 @@ from ews_app.enum.enum_source import EnumSource
 from ews_app.decorators.decorator_orderbook_urls_required import \
                                            orderbook_urls_required
 from ews_app.decorators.decorator_wx_tickers_spot_list_required import \
-                                                  wirex_spot_tickers_list
+                                                 wirex_spot_tickers_list
 from ews_app.service_interfaces.service_orderbook_retriever_interface import \
                                             ServiceOrderBookRetrieverInterface
 

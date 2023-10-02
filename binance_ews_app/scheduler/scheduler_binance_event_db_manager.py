@@ -2,11 +2,11 @@ import os
 
 from singleton_decorator import singleton
 
-from binance_ews_app.scheduler    import logger
-from binance_ews_app.services.service_binance_db_event_manager \
-                              import ServiceBinanceDbEventManager
-from ews_app.scheduler_interfaces.scheduler_db_event_manager_interface \
-                                 import SchedularDbEventManagerInterface
+from binance_ews_app.scheduler import logger
+from binance_ews_app.services.service_binance_db_event_manager import \
+                                           ServiceBinanceDbEventManager
+from ews_app.scheduler_interfaces.scheduler_db_event_manager_interface import \
+                                               SchedularDbEventManagerInterface
 
 
 @singleton

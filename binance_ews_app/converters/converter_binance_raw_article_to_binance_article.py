@@ -1,10 +1,9 @@
 from binance_ews_app.converters import logger
-from binance_ews_app.model.model_binance_article import \
-                                       ModelBinanceArticle
 from binance_ews_app.model.model_binance_article_raw import \
                                        ModelBinanceArticleRaw
-from ews_app.converter_interfaces.converter_model_raw_article_to_model_article_interface \
-                                    import ConverterModelRawArticleToModelArticleInterface
+from binance_ews_app.model.model_binance_article import ModelBinanceArticle
+from ews_app.converter_interfaces.converter_model_raw_article_to_model_article_interface import \
+                                                  ConverterModelRawArticleToModelArticleInterface
 
 
 class ConverterBinanceRawArticleToBinanceArticle(ConverterModelRawArticleToModelArticleInterface):

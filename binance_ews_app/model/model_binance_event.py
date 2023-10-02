@@ -1,5 +1,4 @@
-from ews_app.model_interfaces.model_event_interface \
-                           import ModelEventInterface
+from ews_app.model_interfaces.model_event_interface import ModelEventInterface
 
 
 class ModelBinanceEvent(ModelEventInterface):

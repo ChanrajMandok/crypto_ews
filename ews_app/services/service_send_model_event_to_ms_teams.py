@@ -2,7 +2,6 @@ import os
 import requests
 
 from ews_app.services import logger
-
 from ews_app.enum.enum_source import EnumSource
 
 

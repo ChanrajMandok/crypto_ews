@@ -2,12 +2,12 @@ from datetime import datetime
 from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
-from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required \
-                                        import defi_llama_json_headers_required
 from defi_llama_ews_app.converters.converter_dict_to_model_bridge_hack import \
-                                                  ConverterDictToModelBridgeHack
-from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_interface \
-                                            import ServiceDefiLlamaJsonRetrieverInterface
+                                                 ConverterDictToModelBridgeHack
+from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required import \
+                                                     defi_llama_json_headers_required
+from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_interface import \
+                                                         ServiceDefiLlamaJsonRetrieverInterface
 
 
 @singleton

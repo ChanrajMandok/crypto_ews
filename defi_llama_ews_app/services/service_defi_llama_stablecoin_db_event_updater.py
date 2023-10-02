@@ -1,4 +1,5 @@
 import os
+
 from datetime import datetime
 from singleton_decorator import singleton
 
@@ -6,17 +7,17 @@ from defi_llama_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from defi_llama_ews_app.store.stores_defi import StoreDefi
 from defi_llama_ews_app.model.model_db_defi_last_updated import \
-                                            ModelDbDefiLastUpdated
+                                           ModelDbDefiLastUpdated
 from defi_llama_ews_app.model.model_defi_stablecoin_event import \
-                                           ModelDefiStableCoinEvent
+                                          ModelDefiStableCoinEvent
 from ews_app.services.service_send_model_event_to_ms_teams import \
-                                      ServiceSendModelEventToMsTeams
+                                     ServiceSendModelEventToMsTeams
 from ews_app.service_interfaces.service_db_event_updater_interface import \
                                              ServiceDbEventUpdaterInterface
-from defi_llama_ews_app.services.service_defi_llama_model_stablecoin_retriever \
-                                    import ServiceDefiLlamaModelStablecoinRetriever
 from defi_llama_ews_app.converters.convert_model_stablecoin_to_model_event import \
-                                                  ConvertModelStablecoinToModelEvent
+                                                 ConvertModelStablecoinToModelEvent
+from defi_llama_ews_app.services.service_defi_llama_model_stablecoin_retriever import \
+                                               ServiceDefiLlamaModelStablecoinRetriever
 
 
 @singleton

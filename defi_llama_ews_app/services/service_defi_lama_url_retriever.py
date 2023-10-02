@@ -5,10 +5,10 @@ from bs4 import BeautifulSoup
 from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
-from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required \
-                                        import defi_llama_urls_required
-from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required \
-                                        import defi_llama_json_headers_required
+from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required import \
+                                                     defi_llama_urls_required
+from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required import \
+                                                     defi_llama_json_headers_required
 
 
 @singleton

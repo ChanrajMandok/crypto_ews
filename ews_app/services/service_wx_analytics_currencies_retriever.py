@@ -3,7 +3,7 @@ from singleton_decorator import singleton
 
 from ews_app.services import logger
 from ews_app.services.service_wx_analytics_connection_retriever import \
-                                    ServiceWxAnalyticsConnectionRetriever
+                                   ServiceWxAnalyticsConnectionRetriever
 from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 
 

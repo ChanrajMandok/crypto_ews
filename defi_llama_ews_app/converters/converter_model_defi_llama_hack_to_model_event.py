@@ -1,8 +1,8 @@
 from ews_app.converters import logger
 from defi_llama_ews_app.model.model_defi_llama_hack import ModelDefiLlamaHack
 from defi_llama_ews_app.model.model_defi_hack_event import ModelDefiHackEvent
-from ews_app.converter_interfaces.converter_model_hack_to_model_event_interface \
-                                    import ConverterModelHackToModelEventInterface
+from ews_app.converter_interfaces.converter_model_hack_to_model_event_interface import \
+                                                 ConverterModelHackToModelEventInterface
 
 
 class ConverterModelDefiHackToModelEvent(ConverterModelHackToModelEventInterface):

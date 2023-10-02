@@ -1,7 +1,7 @@
 from defi_llama_ews_app.converters import logger
 from defi_llama_ews_app.model.model_defi_llama_hack import ModelDefiLlamaHack
-from ews_app.converter_interfaces.converter_list_to_model_defi_hack_interface \
-                                    import ConverterListToModelHackInterface
+from ews_app.converter_interfaces.converter_list_to_model_defi_hack_interface import \
+                                                     ConverterListToModelHackInterface
 
 
 class ConverterDefiLlamaListToModelHack(ConverterListToModelHackInterface):

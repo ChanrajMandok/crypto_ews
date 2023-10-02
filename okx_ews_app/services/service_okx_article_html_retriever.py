@@ -3,15 +3,14 @@ from singleton_decorator import singleton
 from okx_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from okx_ews_app.model.model_okx_event import ModelOkxEvent
-from okx_ews_app.decorator.decorator_okx_urls_required import \
-                                               okx_url_required
 from okx_ews_app.model.model_okx_article import ModelOkxArticle
 from okx_ews_app.decorator.decorator_okx_headers_required import \
                                               okx_headers_required
 from okx_ews_app.services.service_okx_article_html_handler import \
-                                        ServiceOkxArticleHtmlHandler
-from ews_app.service_interfaces.service_model_article_html_retriever_interface \
-                                import ServiceModelArticleHtmlRetrieverInterface
+                                       ServiceOkxArticleHtmlHandler
+from okx_ews_app.decorator.decorator_okx_urls_required import okx_url_required
+from ews_app.service_interfaces.service_model_article_html_retriever_interface import \
+                                              ServiceModelArticleHtmlRetrieverInterface
 
 
 @singleton

@@ -9,7 +9,6 @@ from datetime import datetime
 from ews_app.model.model_quote import ModelQuote
 from ews_app.model.model_order_book_level_1 import ModelOrderBookLevel1
 
-
 class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
     
     @classmethod

@@ -4,11 +4,10 @@ from datetime import datetime
 from typing import Optional, List, Union
 
 from ews_app.enum.enum_source import EnumSource
-from binance_ews_app.model.model_binance_article import \
-                                        ModelBinanceArticle
 from okx_ews_app.model.model_okx_article import ModelOkxArticle
-from ews_app.converters.converter_model_event_to_ms_teams_message \
-                         import ConverterModelEventToMsTeamsMessage
+from binance_ews_app.model.model_binance_article import ModelBinanceArticle
+from ews_app.converters.converter_model_event_to_ms_teams_message import \
+                                       ConverterModelEventToMsTeamsMessage
 
 
 class ConverterArticleToEventInterface(metaclass=abc.ABCMeta):

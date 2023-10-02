@@ -1,8 +1,9 @@
 import os
 import pyodbc
 
-from ews_app.services import logger
 from singleton_decorator import singleton
+
+from ews_app.services import logger
 
 
 @singleton

@@ -1,4 +1,3 @@
-from decimal import Decimal
 from django.db import models
 
 from ews_app.enum.enum_source import EnumSource

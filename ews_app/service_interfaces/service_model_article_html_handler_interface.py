@@ -6,21 +6,19 @@ from dateutil import parser
 
 from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.model.model_wirex_spot_currency import \
-                                ModelWirexSpotCurrency
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_currency_type import EnumCurrencyType
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
-from ews_app.model_interfaces.model_event_interface import \
-                                         ModelEventInterface
 from ews_app.model_interfaces.model_article_interface import \
                                          ModelArticleInterface
 from ews_app.converters.converter_str_to_model_ticker import \
                                      ConverterStrToModelTicker
-from ews_app.services.service_extract_article_content_from_html \
-                       import ServiceExtractArticleContentFromHtml 
+from ews_app.services.service_extract_article_content_from_html import \
+                                    ServiceExtractArticleContentFromHtml
+from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
+from ews_app.model_interfaces.model_event_interface import ModelEventInterface
 
 
 class ServiceModelArticleHtmlHandlerInterface(metaclass=abc.ABCMeta):

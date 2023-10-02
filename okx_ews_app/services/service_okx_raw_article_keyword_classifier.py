@@ -1,16 +1,13 @@
 from singleton_decorator import singleton
 
 from okx_ews_app.services import logger
-from okx_ews_app.store.stores_okx import \
-                                   StoreOkx
-from okx_ews_app.model.model_okx_article import \
-                                   ModelOkxArticle                       
-from okx_ews_app.model.model_okx_article_raw import \
-                                    ModelOkxArticleRaw      
-from okx_ews_app.converters.converter_okx_raw_article_to_okx_article \
-                              import ConverterOkxRawArticleToOkxArticle
-from ews_app.service_interfaces.service_model_raw_article_keyword_classifier_interface \
-                                import ServiceBinanceRawArticleKeywordClassifierInterface
+from okx_ews_app.store.stores_okx import StoreOkx
+from okx_ews_app.model.model_okx_article import ModelOkxArticle
+from okx_ews_app.model.model_okx_article_raw import ModelOkxArticleRaw
+from okx_ews_app.converters.converter_okx_raw_article_to_okx_article import \
+                                           ConverterOkxRawArticleToOkxArticle
+from ews_app.service_interfaces.service_model_raw_article_keyword_classifier_interface import \
+                                             ServiceBinanceRawArticleKeywordClassifierInterface
 
 
 @singleton

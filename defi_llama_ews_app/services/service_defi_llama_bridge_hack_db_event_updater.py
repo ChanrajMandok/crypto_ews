@@ -5,16 +5,17 @@ from defi_llama_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from defi_llama_ews_app.store.stores_defi import StoreDefi
 from defi_llama_ews_app.model.model_db_defi_last_updated import \
-                                            ModelDbDefiLastUpdated
+                                           ModelDbDefiLastUpdated
 from ews_app.services.service_send_model_event_to_ms_teams import \
-                                      ServiceSendModelEventToMsTeams
-from defi_llama_ews_app.services.service_defi_llama_bridge_hack_retriever \
-                                  import ServiceDefiLlamaBridgeHackRetriever
+                                     ServiceSendModelEventToMsTeams
+from defi_llama_ews_app.model.model_defi_bridge_hack_event import \
+                                           ModelDefiBridgeHackEvent
 from ews_app.service_interfaces.service_db_event_updater_interface import \
-                                              ServiceDbEventUpdaterInterface
-from defi_llama_ews_app.model.model_defi_bridge_hack_event import ModelDefiBridgeHackEvent
-from defi_llama_ews_app.converters.converter_model_defi_bridge_hack_to_model_event \
-                                      import ConverterModelDefiBridgeHackToModelEvent
+                                             ServiceDbEventUpdaterInterface
+from defi_llama_ews_app.services.service_defi_llama_bridge_hack_retriever import \
+                                               ServiceDefiLlamaBridgeHackRetriever
+from defi_llama_ews_app.converters.converter_model_defi_bridge_hack_to_model_event import \
+                                                   ConverterModelDefiBridgeHackToModelEvent
 
 
 @singleton

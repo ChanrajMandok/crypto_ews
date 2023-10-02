@@ -1,15 +1,13 @@
 from django.test import TestCase
-
-from okx_ews_app.model.model_okx_article_raw import \
-                                   ModelOkxArticleRaw
 from ews_app.tasks.task_populate_currencies_from_env import \
-                                 TaskPopulateCurrenciesFromEnv
+                                TaskPopulateCurrenciesFromEnv
 from okx_ews_app.services.service_okx_raw_article_retriever import \
                                        ServiceOkxRawArticleRetriever
+from okx_ews_app.model.model_okx_article_raw import ModelOkxArticleRaw
 from okx_ews_app.services.service_okx_article_html_retriever import \
                                        ServiceOkxArticleHtmlRetriever
-from okx_ews_app.services.service_okx_raw_article_keyword_classifier \
-                          import ServiceOkxRawArticleKeywordClassifier
+from okx_ews_app.services.service_okx_raw_article_keyword_classifier import \
+                                        ServiceOkxRawArticleKeywordClassifier
 
 
 class TestOkxEwsAppAllServicesTestCase(TestCase):

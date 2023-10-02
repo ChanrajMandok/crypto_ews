@@ -1,9 +1,10 @@
 import abc
+
 from datetime import datetime
 
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.services.service_send_model_event_to_ms_teams \
-                       import ServiceSendModelEventToMsTeams
+from ews_app.services.service_send_model_event_to_ms_teams import \
+                                     ServiceSendModelEventToMsTeams
 
 
 class ServiceDbEventManagerInterface(metaclass=abc.ABCMeta):

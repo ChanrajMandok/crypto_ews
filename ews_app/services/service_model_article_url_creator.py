@@ -1,6 +1,6 @@
 from ews_app.enum.enum_source import EnumSource
 from ews_app.model_interfaces.model_article_raw_interface import \
-                                            ModelArticleRawInterface
+                                          ModelArticleRawInterface
 
 
 class ServiceModelArticleUrlCreator:

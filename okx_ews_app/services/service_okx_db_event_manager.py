@@ -1,10 +1,9 @@
 from singleton_decorator import singleton
 
 from okx_ews_app.services import logger
-from okx_ews_app.model.model_okx_event import \
-                                   ModelOkxEvent
-from ews_app.service_interfaces.service_db_event_manager_interface \
-                                import ServiceDbEventManagerInterface
+from okx_ews_app.model.model_okx_event import ModelOkxEvent
+from ews_app.service_interfaces.service_db_event_manager_interface import \
+                                             ServiceDbEventManagerInterface
 
 
 @singleton

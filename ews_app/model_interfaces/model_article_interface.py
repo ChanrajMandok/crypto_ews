@@ -1,10 +1,9 @@
 from django.db import models
-
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_low_alert_warning_key_words import \
-                                 EnumLowAlertWarningKeyWords
+                                EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
-                                 EnumHighAlertWarningKeyWords
+                                EnumHighAlertWarningKeyWords
 
 
 class ModelArticleInterface(models.Model):

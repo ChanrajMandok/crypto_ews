@@ -1,12 +1,11 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
-
 from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
+from django.contrib.postgres.fields import ArrayField
 from ews_app.enum.enum_low_alert_warning_key_words import \
-                                 EnumLowAlertWarningKeyWords
+                                EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
-                                 EnumHighAlertWarningKeyWords
+                                EnumHighAlertWarningKeyWords
 
 
 class ModelEventInterface(models.Model):

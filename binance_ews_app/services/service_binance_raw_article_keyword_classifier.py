@@ -1,16 +1,14 @@
 from singleton_decorator import singleton
 
 from binance_ews_app.services import logger
-from binance_ews_app.store.stores_binance import \
-                                        StoreBinance
-from binance_ews_app.model.model_binance_article import \
-                                       ModelBinanceArticle                       
+from binance_ews_app.store.stores_binance import StoreBinance
 from binance_ews_app.model.model_binance_article_raw import \
-                                        ModelBinanceArticleRaw      
-from binance_ews_app.converters.converter_binance_raw_article_to_binance_article \
-                                 import ConverterBinanceRawArticleToBinanceArticle
-from ews_app.service_interfaces.service_model_raw_article_keyword_classifier_interface \
-                          import ServiceBinanceRawArticleKeywordClassifierInterface
+                                       ModelBinanceArticleRaw
+from binance_ews_app.model.model_binance_article import ModelBinanceArticle
+from binance_ews_app.converters.converter_binance_raw_article_to_binance_article import \
+                                               ConverterBinanceRawArticleToBinanceArticle
+from ews_app.service_interfaces.service_model_raw_article_keyword_classifier_interface import \
+                                             ServiceBinanceRawArticleKeywordClassifierInterface
 
 
 @singleton

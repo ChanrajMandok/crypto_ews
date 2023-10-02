@@ -4,16 +4,15 @@ import abc
 from datetime import datetime
 
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.enum.enum_false_altert_phrases import \
-                                 EnumFalseAlertPhrases
 from ews_app.enum.enum_low_alert_warning_key_words import \
-                                 EnumLowAlertWarningKeyWords
+                                EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
-                                  EnumHighAlertWarningKeyWords          
+                                EnumHighAlertWarningKeyWords
 from ews_app.model_interfaces.model_article_interface import \
-                                          ModelArticleInterface                  
+                                         ModelArticleInterface
 from ews_app.model_interfaces.model_article_raw_interface import \
                                           ModelArticleRawInterface
+from ews_app.enum.enum_false_altert_phrases import EnumFalseAlertPhrases
 
 
 class ServiceBinanceRawArticleKeywordClassifierInterface(metaclass=abc.ABCMeta):

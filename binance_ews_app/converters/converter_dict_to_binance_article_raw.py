@@ -1,7 +1,8 @@
 from binance_ews_app.converters import logger
-from ews_app.converter_interfaces.converter_dict_to_model_article_raw_interface \
-                                    import ConverterDictToModelArticleRawInterface
-from binance_ews_app.model.model_binance_article_raw import ModelBinanceArticleRaw
+from binance_ews_app.model.model_binance_article_raw import \
+                                       ModelBinanceArticleRaw
+from ews_app.converter_interfaces.converter_dict_to_model_article_raw_interface import \
+                                                 ConverterDictToModelArticleRawInterface
 
 
 class ConverterDictToBinanceArticleRaw(ConverterDictToModelArticleRawInterface):

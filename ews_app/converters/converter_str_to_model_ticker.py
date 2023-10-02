@@ -5,7 +5,6 @@ from ews_app.enum.enum_currency_type import EnumCurrencyType
 from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 from ews_app.model.model_wirex_usdm_currency import ModelWirexUsdmCurrency
 
-
 class ConverterStrToModelTicker:
 
     def convert(self, ticker_str: str, type: EnumCurrencyType) -> ModelTicker:

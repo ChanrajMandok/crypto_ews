@@ -3,12 +3,11 @@ from typing import Optional, List
 from ews_app.enum.enum_source import EnumSource
 from defi_llama_ews_app.converters import logger
 from ews_app.enum.enum_priority import EnumPriority
-from defi_llama_ews_app.model.model_defi_stablecoin import \
-                                         ModelDefiStablecoin
 from defi_llama_ews_app.model.model_defi_stablecoin_event import \
                                           ModelDefiStableCoinEvent
-from ews_app.converters.converter_model_event_to_ms_teams_message \
-                         import ConverterModelEventToMsTeamsMessage
+from ews_app.converters.converter_model_event_to_ms_teams_message import \
+                                       ConverterModelEventToMsTeamsMessage
+from defi_llama_ews_app.model.model_defi_stablecoin import ModelDefiStablecoin
 
 
 class ConvertModelStablecoinToModelEvent():

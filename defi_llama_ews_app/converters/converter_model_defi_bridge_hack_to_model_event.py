@@ -1,8 +1,10 @@
 from ews_app.converters import logger
-from ews_app.converter_interfaces.converter_model_hack_to_model_event_interface \
-                                    import ConverterModelHackToModelEventInterface
-from defi_llama_ews_app.model.model_defi_bridge_hack_event import ModelDefiBridgeHackEvent
-from defi_llama_ews_app.model.model_defi_llama_bridge_hack import ModelDefiLlamaBridgeHack
+from defi_llama_ews_app.model.model_defi_bridge_hack_event import \
+                                           ModelDefiBridgeHackEvent
+from defi_llama_ews_app.model.model_defi_llama_bridge_hack import \
+                                           ModelDefiLlamaBridgeHack
+from ews_app.converter_interfaces.converter_model_hack_to_model_event_interface import \
+                                                 ConverterModelHackToModelEventInterface
 
 
 class ConverterModelDefiBridgeHackToModelEvent(ConverterModelHackToModelEventInterface):

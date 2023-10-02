@@ -3,10 +3,10 @@ import os
 from singleton_decorator import singleton
 
 from defi_llama_ews_app.scheduler import logger
-from ews_app.scheduler_interfaces.scheduler_db_event_updater_interface \
-                                 import SchedularDbEventUpdaterInterface
+from ews_app.scheduler_interfaces.scheduler_db_event_updater_interface import \
+                                               SchedularDbEventUpdaterInterface
 from defi_llama_ews_app.services.service_defi_llama_stablecoin_db_event_updater import \
-                                                 ServiceDefiLlamaStableCoinDbEventUpdater
+                                                ServiceDefiLlamaStableCoinDbEventUpdater
 
 
 @singleton

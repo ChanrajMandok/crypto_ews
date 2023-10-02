@@ -7,12 +7,11 @@ from time import sleep
 from random import randint
 from datetime import datetime
 
-from ews_app.model_interfaces.model_event_interface import \
-                                         ModelEventInterface
 from ews_app.model_interfaces.model_article_interface import \
                                          ModelArticleInterface
 from ews_app.services.service_model_article_url_creator import \
-                                    ServiceModelArticleUrlCreator
+                                   ServiceModelArticleUrlCreator
+from ews_app.model_interfaces.model_event_interface import ModelEventInterface
 
 
 class ServiceModelArticleHtmlRetrieverInterface(metaclass=abc.ABCMeta):

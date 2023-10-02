@@ -3,8 +3,10 @@ import abc
 from typing import Union
 
 from ews_app.enum.enum_priority import EnumPriority
-from ews_app.enum.enum_low_alert_warning_key_words import EnumLowAlertWarningKeyWords
-from ews_app.enum.enum_high_alert_warning_key_words import EnumHighAlertWarningKeyWords
+from ews_app.enum.enum_low_alert_warning_key_words import \
+                                EnumLowAlertWarningKeyWords
+from ews_app.enum.enum_high_alert_warning_key_words import \
+                                EnumHighAlertWarningKeyWords
 
 
 class ConverterModelRawArticleToModelArticleInterface(metaclass=abc.ABCMeta):
