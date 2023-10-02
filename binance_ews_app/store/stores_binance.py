@@ -1,6 +1,6 @@
-from ews_app.store.store_simple_interface import StoreSimpleInterface
+from ews_app.store.store_single_value_interface import StoreSingleValueInterface
 
 
 class StoreBinance():
 
-    store_db_binance_last_updated = StoreSimpleInterface()
+    store_db_binance_last_updated = StoreSingleValueInterface()

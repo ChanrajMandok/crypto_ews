@@ -19,3 +19,5 @@ class ServiceUpdateVeiw():
                 elif value.source == EnumSource.OKX and key not in final_data:
                     # OKX is Backup Data
                     final_data[key] = value
+
+        print(final_data)

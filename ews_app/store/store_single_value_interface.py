@@ -2,7 +2,7 @@ from typing import Optional, TypeVar
 
 M = TypeVar('M')
 
-class StoreSimpleInterface:
+class StoreSingleValueInterface:
 
     def __init__(self):
         self.model_instance: Optional[M] = None

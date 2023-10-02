@@ -69,9 +69,9 @@ class ServiceDefiLlamaHackDbEventUpdater(ServiceDbEventUpdaterInterface):
                 return
 
             model_event_objects = \
-                [self.convert_model_hack_to_model_event .convert(
-                                                        source=EnumSource.DEFI_LLAMA,
-                                                        model_hack=x) for x in model_hack_raw]
+                [self.convert_model_hack_to_model_event.convert(
+                                                                source=EnumSource.DEFI_LLAMA,
+                                                                model_hack=x) for x in model_hack_raw]
             
             # Check for duplicates and filter them out using the 'id' field
             existing_ids = self.model_event().objects.filter(id__in=[x.id for x in model_event_objects]).values_list('id', flat=True)

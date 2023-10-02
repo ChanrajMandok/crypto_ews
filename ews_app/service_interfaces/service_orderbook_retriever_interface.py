@@ -7,7 +7,7 @@ from decimal import Decimal
 from datetime import datetime
 
 from ews_app.model.model_quote import ModelQuote
-from ews_app.model.model_order_book_level_1 import ModelOrderBookLevel1
+from ews_app.model.model_order_book import ModelOrderBook
 
 class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
     
@@ -140,7 +140,7 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                         source  = self.source
                                     )
 
-                    prices_dict[wx_symbol] = ModelOrderBookLevel1(bid=bid, ask=ask, source=self.source)
+                    prices_dict[wx_symbol] = ModelOrderBook(symbol=wx_symbol, bid=bid, ask=ask, source=self.source)
 
                 self.logger_instance.info(
                     f"{self.class_name}: {len(prices_dict)} {self.source.name} orderbooks retrieved..")

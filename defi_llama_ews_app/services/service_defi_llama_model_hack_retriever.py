@@ -72,7 +72,7 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
                 if not last_updated and model_instance.release_date > (now - 259200000):
                     model_instances.append(model_instance)
                 # if last updated look for hacks that 
-                if last_updated and model_instance.release_date > (last_updated.last_updated - 43200000):
+                if last_updated and model_instance.release_date > (last_updated.last_updated - 259200000):
                     model_instances.append(model_instance)
                 
             return model_instances
