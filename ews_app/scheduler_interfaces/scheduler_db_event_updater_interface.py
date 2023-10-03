@@ -45,7 +45,7 @@ class SchedularDbEventUpdaterInterface(metaclass=abc.ABCMeta):
 
         try:
             self.service_db_event_updater().update_db()
-            self.logger_instance.info(f"{self.class_name}: Store Managment & Teams Messaging Completed")
+            self.logger_instance.info(f"{self.class_name}: DB Managment, Store Managment & Teams Messaging Completed")
 
         except Exception as e: 
             self.logger_instance.error(f"{self.class_name} - ERROR: {str(e)}")

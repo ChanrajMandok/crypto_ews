@@ -2,17 +2,16 @@ from django.db import models
 from datetime import datetime
 from typing import Iterator, Optional, TypeVar, Mapping, Any
 
-from token_risk_view_app.store import logger
 from token_risk_view_app.enum.enum_warning_price_change import \
                                           EnumWarningPriceChange
-from ews_app.observers.observer_interface import ObserverInterface
+from ews_app.observer_interfaces.observer_interface import ObserverInterface
 
 E = TypeVar('E', bound=str)
 M = TypeVar('M', bound=models.Model)
 G = TypeVar('G', bound=list[str])
 
 
-class StoreNestedPriceChangeInterface(Mapping[E, M]):
+class StoreTokenPriceChangeInterface(Mapping[E, M]):
 
     def __init__(self, update_increments: G) -> None:
         self.update_increments : G = update_increments

@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'binance_ews_app.apps.BinanceEwsAppConfig',
     'okx_ews_app.apps.OkxEwsAppConfig',
     'defi_llama_ews_app.apps.DefiLlamaEwsAppConfig',
-    'token_risk_view_app.apps.TokenRiskViewAppConfig'
+    'token_risk_view_app.apps.TokenRiskViewAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -140,6 +140,7 @@ SHELL_PLUS_IMPORTS = [
     'from okx_ews_app.services.service_okx_raw_article_retriever import ServiceOkxRawArticleRetriever',
     'from okx_ews_app.services.service_okx_raw_article_keyword_classifier import ServiceOkxRawArticleKeywordClassifier',
     'from defi_llama_ews_app.services.service_defi_lama_url_retriever import ServiceDefiLamaUrlRetriever',
+    'from okx_ews_app.services.service_okx_delisting_retriever import ServiceOkxDelistingRetriever',
     'from defi_llama_ews_app.services.service_defi_llama_model_hack_retriever import ServiceDefiLlamaModelHackRetriever',
     'from defi_llama_ews_app.services.service_defi_llama_hack_db_event_updater import ServiceDefiLlamaHackDbEventUpdater',
     'from defi_llama_ews_app.services.service_defi_llama_bridge_hack_retriever import ServiceDefiLlamaBridgeHackRetriever',
@@ -148,7 +149,6 @@ SHELL_PLUS_IMPORTS = [
     'from defi_llama_ews_app.services.service_defi_llama_bridge_hack_db_event_updater import ServiceDefiLlamaBridgeHackDbEventUpdater',
     'from binance_ews_app.services.service_binance_db_event_updater import ServiceBinanceDbEventUpdater',
     'from binance_ews_app.services.service_binance_orderbook_retriever import ServiceBinanceOrderbookRetriever',
-    'from token_risk_view_app.services.service_update_view import ServiceUpdateVeiw',
     'from binance_ews_app.services.service_binance_delisting_retriever import ServiceBinanceDelistingRetriever',
-    'from okx_ews_app.services.service_okx_delisting_retriever import ServiceOkxDelistingRetriever',
+    'from token_risk_view_app.scheduler.scheduler_token_price_change_store_updater import SchedulerTokenPriceChangeStoreUpdater'
 ]

@@ -4,7 +4,7 @@ import tzlocal
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-class SchedularDbEventManagerInterface(metaclass=abc.ABCMeta):
+class SchedularStoreEventUpdaterInterface(metaclass=abc.ABCMeta):
 
     @classmethod
     def __subclasshook__(cls, subclass):
@@ -20,7 +20,7 @@ class SchedularDbEventManagerInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
     
     @abc.abstractmethod
-    def service_db_event_manager(self) -> str:
+    def service_store_event_updater(self) -> str:
         raise NotImplementedError
     
     @abc.abstractmethod
@@ -44,9 +44,8 @@ class SchedularDbEventManagerInterface(metaclass=abc.ABCMeta):
     def retrieve(self):
 
         try:
-            self.service_db_event_manager().manage_db()
-            self.logger_instance.info(f"{self.class_name}: DB Managment, Store Managment & Teams Messaging Completed")
+            self.service_store_event_updater().update_store()
+            self.logger_instance.info(f"{self.class_name}: Store Managment & Teams Messaging Completed")
 
         except Exception as e: 
             self.logger_instance.error(f"{self.class_name} - ERROR: {str(e)}")
-            

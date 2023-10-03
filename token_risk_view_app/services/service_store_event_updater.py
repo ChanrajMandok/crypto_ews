@@ -1,23 +1,37 @@
 from datetime import datetime, timedelta
+from ews_app.enum.enum_source import EnumSource
 
 from token_risk_view_app.services import logger
 from ews_app.model.model_order_book import ModelOrderBook
 from token_risk_view_app.enum.enum_orderbook_updated_increment import \
                                           EnumOrderbookUpdatedIncrement
 from token_risk_view_app.store.stores_token_risk_view import StoreTokenRiskView
+from ews_app.service_interfaces.service_orderbook_retriever_interface import \
+                                            ServiceOrderBookRetrieverInterface 
 
 
-class ServiceStoreUpdateManager:
+class ServiceStoreEventUpdater:
     
     def __init__(self) -> None:
-         self.logger_instance = logger
-         self.class_name = self.__class__.__name__
-         self.store_nested_price_change = StoreTokenRiskView.store_nested_price_change
+        self.logger_instance = logger
+        self.class_name = self.__class__.__name__
+        self.store_nested_price_change = StoreTokenRiskView.store_token_price_change
         
-    def update_stores(self, 
-                      orderbooks: dict[str, ModelOrderBook]):
+    def update_store(self):
         
         try:
+            orderbooks = {}
+            for cls in ServiceOrderBookRetrieverInterface.__subclasses__():
+                retrieved_data = cls().retrieve()
+
+                for key, value in retrieved_data.items():
+                    if value.source == EnumSource.BINANCE:
+                        # Prioritize Binance data
+                        orderbooks[key] = value
+                    elif value.source == EnumSource.OKX and key not in orderbooks:
+                        # OKX is Backup Data
+                        orderbooks[key] = value
+        
             update_increments = self._determine_update_increments()
             
             if update_increments:
