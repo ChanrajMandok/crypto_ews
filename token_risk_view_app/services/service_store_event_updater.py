@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from ews_app.enum.enum_source import EnumSource
 
 from token_risk_view_app.services import logger
-from ews_app.model.model_order_book import ModelOrderBook
 from token_risk_view_app.enum.enum_orderbook_updated_increment import \
                                           EnumOrderbookUpdatedIncrement
 from token_risk_view_app.store.stores_token_risk_view import StoreTokenRiskView
@@ -18,10 +17,26 @@ class ServiceStoreEventUpdater:
         self.store_nested_price_change = StoreTokenRiskView.store_token_price_change
         
     def update_store(self):
-        
         try:
-            orderbooks = {}
-            for cls in ServiceOrderBookRetrieverInterface.__subclasses__():
+            orderbooks = self._retrieve_orderbooks()
+            update_increments = self._determine_update_increments()
+
+            if update_increments:
+                self.store_nested_price_change.set_instances(
+                    orderbooks=orderbooks,
+                    update_increments=update_increments
+                )
+                self.logger_instance.info(f"{self.class_name}: {', '.join(update_increments)} Increments Updated")
+            else:
+                self.logger_instance.info(f"{self.class_name}: No increments to update")
+
+        except Exception as e:
+            self.logger_instance.error(f"{self.class_name}: update_store ERROR: {str(e)}")
+
+    def _retrieve_orderbooks(self) -> dict:
+        orderbooks = {}
+        for cls in ServiceOrderBookRetrieverInterface.__subclasses__():
+            try:
                 retrieved_data = cls().retrieve()
 
                 for key, value in retrieved_data.items():
@@ -31,38 +46,34 @@ class ServiceStoreEventUpdater:
                     elif value.source == EnumSource.OKX and key not in orderbooks:
                         # OKX is Backup Data
                         orderbooks[key] = value
-        
-            update_increments = self._determine_update_increments()
-            
-            if update_increments:
-                self.store_nested_price_change.batch_update(
-                    orderbooks=orderbooks,
-                    update_increments=update_increments
-                )
 
-        except Exception as e:
-            self.logger_instance.error(f"{self.class_name}: _determine_update_increments ERROR: {str(e)}")
-            
-        self.logger_instance.info(f"{self.class_name}: {', '.join(update_increments)} Increments Updated")
+            except Exception as e:
+                self.logger_instance.error(f"{self.class_name}: _retrieve_orderbooks for {cls} ERROR: {str(e)}")
+
+        return orderbooks
 
     def _determine_update_increments(self) -> list[str]:
-        
         current_ts = int(datetime.now().timestamp()) * 1000
         update_increments_to_process = []
 
-        store_updated_dict = self.store_nested_price_change.get_last_updated_timestamps()
+        try:
+            store_updated_dict = self.store_nested_price_change.get_last_updated_timestamps()
 
-        for update_increment, last_updated in store_updated_dict.items():
-            if last_updated is None:
-                # If never updated, add to list
-                last_updated = current_ts - timedelta(minutes=1500).total_seconds() * 1000 
-                update_increments_to_process.append(update_increment)
-                continue
+            for update_increment, last_updated in store_updated_dict.items():
+                if last_updated is None:
+                    # If never updated, add to list
+                    update_increments_to_process.append(update_increment)
+                    continue
 
-            time_difference = current_ts - last_updated
-            expected_difference = EnumOrderbookUpdatedIncrement[update_increment].value.total_seconds() * 1000 
+                time_difference = current_ts - last_updated
+                expected_difference = int(EnumOrderbookUpdatedIncrement[update_increment].value.total_seconds() * 1000) 
+                if not expected_difference:
+                    continue
 
-            if time_difference >= expected_difference:
-                update_increments_to_process.append(update_increment)
+                if time_difference >= expected_difference:
+                    update_increments_to_process.append(update_increment)
+
+        except Exception as e:
+            self.logger_instance.error(f"{self.class_name}: _determine_update_increments ERROR: {str(e)}")
 
         return update_increments_to_process

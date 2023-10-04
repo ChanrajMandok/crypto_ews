@@ -136,11 +136,11 @@ SHELL_PLUS_IMPORTS = [
     'from ews_app.tasks.task_populate_currencies_from_wx_db import TaskpopulateCurrenciesFromWxDb',
     'from ews_app.tasks.task_retrieve_largest_blockchains_from_coin_market_cap import TaskRetrieveLargestBlockchainsFromCoinMarketCap',
     'from okx_ews_app.services.service_okx_db_event_updater import ServiceOkxDbEventUpdater',
+    'from okx_ews_app.services.service_okx_delisting_retriever import ServiceOkxDelistingRetriever',
     'from okx_ews_app.services.service_okx_orderbook_retriever import ServiceOkxOrderbookRetriever',
     'from okx_ews_app.services.service_okx_raw_article_retriever import ServiceOkxRawArticleRetriever',
     'from okx_ews_app.services.service_okx_raw_article_keyword_classifier import ServiceOkxRawArticleKeywordClassifier',
     'from defi_llama_ews_app.services.service_defi_lama_url_retriever import ServiceDefiLamaUrlRetriever',
-    'from okx_ews_app.services.service_okx_delisting_retriever import ServiceOkxDelistingRetriever',
     'from defi_llama_ews_app.services.service_defi_llama_model_hack_retriever import ServiceDefiLlamaModelHackRetriever',
     'from defi_llama_ews_app.services.service_defi_llama_hack_db_event_updater import ServiceDefiLlamaHackDbEventUpdater',
     'from defi_llama_ews_app.services.service_defi_llama_bridge_hack_retriever import ServiceDefiLlamaBridgeHackRetriever',
@@ -150,5 +150,6 @@ SHELL_PLUS_IMPORTS = [
     'from binance_ews_app.services.service_binance_db_event_updater import ServiceBinanceDbEventUpdater',
     'from binance_ews_app.services.service_binance_orderbook_retriever import ServiceBinanceOrderbookRetriever',
     'from binance_ews_app.services.service_binance_delisting_retriever import ServiceBinanceDelistingRetriever',
-    'from token_risk_view_app.scheduler.scheduler_token_price_change_store_updater import SchedulerTokenPriceChangeStoreUpdater'
+    'from token_risk_view_app.services.service_store_event_updater import ServiceStoreEventUpdater',
+    'from token_risk_view_app.scheduler.scheduler_token_price_change_store_updater import SchedulerTokenPriceChangeStoreUpdater',
 ]

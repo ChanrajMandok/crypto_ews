@@ -1,5 +1,6 @@
-from django.test import TestCase
+from decimal import Decimal
 
+from django.test import TestCase
 from ews_app.model.model_order_book import ModelOrderBook
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
@@ -13,7 +14,8 @@ from binance_ews_app.services.service_binance_article_html_retriever import \
                                            ServiceBinanceArticleHtmlRetriever
 from binance_ews_app.services.service_binance_raw_article_keyword_classifier import \
                                             ServiceBinanceRawArticleKeywordClassifier
-
+                                            
+                                            
 class TestBinanceEwsAppAllServicesTestCase(TestCase):
 
     def setUp(self):
@@ -55,12 +57,29 @@ class TestBinanceEwsAppAllServicesTestCase(TestCase):
             raise Exception(f"Failure in service_article_html_retriever: {e}")
         
     def test_service_binance_orderbook_retriever(self):
+        
         try:
+            # Initialize and retrieve
             service_binance_orderbook_retriever = ServiceBinanceOrderbookRetriever()
             wirex_asset_orderbooks = service_binance_orderbook_retriever.retrieve()
-            
+
+            # Check if wirex_asset_orderbooks is not None and is a dictionary
             self.assertIsNotNone(wirex_asset_orderbooks)
             self.assertTrue(isinstance(wirex_asset_orderbooks, dict))
-            self.assertTrue(list(wirex_asset_orderbooks.values())[0], ModelOrderBook)
+
+            # Check if wirex_asset_orderbooks is not empty
+            self.assertTrue(len(wirex_asset_orderbooks) > 0)
+
+            # Iterate over items and check values
+            for key, orderbook in wirex_asset_orderbooks.items():
+                # Check if orderbook is of type ModelOrderBook
+                self.assertIsInstance(orderbook, ModelOrderBook)
+
+                # Check if bid price, bid volume, ask price, and ask volume are not zero
+                self.assertNotEqual(orderbook.bid.price, Decimal('0'), f'bid.price for key {key} is zero.')
+                self.assertNotEqual(orderbook.bid.volume, Decimal('0'), f'bid.volume for key {key} is zero.')
+                self.assertNotEqual(orderbook.ask.price, Decimal('0'), f'ask.price for key {key} is zero.')
+                self.assertNotEqual(orderbook.ask.volume, Decimal('0'), f'ask.volume for key {key} is zero.')
+
         except Exception as e:
             raise Exception(f"Failure in service_binance_orderbook_retriever: {e}")

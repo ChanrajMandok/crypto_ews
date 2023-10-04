@@ -1,5 +1,6 @@
 import json
 
+from decimal import Decimal
 from datetime import datetime
 
 from django.test import TestCase
@@ -104,10 +105,10 @@ class TestDefiLlamaConvertersTestCase(TestCase):
                                 trading_affected     = True,
                                 stablecoin           = wx_stablecoin,
                                 alert_priority       = EnumPriority.HIGH,
-                                price                = data_dict['price'],
-                                one_day_price_change = data_dict['change_1d'],
-                                mechanism            = data_dict['pegMechanism'],
-                                peg_deviation        = data_dict['pegDeviation'],
+                                price                = Decimal(str(data_dict['price'])),
+                                one_day_price_change = Decimal(str(data_dict['change_1d'])),
+                                mechanism            = str(data_dict['pegMechanism']),
+                                peg_deviation        = Decimal(str(data_dict['pegDeviation'])),
                                 alert_category       = EnumHighAlertWarningKeyWords.DEPEG,
                                 url                  = 'https://www.defi.com/en/support/announcement/testing_exmaple')
         

@@ -15,7 +15,7 @@ class SchedulerTokenPriceChangeStoreUpdater(SchedularStoreEventUpdaterInterface)
         super().__init__()
         self._logger_instance = logger
         self._service_store_event_updater = ServiceStoreEventUpdater()
-        self._refresh_increment_mins = int(os.environ.get('ORDERBOOKS_REFRESH_INCREMENT_MINS', 1))
+        self._refresh_increment_mins = int(os.environ.get('ORDERBOOKS_REFRESH_INCREMENT_MINS', 0.1))
 
     @property
     def class_name(self) -> str:

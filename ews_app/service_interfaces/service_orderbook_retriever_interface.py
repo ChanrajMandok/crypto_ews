@@ -125,18 +125,24 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                         time = int(orderbook[self.time_key])
                     else:
                         time = int(datetime.now().timestamp()) * 1000
-
+                        
+                    if (Decimal(str(orderbook[self.bid_volume_key])) == Decimal('0')) or (Decimal(str(orderbook[self.ask_volume_key])) == Decimal('0')):
+                        continue
+                    
+                    if (Decimal(str(orderbook[self.bid_price_key])) == Decimal('0')) or (Decimal(str(orderbook[self.ask_price_key]))== Decimal('0')):
+                        continue
+                        
                     bid = ModelQuote(
                         time    = time,
-                        price   = Decimal(orderbook[self.bid_price_key]),
-                        volume  = Decimal(orderbook[self.bid_volume_key]),
+                        price   = Decimal(str(orderbook[self.bid_price_key])),
+                        volume  = Decimal(str(orderbook[self.bid_volume_key])),
                         source  = self.source
                                     )
                     
                     ask = ModelQuote(
                         time    = time,
-                        price   = Decimal(orderbook[self.ask_price_key]),
-                        volume  = Decimal(orderbook[self.ask_volume_key]),
+                        price   = Decimal(str(orderbook[self.ask_price_key])),
+                        volume  = Decimal(str(orderbook[self.ask_volume_key])),
                         source  = self.source
                                     )
 

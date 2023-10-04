@@ -1,6 +1,7 @@
 import abc
 
 from typing import Union
+from decimal import Decimal
 from datetime import datetime
 
 from ews_app.enum.enum_priority import EnumPriority
@@ -76,10 +77,10 @@ class ConverterDictToModelStablecoinInterface(metaclass=abc.ABCMeta):
                                         alert_priority       = alert_priority,
                                         trading_affected     = trading_affected,
                                         stablecoin           = model_wx_stablecoin,
-                                        price                = dict.get(self.price_key),
-                                        mechanism            = dict.get(self.mechanism_key),
-                                        peg_deviation        = dict.get(self.peg_deviation_key),
-                                        one_day_price_change = dict.get(self.one_day_price_change_key),
+                                        price                = Decimal(str(dict.get(self.price_key))),
+                                        mechanism            = str(dict.get(self.mechanism_key)),
+                                        peg_deviation        = Decimal(str(dict.get(self.peg_deviation_key))),
+                                        one_day_price_change = Decimal(str(dict.get(self.one_day_price_change_key))),
                                         )
                 
             return model_stablecoin
