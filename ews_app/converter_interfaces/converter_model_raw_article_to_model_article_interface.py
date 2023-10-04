@@ -13,6 +13,8 @@ class ConverterModelRawArticleToModelArticleInterface(metaclass=abc.ABCMeta):
     
     @classmethod
     def __subclasshook__(cls, subclass):
+        """ Helper to determine if a class provides the 'retrieve' method. """
+        
         return (hasattr(subclass, 'convert') and
                 callable(subclass.convert))
     
@@ -26,10 +28,12 @@ class ConverterModelRawArticleToModelArticleInterface(metaclass=abc.ABCMeta):
     
     @abc.abstractmethod
     def class_name(self) -> str:
+        """Expected to return the name of the class."""
         raise NotImplementedError
     
     @abc.abstractmethod
     def logger_instance(self):
+        """Expected to return a logger instance for logging purposes."""
         raise NotImplementedError
     
     def __init__(self) -> None:

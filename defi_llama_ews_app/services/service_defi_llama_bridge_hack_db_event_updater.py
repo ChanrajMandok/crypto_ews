@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing_extensions import override
 from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
@@ -58,6 +59,7 @@ class ServiceDefiLlamaBridgeHackDbEventUpdater(ServiceDbEventUpdaterInterface):
     def service_article_html_retriever(self):
         pass
 
+    @override
     def update_db(self):
         try:
             model_bridge_hack_raw = self.service_defi_llama_bridge_hack_retriever.retrieve()

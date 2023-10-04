@@ -2,14 +2,23 @@ import os
 import abc
 import requests
 
-from defi_llama_ews_app.services.service_defi_lama_url_retriever \
-                                 import ServiceDefiLamaUrlRetriever
+from typing_extensions import override
 
+from defi_llama_ews_app.services.service_defi_lama_url_retriever import \
+                                              ServiceDefiLamaUrlRetriever
 
 class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
+    
+    """
+    Abstract base class for retrieving JSON data from the DeFi Llama service.
+    Any concrete implementations should implement the abstract methods to
+    specify the necessary parameters for the retrieval.
+    """
 
     @classmethod
     def __subclasshook__(cls, subclass):
+        """ Helper to determine if a class provides the 'retrieve' method. """
+        
         return (hasattr(subclass, 'retrieve') and
                 callable(subclass.retrieve))        
 
@@ -18,33 +27,43 @@ class ServiceDefiLlamaJsonRetrieverInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def class_name(self) -> str:
+        """Expected to return the name of the class."""
         raise NotImplementedError
     
     @abc.abstractmethod
     def logger_instance(self):
+        """Expected to return a logger instance for logging purposes."""
         raise NotImplementedError
     
     @abc.abstractmethod
     def url_headers(self):
+        """Expected to return the headers required for the HTTP request."""
         raise NotImplementedError
     
     @abc.abstractmethod
     def url_json(self):
+        """Expected to return the URL endpoint for fetching the JSON data."""
         raise NotImplementedError
     
     @abc.abstractmethod
     def intial_key(self) -> str:
+        """Expected to return the initial key to access the response's primary data."""
         raise NotImplementedError 
     
     @abc.abstractmethod
     def second_key(self) -> str:
+        """Expected to return the secondary key to further access the data within the primary data."""
         raise NotImplementedError 
     
     @abc.abstractmethod
     def filter_results(self) -> str:
+        """Expected to return filtered results from the fetched data."""
         raise NotImplementedError 
 
+    @override
     def retrieve(self, test: bool = False):
+        """Retrieves and filters JSON data from the DeFi Llama service """
+        
         tries = 0
         max_tries = 3
         timeout = int(os.environ.get('TIMEOUT', 10))

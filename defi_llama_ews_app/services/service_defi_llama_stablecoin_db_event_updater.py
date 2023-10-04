@@ -1,6 +1,7 @@
 import os
 
 from datetime import datetime
+from typing_extensions import override
 from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
@@ -61,6 +62,7 @@ class ServiceDefiLlamaStableCoinDbEventUpdater(ServiceDbEventUpdaterInterface):
     def service_article_html_retriever(self):
         pass
 
+    @override
     def update_db(self):
         try:
             model_stablecoins = self.service_defi_llama_model_stablecoin_retriever.retrieve()

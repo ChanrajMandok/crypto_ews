@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing_extensions import override
 from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
@@ -50,6 +51,7 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
     def table_selector(self):
         return self._table_selector
     
+    @override
     def retrieve(self, test: bool= False):
         
         try:

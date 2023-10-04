@@ -6,7 +6,7 @@ from token_risk_view_app.services import logger
 from token_risk_view_app.services.service_store_event_updater import ServiceStoreEventUpdater
 from ews_app.scheduler_interfaces.scheduler_store_event_updater_interface import \
                                                SchedularStoreEventUpdaterInterface
-
+from token_risk_view_app.observers.observer_store_token_price_change import ObserverStoreTokenPriceChange
 
 @singleton
 class SchedulerTokenPriceChangeStoreUpdater(SchedularStoreEventUpdaterInterface):
@@ -15,7 +15,9 @@ class SchedulerTokenPriceChangeStoreUpdater(SchedularStoreEventUpdaterInterface)
         super().__init__()
         self._logger_instance = logger
         self._service_store_event_updater = ServiceStoreEventUpdater()
+        self._observer_store_token_price_change = ObserverStoreTokenPriceChange()
         self._refresh_increment_mins = int(os.environ.get('ORDERBOOKS_REFRESH_INCREMENT_MINS', 0.1))
+        
 
     @property
     def class_name(self) -> str:
@@ -35,3 +37,6 @@ class SchedulerTokenPriceChangeStoreUpdater(SchedularStoreEventUpdaterInterface)
 
     def service_store_event_updater(self):
         return self._service_store_event_updater 
+    
+    def observer(self):
+        return self._observer_store_token_price_change
