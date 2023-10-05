@@ -137,20 +137,20 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                         continue
                         
                     bid = ModelQuote(
-                        time    = time,
-                        price   = Decimal(str(orderbook[self.bid_price_key])),
-                        volume  = Decimal(str(orderbook[self.bid_volume_key])),
-                        source  = self.source
+                                     timestamp = time,
+                                     price     = Decimal(str(orderbook[self.bid_price_key])),
+                                     volume    = Decimal(str(orderbook[self.bid_volume_key])),
+                                     source    = self.source
                                     )
                     
                     ask = ModelQuote(
-                        time    = time,
-                        price   = Decimal(str(orderbook[self.ask_price_key])),
-                        volume  = Decimal(str(orderbook[self.ask_volume_key])),
-                        source  = self.source
+                                     timestamp = time,
+                                     price     = Decimal(str(orderbook[self.ask_price_key])),
+                                     volume    = Decimal(str(orderbook[self.ask_volume_key])),
+                                     source    = self.source
                                     )
 
-                    prices_dict[wx_symbol] = ModelOrderBook(symbol=wx_symbol, bid=bid, ask=ask, source=self.source)
+                    prices_dict[wx_symbol] = ModelOrderBook(symbol=wx_symbol, source_symbol=symbol, bid=bid, ask=ask, source=self.source)
 
                 # self.logger_instance.info(
                 #     f"{self.class_name}: {len(prices_dict)} {self.source.name} orderbooks retrieved..")

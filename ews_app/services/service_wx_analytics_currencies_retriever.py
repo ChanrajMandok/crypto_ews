@@ -1,4 +1,3 @@
-from typing import List
 from singleton_decorator import singleton
 
 from ews_app.services import logger
@@ -31,7 +30,7 @@ class ServiceWxAnalyticsCurrenciesRetriever:
 
         logger.info("currencies data query completed.")
 
-    def get_currencies(self) -> List[ModelWirexSpotCurrency]:
+    def get_currencies(self) -> list[ModelWirexSpotCurrency]:
         if self.currencies is None:
             self.query_currencies()
         return self.currencies

@@ -25,7 +25,8 @@ class StoreTokenPriceChangeInterface(Mapping[E, M]):
         self.data: dict[E, dict[E, Any]] = {
             update_increment: {"data": {}, "last_updated": None} for update_increment in self.update_increments}
         self.observers: list[ObserverInterface] = []
-        self.accumulated_updates: list[tuple[E, E, Optional[M], Optional[M]]] = []
+        self.volatility_events: dict[E, dict[E, M]] = {update_increment: {} for update_increment in self.update_increments}
+
 
     def __getitem__(self, item: E) -> M:
         """Retrieve token price data for a given key."""
@@ -72,7 +73,7 @@ class StoreTokenPriceChangeInterface(Mapping[E, M]):
         self.data[update_increment]["data"][key] = instance
 
         if should_notify:
-            self.accumulated_updates.append((update_increment, key, instance, old_instance))
+            self.volatility_events[update_increment][key] = instance
             self.notify()
 
     def set_instances(self, update_increments: G, orderbooks: dict[E, M]) -> None:
@@ -92,10 +93,11 @@ class StoreTokenPriceChangeInterface(Mapping[E, M]):
                 self.data[update_increment]["data"][key] = instance
 
                 if should_notify:
-                    self.accumulated_updates.append((update_increment, key, instance, old_instance))
+                    self.volatility_events[update_increment][key] = instance
 
         # Once all instances are set for the given update_increments, notify observer with accumulated updates
-        if len(self.accumulated_updates) > 0:
+        has_events = any(len(events) > 0 for events in self.volatility_events.values())
+        if has_events:
             self.notify()
 
     def remove_instance(self, update_increment: E, key: E) -> None:
@@ -106,7 +108,7 @@ class StoreTokenPriceChangeInterface(Mapping[E, M]):
         
         if key in self.data[update_increment]["data"]:
             old_instance = self.data[update_increment]["data"].pop(key)
-            self.accumulated_updates.append((update_increment, key, None, old_instance))
+            self.volatility_events[update_increment][key] = None
             self.notify()
 
     def update_last_update_ts(self, update_increment: E, timestamp: Optional[int] = None) -> None:
@@ -145,7 +147,9 @@ class StoreTokenPriceChangeInterface(Mapping[E, M]):
         Notify all attached observers of the accumulated updates.
         After notifying all observers, the accumulated updates are cleared.
         """
-        
         for observer in self.observers:
-            observer.update(self.accumulated_updates)
-        self.accumulated_updates.clear()
+            observer.update(self.volatility_events)
+
+        # Clear the accumulated updates
+        for update_increment in self.update_increments:
+            self.volatility_events[update_increment].clear()

@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional
 
 from ews_app.enum.enum_source import EnumSource
 from defi_llama_ews_app.converters import logger
@@ -21,10 +21,10 @@ class ConvertModelStablecoinToModelEvent():
     def convert(self,
                 source          : EnumSource,
                 model_stablecoin: ModelDefiStablecoin,  
-                h_spot_tickers  : Optional[List[str]] = [],
-                h_usdm_tickers  : Optional[List[str]] = [],
-                l_spot_tickers  : Optional[List[str]] = [],
-                l_usdm_tickers  : Optional[List[str]] = []):
+                h_spot_tickers  : Optional[list[str]] = [],
+                h_usdm_tickers  : Optional[list[str]] = [],
+                l_spot_tickers  : Optional[list[str]] = [],
+                l_usdm_tickers  : Optional[list[str]] = []):
         """
         Abstract method to convert an article model into an event model.
         """

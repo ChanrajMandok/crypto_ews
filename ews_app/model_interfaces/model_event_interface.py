@@ -15,7 +15,7 @@ class ModelEventInterface(PolymorphicModel):
     trading_affected   = models.BooleanField(default=False)
     url                = models.URLField(max_length=300, null=False)
     title              = models.CharField(max_length=300, null=False)
-    release_date       = models.BigIntegerField(null=False, )
+    release_date       = models.BigIntegerField(null=False)
     alert_priority     = models.CharField(max_length=30, choices=EnumPriority.choices())
     h_spot_tickers     = ArrayField(models.CharField(max_length=200), blank=True, default=list)
     h_usdm_tickers     = ArrayField(models.CharField(max_length=200), blank=True, default=list) 

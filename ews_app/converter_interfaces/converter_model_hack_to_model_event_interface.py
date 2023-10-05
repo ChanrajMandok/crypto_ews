@@ -1,6 +1,6 @@
 import abc
 
-from typing import Optional, List
+from typing import Optional
 
 from ews_app.enum.enum_source import EnumSource
 from ews_app.converters.converter_model_event_to_ms_teams_message import \
@@ -42,10 +42,10 @@ class ConverterModelHackToModelEventInterface(metaclass=abc.ABCMeta):
     def convert(self,
                 source          : EnumSource,
                 model_hack      : ModelHackInterface,  
-                h_spot_tickers  : Optional[List[str]] = [],
-                h_usdm_tickers  : Optional[List[str]] = [],
-                l_spot_tickers  : Optional[List[str]] = [],
-                l_usdm_tickers  : Optional[List[str]] = []):
+                h_spot_tickers  : Optional[list[str]] = [],
+                h_usdm_tickers  : Optional[list[str]] = [],
+                l_spot_tickers  : Optional[list[str]] = [],
+                l_usdm_tickers  : Optional[list[str]] = []):
         """
         Abstract method to convert an article model into an event model.
         """

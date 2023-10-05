@@ -1,7 +1,7 @@
 import abc
 
 from datetime import datetime
-from typing import Optional, List, Union
+from typing import Optional, Union
 
 from ews_app.enum.enum_source import EnumSource
 from okx_ews_app.model.model_okx_article import ModelOkxArticle
@@ -43,13 +43,13 @@ class ConverterArticleToEventInterface(metaclass=abc.ABCMeta):
     def convert(self,
                 trading_affected: bool,
                 source          : EnumSource,
-                important_dates : List[datetime],
+                important_dates : list[datetime],
                 article         : Union[ModelBinanceArticle, ModelOkxArticle],  
                 network_tokens  : Optional[list[str]] = None,
-                h_spot_tickers  : Optional[List[str]] = None,
-                h_usdm_tickers  : Optional[List[str]] = None,
-                l_spot_tickers  : Optional[List[str]] = None,
-                l_usdm_tickers  : Optional[List[str]] = None):
+                h_spot_tickers  : Optional[list[str]] = None,
+                h_usdm_tickers  : Optional[list[str]] = None,
+                l_spot_tickers  : Optional[list[str]] = None,
+                l_usdm_tickers  : Optional[list[str]] = None):
         """
         Abstract method to convert an article model into an event model.
         """
