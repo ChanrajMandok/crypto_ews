@@ -4,7 +4,7 @@ def defi_llama_headers_required(function=None, env_variable=None):
     """
     def decorator(func):
         def wrapper(*args, **kwargs):
-            kwargs["defi_lama_headers"] = {
+            kwargs["defi_llama_headers"] = {
                 "authority": "defillama.com",
                 "method": "GET",
                 "path": "/hacks",

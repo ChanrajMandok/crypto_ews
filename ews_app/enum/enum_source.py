@@ -7,3 +7,4 @@ class EnumSource(NoValue):
     BINANCE   = 'Binance'
     DEFI_LLAMA = 'Defi'
     DEFI_LLAMA_STABLECOINS = 'Defi_Stablecoins'
+    BINANCE_ORDERBOOKS = 'Binance/Okx_Spot_Markets'

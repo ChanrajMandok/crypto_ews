@@ -1,8 +1,8 @@
-import os
-
 from singleton_decorator import singleton
 
 from defi_llama_ews_app.scheduler import logger
+from ews_app.decorators.decorator_refresh_increments import \
+                                 decorator_refresh_increments
 from ews_app.scheduler_interfaces.scheduler_db_event_updater_interface import \
                                                SchedularDbEventUpdaterInterface
 from defi_llama_ews_app.services.service_defi_llama_bridge_hack_db_event_updater import \
@@ -12,10 +12,13 @@ from defi_llama_ews_app.services.service_defi_llama_bridge_hack_db_event_updater
 @singleton
 class SchedularDefiLlamaBridgeHackEventDbUpdater(SchedularDbEventUpdaterInterface):
     
-    def __init__(self) -> None:
+    @decorator_refresh_increments
+    def __init__(self, 
+                 defi_llama_refresh_increment_mins,
+                 **kwargs) -> None:
         super().__init__()
         self._logger_instance = logger
-        self._refresh_increment_mins = int(os.environ.get('DEFI_LLAMA_UPDATE_REFRESH_INCREMENT_MINS', 5))
+        self._refresh_increment_mins = defi_llama_refresh_increment_mins
         self._service_defi_llama_bridge_hack_db_event_updater = ServiceDefiLlamaBridgeHackDbEventUpdater()
 
     @property

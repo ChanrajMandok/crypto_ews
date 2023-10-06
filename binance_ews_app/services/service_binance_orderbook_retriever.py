@@ -1,7 +1,7 @@
 from binance_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
-from ews_app.decorators.decorator_orderbook_urls_required import \
-                                           orderbook_urls_required
+from ews_app.decorators.decorator_orderbooks_urls_required import \
+                                           orderbooks_urls_required
 from ews_app.decorators.decorator_wx_tickers_spot_list_required import \
                                                  wirex_spot_tickers_list
 from ews_app.service_interfaces.service_orderbook_retriever_interface import \
@@ -10,14 +10,14 @@ from ews_app.service_interfaces.service_orderbook_retriever_interface import \
 
 class ServiceBinanceOrderbookRetriever(ServiceOrderBookRetrieverInterface):
 
-    @orderbook_urls_required
+    @orderbooks_urls_required
     @wirex_spot_tickers_list
     def __init__(self, 
-                 binance_url, 
+                 binance_orderbooks_url, 
                  wx_tickers_spot_list_binance_format,
                  **kwargs) -> None:
         self._logger_instance       = logger
-        self._binance_url           = binance_url
+        self._binance_url           = binance_orderbooks_url
         self._raw_tickers_spot_list = wx_tickers_spot_list_binance_format
 
     @property

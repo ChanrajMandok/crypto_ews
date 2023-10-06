@@ -150,6 +150,5 @@ SHELL_PLUS_IMPORTS = [
     'from binance_ews_app.services.service_binance_db_event_updater import ServiceBinanceDbEventUpdater',
     'from binance_ews_app.services.service_binance_orderbook_retriever import ServiceBinanceOrderbookRetriever',
     'from binance_ews_app.services.service_binance_delisting_retriever import ServiceBinanceDelistingRetriever',
-    'from token_risk_view_app.services.service_store_event_updater import ServiceStoreEventUpdater',
     'from token_risk_view_app.scheduler.scheduler_token_price_change_store_updater import SchedulerTokenPriceChangeStoreUpdater',
 ]

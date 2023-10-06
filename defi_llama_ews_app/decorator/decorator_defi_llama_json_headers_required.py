@@ -4,7 +4,7 @@ def defi_llama_json_headers_required(function=None, env_variable=None):
     """
     def decorator(func):
         def wrapper(*args, **kwargs):
-            kwargs["defi_lama_json_headers"] = \
+            kwargs["defi_llama_json_headers"] = \
             {
                 "Accept": "*/*",
                 "Accept-Encoding": "gzip, deflate, br",

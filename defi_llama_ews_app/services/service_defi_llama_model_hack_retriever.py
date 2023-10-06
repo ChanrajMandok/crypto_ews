@@ -20,13 +20,13 @@ class ServiceDefiLlamaModelHackRetriever(ServiceHtmlRetrieverInterface):
     @defi_llama_urls_required
     @defi_llama_headers_required
     def __init__(self,
-                 defi_lama_headers,
-                 defi_lama_hacks_url,
+                 defi_llama_headers,
+                 defi_llama_hacks_url,
                  **kwarg ) -> None:
         super().__init__()
         self._logger_instance            = logger
-        self._headers                    = defi_lama_headers
-        self._url                        = defi_lama_hacks_url
+        self._headers                    = defi_llama_headers
+        self._url                        = defi_llama_hacks_url
         self._converter                  = ConverterDefiLlamaListToModelHack()
         self._store_db_defi_last_updated = StoreDefi.store_db_defi_hack_llama_last_updated
         self._table_selector             = "body > div:nth-child(1) > div > main > div:nth-child(3) > table > tbody"

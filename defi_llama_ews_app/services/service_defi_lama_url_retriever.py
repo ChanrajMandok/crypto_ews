@@ -17,13 +17,13 @@ class ServiceDefiLamaUrlRetriever:
     @defi_llama_urls_required
     @defi_llama_json_headers_required
     def __init__(self,
-                defi_lama_base_url,
-                defi_lama_json_headers,
+                defi_llama_base_url,
+                defi_llama_json_headers,
                 **kwargs) -> None:
-        self.base_url = defi_lama_base_url
+        self.base_url = defi_llama_base_url
         self.logger_instance = logger
         self.class_name = self.__class__.__name__
-        self.url_headers = defi_lama_json_headers
+        self.url_headers = defi_llama_json_headers
 
     def get_hash_from_main_page(self, session):
         # Get the HTML content of the main page

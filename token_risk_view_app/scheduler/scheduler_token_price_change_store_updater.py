@@ -1,24 +1,30 @@
-import os
-
 from singleton_decorator import singleton
 
 from token_risk_view_app.services import logger
-from token_risk_view_app.services.service_store_event_updater import ServiceStoreEventUpdater
+from ews_app.decorators.decorator_refresh_increments import \
+                                 decorator_refresh_increments
+from token_risk_view_app.observers.observer_store_token_price_change import \
+                                                ObserverStoreTokenPriceChange
 from ews_app.scheduler_interfaces.scheduler_store_event_updater_interface import \
                                                SchedularStoreEventUpdaterInterface
-from token_risk_view_app.observers.observer_store_token_price_change import ObserverStoreTokenPriceChange
+from token_risk_view_app.services.service_token_risk_view_app_store_event_updater import \
+                                                                  ServiceStoreEventUpdater
+
 
 @singleton
 class SchedulerTokenPriceChangeStoreUpdater(SchedularStoreEventUpdaterInterface):
     
-    def __init__(self) -> None:
+    @decorator_refresh_increments
+    def __init__(self,
+                 orderbooks_refresh_increment_mins,
+                 *args,
+                 **kwargs) -> None:
         super().__init__()
         self._logger_instance = logger
         self._service_store_event_updater = ServiceStoreEventUpdater()
         self._observer_store_token_price_change = ObserverStoreTokenPriceChange()
-        self._refresh_increment_mins = int(os.environ.get('ORDERBOOKS_REFRESH_INCREMENT_MINS', 0.1))
+        self._refresh_increment_mins = orderbooks_refresh_increment_mins
         
-
     @property
     def class_name(self) -> str:
         return f"{self.__class__.__name__}"

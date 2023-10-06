@@ -7,9 +7,9 @@ def defi_llama_urls_required(function=None,
     """
     def decorator(func):
         def wrapper(*args, **kwargs):
-            kwargs["defi_lama_hacks_url"] = \
+            kwargs["defi_llama_hacks_url"] = \
                 os.environ.get('DEFI_LLAMA_HACKS_URL', None)
-            kwargs["defi_lama_base_url"] = \
+            kwargs["defi_llama_base_url"] = \
                 os.environ.get('DEFI_LLAMA_BASE_URL', None)
 
             return func(*args, **kwargs)

@@ -6,7 +6,7 @@ from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
 from token_risk_view_app.enum.enum_warning_price_change import \
                                           EnumWarningPriceChange
-from token_risk_view_app.services.service_store_event_updater import \
+from token_risk_view_app.services.service_token_risk_view_app_store_event_updater import \
                                               ServiceStoreEventUpdater
 from token_risk_view_app.store.stores_token_risk_view import StoreTokenRiskView         
                                             

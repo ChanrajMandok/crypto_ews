@@ -66,7 +66,7 @@ class ConverterModelEventToMsTeamsMessage:
             reference_time = now
 
         # Count the dates that are greater than the reference time
-        future_dates_count = sum(ts >= reference_time for ts in important_dates)
+        future_dates_count = sum(ts > reference_time for ts in important_dates)
 
         if future_dates_count == 0:
             event_status = EnumEventStatus.CONCLUDED.name

@@ -1,9 +1,10 @@
 import abc
 
-from typing import Union, Optional
 from decimal import Decimal
 from datetime import datetime
+from typing import Union, Optional
 
+from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
@@ -11,8 +12,8 @@ from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 from ews_app.converters.converter_model_event_to_ms_teams_message import \
                                        ConverterModelEventToMsTeamsMessage
-from ews_app.enum.enum_source import EnumSource
-
+                                       
+                                       
 class ConverterDictToModelTokenVolatilityEventInterface(metaclass=abc.ABCMeta):
 
     @classmethod
@@ -59,9 +60,9 @@ class ConverterDictToModelTokenVolatilityEventInterface(metaclass=abc.ABCMeta):
         """
         Abstract method to convert an article model into an event model.
         """
-        source =EnumSource.BINANCE
+        source = EnumSource.BINANCE_ORDERBOOKS
         trading_affected = False
-        alert_priority = EnumPriority.HIGH
+        alert_priority = EnumPriority.HIGH.name
         
         id = int(release_date/increment_in_seconds)
         

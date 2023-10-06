@@ -18,10 +18,10 @@ from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_int
 class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInterface):
       
     @defi_llama_json_headers_required
-    def __init__(self, defi_lama_json_headers) -> None:
+    def __init__(self, defi_llama_json_headers) -> None:
         super().__init__()
         self._logger_instance     = logger
-        self._headers             = defi_lama_json_headers
+        self._headers             = defi_llama_json_headers
         self._converter           = ConverterDefiLlamaDictToModelStableCoin()
         self._url                 = 'https://defillama.com/stablecoins'
         self._peg_boundry         = os.environ.get('PEG_DEVIATION_ALERT', 1)
