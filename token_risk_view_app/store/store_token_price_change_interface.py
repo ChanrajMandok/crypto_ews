@@ -128,6 +128,10 @@ class StoreTokenPriceChangeInterface(Mapping[E, M]):
         """
         
         return {update_increment: details["last_updated"] for update_increment, details in self.data.items()}
+    
+    def get_store(self):
+        return self.data
+    
 
     def attach(self, observer: ObserverInterface) -> None:
         """

@@ -47,6 +47,7 @@ class ConverterDictToModelTokenVolatilityEventInterface(metaclass=abc.ABCMeta):
                 title: str,
                 release_date: int, 
                 important_dates : list[datetime],
+                increment_in_seconds: int,
                 alert_category:Union[EnumLowAlertWarningKeyWords, 
                                       EnumHighAlertWarningKeyWords],
                 network_tokens  : Optional[list[str]] = None,
@@ -61,6 +62,8 @@ class ConverterDictToModelTokenVolatilityEventInterface(metaclass=abc.ABCMeta):
         source =EnumSource.BINANCE
         trading_affected = False
         alert_priority = EnumPriority.HIGH
+        
+        id = int(release_date/increment_in_seconds)
         
         teams_message = \
             self._converter_model_event_to_ms_teams_message.convert(

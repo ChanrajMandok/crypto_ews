@@ -1,3 +1,5 @@
 from django.test import TestCase
 
 # Create your tests here.
+from token_risk_view_app.test.test_token_risk_view_app_all_services_test_case import TestTokenRiskViewAppAllServicesTestCase
+from token_risk_view_app.test.test_token_risk_view_app_all_converters_test_case import TestTokenRiskViewAppAllConvertersTestCase
