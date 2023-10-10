@@ -6,10 +6,10 @@ from defi_llama_ews_app.services import logger
 from defi_llama_ews_app.store.stores_defi import StoreDefi
 from ews_app.service_interfaces.service_html_retriever_interface import \
                                             ServiceHtmlRetrieverInterface
-from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required import \
-                                                     defi_llama_urls_required
-from defi_llama_ews_app.decorator.decorator_defi_llama_headers_required import \
-                                                     defi_llama_headers_required
+from defi_llama_ews_app.decorators.decorator_defi_llama_urls_required import \
+                                                      defi_llama_urls_required
+from defi_llama_ews_app.decorators.decorator_defi_llama_headers_required import \
+                                                      defi_llama_headers_required
 from defi_llama_ews_app.converters.converter_defi_llama_list_to_model_hack import \
                                                   ConverterDefiLlamaListToModelHack
 

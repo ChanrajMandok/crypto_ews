@@ -45,7 +45,6 @@
 |DEFI_WEBHOOK_URL| <span style="color:green">*Insert Defi Teams Webhook*</span>
 |STABLECOIN_WEBHOOK_URL| <span style="color:green">*Insert Stablecoin Teams Webhook*</span>
 |TOKEN_VOLATILITY_WEBHOOK_URL| <span style="color:green">*Insert Token Volatility Teams Webhook*</span>
-
 |STABLECOINS|<span style="color:green">insert stablecoins which should require notifications</span>
 |SPOT_CURRENCIES| <span style="color:green">insert spot currencies which should require notifications</span>
 |USDM_CURRENCIES| <span style="color:green">insert Binance USDM currencies which should require notifications</span>

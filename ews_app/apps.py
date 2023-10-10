@@ -5,6 +5,7 @@ from ews_app import logger
 from django.apps import AppConfig
 
 
+
 class EwsAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'ews_app'
@@ -50,3 +51,8 @@ class EwsAppConfig(AppConfig):
                 SchedularDefiLlamaBridgeHackEventDbUpdater
 
             SchedularDefiLlamaBridgeHackEventDbUpdater().run()
+
+            from token_risk_view_app.scheduler.scheduler_token_price_change_store_updater import \
+                                                            SchedulerTokenPriceChangeStoreUpdater
+            
+            SchedulerTokenPriceChangeStoreUpdater().run()

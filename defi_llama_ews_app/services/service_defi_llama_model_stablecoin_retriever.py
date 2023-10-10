@@ -9,10 +9,11 @@ from ews_app.enum.enum_high_alert_warning_key_words import \
 from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
 from defi_llama_ews_app.converters.converter_dict_to_model_stablecoin import \
                                        ConverterDefiLlamaDictToModelStableCoin
-from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required import \
-                                                     defi_llama_json_headers_required
+from defi_llama_ews_app.decorators.decorator_defi_llama_json_headers_required import \
+                                                      defi_llama_json_headers_required
 from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_interface import \
                                                          ServiceDefiLlamaJsonRetrieverInterface
+
 
 @singleton
 class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInterface):

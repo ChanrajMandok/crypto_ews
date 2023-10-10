@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.db import transaction
 from typing_extensions import override
 from singleton_decorator import singleton
 
@@ -59,6 +60,7 @@ class ServiceDefiLlamaBridgeHackDbEventUpdater(ServiceDbEventUpdaterInterface):
     def service_article_html_retriever(self):
         pass
 
+    @transaction.atomic
     @override
     def update_db(self):
         try:
@@ -94,3 +96,4 @@ class ServiceDefiLlamaBridgeHackDbEventUpdater(ServiceDbEventUpdaterInterface):
 
         except Exception as e:
             self.logger_instance.error(f"{self.class_name}: ERROR - {e}")
+            raise

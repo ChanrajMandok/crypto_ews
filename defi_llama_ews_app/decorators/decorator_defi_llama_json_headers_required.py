@@ -1,3 +1,5 @@
+
+
 def defi_llama_json_headers_required(function=None, env_variable=None):
     """
     Decorator for views that checks that the user is logged in.
@@ -18,7 +20,8 @@ def defi_llama_json_headers_required(function=None, env_variable=None):
                 "Sec-Fetch-Dest": "empty",
                 "Sec-Fetch-Mode": "cors",
                 "Sec-Fetch-Site": "same-origin",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.76",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                " (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.76",
                 "X-Nextjs-Data": "1"
             }
             return func(*args, **kwargs)

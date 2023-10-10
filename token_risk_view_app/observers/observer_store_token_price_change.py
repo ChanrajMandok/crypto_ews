@@ -2,18 +2,17 @@ from typing import Optional
 from datetime import timedelta, datetime
 from singleton_decorator import singleton
 
-from ews_app.enum.enum_source import EnumSource
 from token_risk_view_app.observers import logger
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
-from ews_app.services.service_send_model_event_to_ms_teams import \
-                                     ServiceSendModelEventToMsTeams
 from token_risk_view_app.enum.enum_orderbook_updated_increment import \
                                           EnumOrderbookUpdatedIncrement
 from token_risk_view_app.decorators.decorator_base_trading_urls import \
                                                        base_trading_urls
 from ews_app.observer_interfaces.observer_interface import ObserverInterface
 from token_risk_view_app.store.stores_token_risk_view import StoreTokenRiskView
+from token_risk_view_app.services.service_token_volatility_event_manager import \
+                                               ServiceTokenVolatilityEventManager
 from token_risk_view_app.converters.converter_dict_to_model_token_volatility_event import \
                                                    ConverterDictToModelTokenVolatilityEvent
                                                    
@@ -31,7 +30,7 @@ class ObserverStoreTokenPriceChange(ObserverInterface):
         StoreTokenRiskView.store_token_price_change.attach(self)
         self._coinmarketcap_base_url  = coinmarketcap_base_url
         self.converter_volatility_event = ConverterDictToModelTokenVolatilityEvent()
-        self._service_send_model_event_to_ms_teams = ServiceSendModelEventToMsTeams()
+        self.service_token_volatility_event_manager = ServiceTokenVolatilityEventManager()
         
     def update(self,
                volatility_events: Optional[list]):
@@ -67,11 +66,11 @@ class ObserverStoreTokenPriceChange(ObserverInterface):
                                                             increment_in_seconds = increment_in_seconds
                                                             )
 
-                source = token_volatility_event.source if token_volatility_event.source else EnumSource.BINANCE_ORDERBOOKS
-                #messages commented out as currently not being sent
-                self._service_send_model_event_to_ms_teams.send_message(source=source, 
-                                                                        ms_teams_message=token_volatility_event.ms_teams_message)
-                token_volatility_event.save()
+                self.service_token_volatility_event_manager.manage_db(
+                                                                   pretty_increment=pretty_increment,
+                                                                   token_volatility_event=token_volatility_event
+                                                                   )
+                
         
         except Exception as e:
             self.logger_instance.error(f"{self.class_name}: update ERROR: {str(e)}")

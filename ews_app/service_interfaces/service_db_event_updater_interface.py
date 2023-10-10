@@ -1,6 +1,7 @@
 import abc
 
 from datetime import datetime
+from django.db import transaction
 
 
 class ServiceDbEventUpdaterInterface(metaclass=abc.ABCMeta):
@@ -50,6 +51,7 @@ class ServiceDbEventUpdaterInterface(metaclass=abc.ABCMeta):
     def model_event(self):
         raise NotImplementedError
 
+    @transaction.atomic
     def update_db(self):
         try:
             # Retrieve all recent news articles & announcements from binance
@@ -85,8 +87,6 @@ class ServiceDbEventUpdaterInterface(metaclass=abc.ABCMeta):
 
         except Exception as e:
             self.logger_instance.error(f"{self.class_name}: ERROR - {e}")
-
-            
-            
+            raise
             
             

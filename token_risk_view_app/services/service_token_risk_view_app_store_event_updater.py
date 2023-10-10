@@ -1,14 +1,20 @@
 from datetime import datetime, timedelta
-from ews_app.enum.enum_source import EnumSource
+from singleton_decorator import singleton
 
+from ews_app.enum.enum_source import EnumSource
 from token_risk_view_app.services import logger
+from okx_ews_app.services.service_okx_orderbook_retriever import \
+                                      ServiceOkxOrderbookRetriever
 from token_risk_view_app.enum.enum_orderbook_updated_increment import \
                                           EnumOrderbookUpdatedIncrement
+from binance_ews_app.services.service_binance_orderbook_retriever import \
+                                          ServiceBinanceOrderbookRetriever
 from token_risk_view_app.store.stores_token_risk_view import StoreTokenRiskView
 from ews_app.service_interfaces.service_orderbook_retriever_interface import \
-                                            ServiceOrderBookRetrieverInterface 
+                                            ServiceOrderBookRetrieverInterface
 
 
+@singleton
 class ServiceStoreEventUpdater:
     
     def __init__(self) -> None:
@@ -34,6 +40,10 @@ class ServiceStoreEventUpdater:
             self.logger_instance.error(f"{self.class_name}: update_store ERROR: {str(e)}")
 
     def _retrieve_orderbooks(self) -> dict:
+        if not ServiceOrderBookRetrieverInterface.__subclasses__():
+            self.logger_instance.error(f"{self.class_name}: ServiceOrderBookRetrieverInterface has no subclasses")
+
+
         orderbooks = {}
         for cls in ServiceOrderBookRetrieverInterface.__subclasses__():
             try:
@@ -49,6 +59,9 @@ class ServiceStoreEventUpdater:
 
             except Exception as e:
                 self.logger_instance.error(f"{self.class_name}: _retrieve_orderbooks for {cls} ERROR: {str(e)}")
+
+        if orderbooks == []:
+             self.logger_instance.error(f"{self.class_name}: _retrieve_orderbooks returned no")
 
         return orderbooks
 

@@ -1,26 +1,26 @@
 from django.test import TestCase
 from ews_app.decorators.decorator_refresh_increments import \
                                  decorator_refresh_increments
-from okx_ews_app.decorator.decorator_okx_headers_required import \
-                                              okx_headers_required
+from okx_ews_app.decorators.decorator_okx_headers_required import \
+                                               okx_headers_required
 from ews_app.decorators.decorator_orderbooks_urls_required import \
                                            orderbooks_urls_required
-from binance_ews_app.decorator.decorator_binance_urls_required import \
-                                                   binance_url_required
+from binance_ews_app.decorators.decorator_binance_urls_required import \
+                                                    binance_url_required
 from ews_app.decorators.decorator_wx_tickers_spot_list_required import \
                                                  wirex_spot_tickers_list
 from token_risk_view_app.decorators.decorator_base_trading_urls import \
                                                        base_trading_urls
-from binance_ews_app.decorator.decorator_binance_headers_required import \
-                                                  binance_headers_required
+from binance_ews_app.decorators.decorator_binance_headers_required import \
+                                                   binance_headers_required
 from ews_app.decorators.decorator_webhook_urls import webhooks_urls_required
-from defi_llama_ews_app.decorator.decorator_defi_llama_urls_required import \
-                                                     defi_llama_urls_required
-from okx_ews_app.decorator.decorator_okx_urls_required import okx_url_required
-from defi_llama_ews_app.decorator.decorator_defi_llama_headers_required import \
-                                                     defi_llama_headers_required
-from defi_llama_ews_app.decorator.decorator_defi_llama_json_headers_required import \
-                                                     defi_llama_json_headers_required
+from defi_llama_ews_app.decorators.decorator_defi_llama_urls_required import \
+                                                      defi_llama_urls_required
+from okx_ews_app.decorators.decorator_okx_urls_required import okx_url_required
+from defi_llama_ews_app.decorators.decorator_defi_llama_headers_required import \
+                                                      defi_llama_headers_required
+from defi_llama_ews_app.decorators.decorator_defi_llama_json_headers_required import \
+                                                      defi_llama_json_headers_required
 
 class TestAllDecoratorsTestCase(TestCase):
 

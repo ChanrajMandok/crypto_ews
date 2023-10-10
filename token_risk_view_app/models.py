@@ -1,3 +1,3 @@
 from django.db import models
 
-# Create your models here.
+from token_risk_view_app.model.model_token_volatility_event import ModelTokenVolatilityEvent

@@ -64,7 +64,7 @@ class ConverterDictToModelTokenVolatilityEventInterface(metaclass=abc.ABCMeta):
         trading_affected = False
         alert_priority = EnumPriority.HIGH.name
         
-        id = int(release_date/increment_in_seconds)
+        id = int(release_date/int(increment_in_seconds))
         
         teams_message = \
             self._converter_model_event_to_ms_teams_message.convert(

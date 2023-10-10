@@ -1,4 +1,5 @@
 
+
 def binance_headers_required(function=None, 
                              env_variable=None):
     """
@@ -66,9 +67,6 @@ def binance_headers_required(function=None,
                     'X-Trace-Id': 'fac0a000-34df-442d-b3b1-89229c67f12c',
                     'X-Ui-Request-Trace': 'fac0a000-34df-442d-b3b1-89229c67f12c'
                                                 }
-
-
-
 
             return func(*args, **kwargs)
         return wrapper

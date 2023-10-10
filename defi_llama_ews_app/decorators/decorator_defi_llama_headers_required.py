@@ -1,3 +1,5 @@
+
+
 def defi_llama_headers_required(function=None, env_variable=None):
     """
     Decorator for views that checks that the user is logged in.

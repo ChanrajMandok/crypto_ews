@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from datetime import datetime
 from typing import Iterator, Optional, TypeVar, Mapping, Any
@@ -55,7 +56,8 @@ class StoreTokenPriceChangeInterface(Mapping[E, M]):
         if old is None:
             return False
 
-        threshold = EnumWarningPriceChange[update_increment].value
+        threshold = EnumWarningPriceChange[update_increment].value \
+            if EnumWarningPriceChange[update_increment].value else Decimal(0.00)
         return abs((new.bid.price - old.bid.price) / old.bid.price) > threshold
 
     def set_instance(self, update_increment: E, key: E, instance: M) -> None:
