@@ -35,7 +35,7 @@ class TestTokenRiskViewAppAllServicesTestCase(TestCase):
                 difference = abs(now - timestamp)
                 self.assertLessEqual(difference, one_minute_in_milliseconds)
             
-            btcusdt_orderbook = store_data[EnumWarningPriceChange.ONE_MINUTE.name]['data']['BTCUSDT']
+            btcusdt_orderbook = store_data[EnumWarningPriceChange.ONE_MINUTE.name]['data']['BTC/USDT']
             orderbook_updated_timestamp = btcusdt_orderbook.bid.timestamp
             self.assertIsInstance(btcusdt_orderbook, ModelOrderBook)
             difference = abs(now - orderbook_updated_timestamp)

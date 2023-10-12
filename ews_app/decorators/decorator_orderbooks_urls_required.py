@@ -21,6 +21,17 @@ def orderbooks_urls_required(function=None, env_variable=None):
                 logger.error(f"Environment variable '{key}' is not set.")
             kwargs["binance_orderbooks_url"] = binance_orderbooks_url
 
+            key = env_variable or 'BASE_CURRENCIES'
+            base_ccys_str = os.environ.get(key)
+        
+            if not base_ccys_str:
+                logger.error(f"Environment variable '{key}' is not set.")
+                base_ccys = []
+            else:
+                base_ccys = [ccy.strip() for ccy in base_ccys_str.split(",")]
+
+            kwargs["base_ccys"] = base_ccys
+            
             return func(*args, **kwargs)
         
         return wrapper

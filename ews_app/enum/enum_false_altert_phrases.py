@@ -14,3 +14,5 @@ class EnumFalseAlertPhrases(NoValue):
     BOTS                = 'bots'
     LIQUID_SWAP         = 'liquid swap'
     CAPPED_FUNDING      = 'capped funding'
+    VIP                 = 'vip'
+    LIQUIDITY_POOLS     = 'liquidity_pools'

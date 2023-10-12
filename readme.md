@@ -48,7 +48,7 @@
 |STABLECOINS|<span style="color:green">insert stablecoins which should require notifications</span>
 |SPOT_CURRENCIES| <span style="color:green">insert spot currencies which should require notifications</span>
 |USDM_CURRENCIES| <span style="color:green">insert Binance USDM currencies which should require notifications</span>
-
+|BASE_CURRENCIES|<span style="color:green">insert base currencies of all tickers, eg. USDT, BTC, BUSD </span>
 
 ## Executive Summary
 

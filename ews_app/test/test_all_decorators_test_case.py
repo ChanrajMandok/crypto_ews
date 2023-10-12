@@ -61,6 +61,7 @@ class TestAllDecoratorsTestCase(TestCase):
     @wirex_spot_tickers_list
     @decorator_refresh_increments
     def test_decorators_ews_app(self,
+                                base_ccys,
                                 cex_webhook,
                                 defi_webhook,
                                 token_webhook,
@@ -77,6 +78,7 @@ class TestAllDecoratorsTestCase(TestCase):
                                 wx_tickers_spot_list_binance_format,
                                 **kwargs):
         
+        self.assertIsNotNone(base_ccys)
         self.assertIsNotNone(cex_webhook)
         self.assertIsNotNone(defi_webhook)
         self.assertIsNotNone(token_webhook)

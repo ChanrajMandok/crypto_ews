@@ -147,6 +147,7 @@ SHELL_PLUS_IMPORTS = [
     'from defi_llama_ews_app.services.service_defi_llama_model_stablecoin_retriever import ServiceDefiLlamaModelStablecoinRetriever',
     'from defi_llama_ews_app.services.service_defi_llama_stablecoin_db_event_updater import ServiceDefiLlamaStableCoinDbEventUpdater',
     'from defi_llama_ews_app.services.service_defi_llama_bridge_hack_db_event_updater import ServiceDefiLlamaBridgeHackDbEventUpdater',
+    'from defi_llama_ews_app.scheduler.scheduler_defi_llama_stablecoin_event_db_updater import SchedularDefiLlamaStableCoinEventDbUpdater',
     'from binance_ews_app.services.service_binance_db_event_updater import ServiceBinanceDbEventUpdater',
     'from binance_ews_app.services.service_binance_orderbook_retriever import ServiceBinanceOrderbookRetriever',
     'from binance_ews_app.services.service_binance_delisting_retriever import ServiceBinanceDelistingRetriever',

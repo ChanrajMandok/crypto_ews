@@ -1,10 +1,11 @@
 import os
+import re
 
 from datetime import datetime
-from django.db import transaction
 from typing_extensions import override
 from singleton_decorator import singleton
 
+from django.db import transaction
 from defi_llama_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from defi_llama_ews_app.store.stores_defi import StoreDefi
@@ -63,14 +64,28 @@ class ServiceDefiLlamaStableCoinDbEventUpdater(ServiceDbEventUpdaterInterface):
     def service_article_html_retriever(self):
         pass
 
+    @staticmethod
+    def extract_price(text):
+        match = re.search(r'\$(\d+\.\d+)', text)
+        if match:
+            return float(match.group(1))
+        return None
+
+    def send_and_save_event(self, event):
+        self._service_send_model_event_to_ms_teams.send_message(
+            source=EnumSource.DEFI_LLAMA_STABLECOINS.name, 
+            ms_teams_message=event.ms_teams_message
+        )
+        event.save()
+
     @transaction.atomic
     @override
     def update_db(self):
         try:
             model_stablecoins = self.service_defi_llama_model_stablecoin_retriever.retrieve()
-
+            
             now = int(datetime.now().timestamp()) * 1000
-            start_timeframe = now - (int(1.15 * int(self._defi_llama_refresh_increment)* 60* 1000))
+            start_timeframe = now - (int(1.15 * int(self._defi_llama_refresh_increment) * 60 * 1000))
             
             if not model_stablecoins:
                 self.model_event().objects.filter(event_completed=False).update(event_completed=True)
@@ -78,29 +93,35 @@ class ServiceDefiLlamaStableCoinDbEventUpdater(ServiceDbEventUpdaterInterface):
                 self.store_db_last_updated().set(ts)
                 return
             
-            model_event_objects = [self.converter_model_defi_stablecoin_to_model_event.convert(source=EnumSource.DEFI_LLAMA_STABLECOINS, model_stablecoin=x) for x in model_stablecoins]
-            
-            # Get titles from model_event_objects
-            current_titles = set([event.title for event in model_event_objects])
+            model_event_objects = [
+                self.converter_model_defi_stablecoin_to_model_event.convert(source=EnumSource.DEFI_LLAMA_STABLECOINS, model_stablecoin=x) 
+                for x in model_stablecoins
+            ]
 
             # Get depeg events from DB within timeframe and event_completed=False
-            existing_titles_db = set(self.model_event().objects.filter(event_completed=False, release_date__gte=start_timeframe).values_list('title', flat=True))
+            existing_events_db = self.model_event().objects.filter(event_completed=False, release_date__gte=start_timeframe)
 
-            # Find new events and expired events
-            new_events_titles = current_titles - existing_titles_db
-            expired_events_titles = existing_titles_db - current_titles
-
-            # For new events: save them and send a message
             for event in model_event_objects:
-                source = EnumSource.DEFI_LLAMA_STABLECOINS.name
-                if event.title in new_events_titles:
-                    self._service_send_model_event_to_ms_teams.send_message(source=source, 
-                                                                            ms_teams_message=event.ms_teams_message)
-                    event.save()
+                existing_event = existing_events_db.filter(network_tokens=event.network_tokens, alert_category=event.alert_category).first()
+                
+                if existing_event:
+                    existing_price = self.extract_price(existing_event.title)
+                    current_price = self.extract_price(event.title)
+                    
+                    if not existing_price:  # If no price found in existing_event title
+                        continue
+                    
+                    price_difference_percentage = abs(current_price - existing_price) / existing_price * 100
+                    
+                    if price_difference_percentage >= 3:
+                        existing_event.event_completed = True
+                        existing_event.save()
+                        self.send_and_save_event(event)
 
-             # For expired events: update event_completed to True in DB in a single query
-            self.model_event().objects.filter(title__in=expired_events_titles).update(event_completed=True)
-            
+                else:
+                    # This is a new event, so just save it and send a message
+                    self.send_and_save_event(event)
+
             ts = self.model_db_last_updated()(last_updated=now)
             self.store_db_last_updated().set(ts)
 

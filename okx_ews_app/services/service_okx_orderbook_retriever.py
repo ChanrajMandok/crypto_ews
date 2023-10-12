@@ -13,10 +13,12 @@ class ServiceOkxOrderbookRetriever(ServiceOrderBookRetrieverInterface):
     @orderbooks_urls_required
     @wirex_spot_tickers_list
     def __init__(self, 
+                 base_ccys,
                  okx_orderbooks_url, 
                  wx_tickers_spot_list_okx_format,
                  **kwargs) -> None:
         self._logger_instance       = logger
+        self._base_ccys             = base_ccys
         self._okx_url               = okx_orderbooks_url
         self._raw_tickers_spot_list = wx_tickers_spot_list_okx_format
 
@@ -67,3 +69,7 @@ class ServiceOkxOrderbookRetriever(ServiceOrderBookRetrieverInterface):
     @property
     def source(self):
         return EnumSource.OKX
+    
+    @property
+    def base_ccys(self):
+        return self._base_ccys

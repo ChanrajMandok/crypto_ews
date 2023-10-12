@@ -13,10 +13,12 @@ class ServiceBinanceOrderbookRetriever(ServiceOrderBookRetrieverInterface):
     @orderbooks_urls_required
     @wirex_spot_tickers_list
     def __init__(self, 
+                 base_ccys,
                  binance_orderbooks_url, 
                  wx_tickers_spot_list_binance_format,
                  **kwargs) -> None:
         self._logger_instance       = logger
+        self._base_ccys             = base_ccys
         self._binance_url           = binance_orderbooks_url
         self._raw_tickers_spot_list = wx_tickers_spot_list_binance_format
 
@@ -67,3 +69,7 @@ class ServiceBinanceOrderbookRetriever(ServiceOrderBookRetrieverInterface):
     @property
     def source(self):
         return EnumSource.BINANCE
+    
+    @property
+    def base_ccys(self):
+        return self._base_ccys

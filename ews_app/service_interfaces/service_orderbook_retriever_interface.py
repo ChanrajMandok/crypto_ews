@@ -1,6 +1,5 @@
 import os
 import abc
-import json
 import requests
 
 from decimal import Decimal
@@ -67,6 +66,11 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def source(self):
         raise NotImplementedError
+    
+    @abc.abstractmethod
+    def base_ccys(self):
+        raise NotImplementedError
+
 
     def retrieve(self) -> dict[ModelQuote]:
 
@@ -121,9 +125,14 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                         continue
 
                     if '-' in symbol:
-                        wx_symbol = symbol.replace('-', '')
+                        wx_symbol = symbol.replace('-', '/')
                     else:
-                        wx_symbol = symbol
+                        for base_ccy in self.base_ccys:
+                            # Check if symbol ends with one of the base currencies
+                            if symbol.endswith(base_ccy):
+                                # Split the symbol into its constituents and join them with '/'
+                                wx_symbol = f"{symbol[:-len(base_ccy)]}/{base_ccy}"
+                                break
 
                     if self.time_key:
                         time = int(orderbook[self.time_key])
