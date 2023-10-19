@@ -27,6 +27,7 @@
 |MANAGER_REFRESH_INCREMENT_MINS|15
 |RELEVENT_NEWS_LOOKBACK_DAYS|30
 |COINMARKETCAP_BASE_URL|https://coinmarketcap.com/
+|COINMARKETCAP_CCY_URL|https://api.coinmarketcap.com/data-api/v3/cryptocurrency/market-pairs/latest?slug=
 |OKX_BASE_TRADING_URL|https://www.okx.com/trade-spot/
 |OKX_ARTICLE_BASE_URL|https://www.okx.com/help-center/
 |OKX_NEWS_DICT_URL|https://www.okx.com/v2/support/home/web
@@ -49,6 +50,7 @@
 |SPOT_CURRENCIES| <span style="color:green">insert spot currencies which should require notifications</span>
 |USDM_CURRENCIES| <span style="color:green">insert Binance USDM currencies which should require notifications</span>
 |BASE_CURRENCIES|<span style="color:green">insert base currencies of all tickers, eg. USDT, BTC, BUSD </span>
+|CURRENCY_NAMES|<span style="color:green">insert dict of Ticker:CoinMarketCap Search name, eg. "DAI:multi-collateral-dai " </span>
 
 ## Executive Summary
 

@@ -2,6 +2,7 @@ from datetime import datetime
 from singleton_decorator import singleton
 
 from django.db import transaction
+from ews_app.enum.enum_source import EnumSource
 from token_risk_view_app.services import logger
 from ews_app.services.service_send_model_event_to_ms_teams import \
                                      ServiceSendModelEventToMsTeams
@@ -52,6 +53,7 @@ class ServiceTokenVolatilityEventManager():
                     if common_tickers:
                         open_token_volatility_event.h_spot_tickers = [ticker for ticker in \
                             open_token_volatility_event.h_spot_tickers if ticker not in common_tickers]
+                        open_token_volatility_event.l_spot_tickers = [ticker for ticker in common_tickers]
                         open_token_volatility_event.save()
 
                 # Check if the event is expired
@@ -61,6 +63,9 @@ class ServiceTokenVolatilityEventManager():
 
             # Directly update expired events outside of the loop
             ModelTokenVolatilityEvent.objects.filter(id__in=expired_event_ids).update(event_completed=True)
+
+            self._service_send_model_event_to_ms_teams().send_message(source=EnumSource.BINANCE_ORDERBOOKS, 
+                                                                        ms_teams_message=token_volatility_event.ms_teams_message)
 
             token_volatility_event.save()
 
