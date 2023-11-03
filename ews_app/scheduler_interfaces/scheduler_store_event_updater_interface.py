@@ -29,7 +29,7 @@ class SchedularStoreEventUpdaterInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
     
     @abc.abstractmethod
-    def service_store_event_updater(self) -> str:
+    def service_dbb_event_updater(self) -> str:
         """
         Abstract method that should return a service or utility responsible 
         for updating the store based on events.
@@ -82,7 +82,7 @@ class SchedularStoreEventUpdaterInterface(metaclass=abc.ABCMeta):
         """
         
         try:
-            self.service_store_event_updater().update_store()
+            self.service_dbb_event_updater().update_store()
             self.logger_instance.info(f"{self.class_name}: Store Managment & Teams Messaging Completed")
 
         except Exception as e: 

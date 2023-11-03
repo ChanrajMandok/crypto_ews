@@ -56,3 +56,8 @@ class EwsAppConfig(AppConfig):
                                                             SchedulerTokenPriceChangeStoreUpdater
             
             SchedulerTokenPriceChangeStoreUpdater().run()
+
+            from coinmarketcap_ews_app.scheduler.scheduler_coinmarketcap_liquidity_db_updater import \
+            SchedulerCoinMarketCapLiquidityDbUpdater
+
+            SchedulerCoinMarketCapLiquidityDbUpdater().run()

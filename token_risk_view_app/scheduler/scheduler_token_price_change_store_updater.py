@@ -38,7 +38,7 @@ class SchedulerTokenPriceChangeStoreUpdater(SchedularStoreEventUpdaterInterface)
     def refresh_increment_mins(self):
         return self._refresh_increment_mins
 
-    def service_store_event_updater(self):
+    def service_dbb_event_updater(self):
         return self._service_store_event_updater 
     
     def observer(self):

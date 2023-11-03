@@ -13,7 +13,6 @@ from ews_app.decorators.decorator_base_trading_urls import base_trading_urls
 @singleton
 class ServiceCoinmarketcapMarketLiquidityRetriever():
 
-
     @base_trading_urls
     def __init__(self,
                  coinmarketcap_ccy_url,

@@ -108,7 +108,7 @@ class ServiceCoinMarketCapLiquidityEventDbEventUpdater(ServiceDbEventUpdaterInte
                             url=token_dict['url'], 
                             title=title, 
                             release_date=now ,
-                            increment_in_seconds=int(index)+int(1),
+                            increment_in_seconds=int(index)+int(10000),
                             network_tokens=[token],
                             alert_category=alert_category,
                             important_dates=[now], 
