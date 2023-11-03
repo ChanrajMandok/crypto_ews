@@ -100,9 +100,9 @@ class ServiceDelistingRetrieverInterface(metaclass=abc.ABCMeta):
                         continue
 
                     if '-' in symbol:
-                        wx_symbol = symbol.replace('-', '')
+                        internal_symbol = symbol.replace('-', '')
                     else:
-                        wx_symbol = symbol
+                        internal_symbol = symbol
 
                 return delisting_tickers
             

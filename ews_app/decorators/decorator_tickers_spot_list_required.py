@@ -1,8 +1,9 @@
 import os
+
 from ews_app.decorators import logger
 
 
-def wirex_spot_tickers_list(function=None, env_variable=None):
+def spot_tickers_list_required(function=None, env_variable=None):
     """
     Decorator that injects the spot tickers list from the environment and formats it.
     """
@@ -18,9 +19,9 @@ def wirex_spot_tickers_list(function=None, env_variable=None):
             tickers_list = [t.replace("/", "") for t in raw_tickers_list]
             okx_tickers_list = [t.replace("/", "-") for t in raw_tickers_list]
             
-            kwargs["wx_tickers_spot_list_binance_format"] = tickers_list
+            kwargs["tickers_spot_list_binance_format"] = tickers_list
             kwargs["raw_tickers_spot_list"] = raw_tickers_list
-            kwargs["wx_tickers_spot_list_okx_format"] = okx_tickers_list
+            kwargs["tickers_spot_list_okx_format"] = okx_tickers_list
             
             return func(*args, **kwargs)
         

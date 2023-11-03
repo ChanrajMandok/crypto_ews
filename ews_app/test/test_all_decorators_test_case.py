@@ -1,16 +1,16 @@
 from django.test import TestCase
+
 from ews_app.decorators.decorator_refresh_increments import \
                                  decorator_refresh_increments
 from okx_ews_app.decorators.decorator_okx_headers_required import \
                                                okx_headers_required
 from ews_app.decorators.decorator_orderbooks_urls_required import \
                                            orderbooks_urls_required
+from ews_app.decorators.decorator_tickers_spot_list_required import \
+                                           spot_tickers_list_required
 from binance_ews_app.decorators.decorator_binance_urls_required import \
                                                     binance_url_required
-from ews_app.decorators.decorator_wx_tickers_spot_list_required import \
-                                                 wirex_spot_tickers_list
-from token_risk_view_app.decorators.decorator_base_trading_urls import \
-                                                       base_trading_urls
+from ews_app.decorators.decorator_base_trading_urls import base_trading_urls
 from binance_ews_app.decorators.decorator_binance_headers_required import \
                                                    binance_headers_required
 from ews_app.decorators.decorator_webhook_urls import webhooks_urls_required
@@ -21,6 +21,7 @@ from defi_llama_ews_app.decorators.decorator_defi_llama_headers_required import 
                                                       defi_llama_headers_required
 from defi_llama_ews_app.decorators.decorator_defi_llama_json_headers_required import \
                                                       defi_llama_json_headers_required
+
 
 class TestAllDecoratorsTestCase(TestCase):
 
@@ -58,7 +59,7 @@ class TestAllDecoratorsTestCase(TestCase):
     @base_trading_urls
     @webhooks_urls_required
     @orderbooks_urls_required
-    @wirex_spot_tickers_list
+    @spot_tickers_list_required
     @decorator_refresh_increments
     def test_decorators_ews_app(self,
                                 base_ccys,
@@ -66,33 +67,35 @@ class TestAllDecoratorsTestCase(TestCase):
                                 defi_webhook,
                                 token_webhook,
                                 stablecoin_webhook,
+                                token_liquidity_webhook,
                                 okx_orderbooks_url,
                                 binance_orderbooks_url, 
                                 raw_tickers_spot_list,
                                 coinmarketcap_base_url,
                                 update_refresh_increment_mins,
                                 manager_refresh_increment_mins,
-                                wx_tickers_spot_list_okx_format,
+                                tickers_spot_list_okx_format,
                                 orderbooks_refresh_increment_mins,
                                 defi_llama_refresh_increment_mins,
-                                wx_tickers_spot_list_binance_format,
+                                tickers_spot_list_binance_format,
                                 **kwargs):
         
         self.assertIsNotNone(base_ccys)
         self.assertIsNotNone(cex_webhook)
         self.assertIsNotNone(defi_webhook)
         self.assertIsNotNone(token_webhook)
-        self.assertIsNotNone(stablecoin_webhook)
         self.assertIsNotNone(okx_orderbooks_url)
-        self.assertIsNotNone(binance_orderbooks_url)
+        self.assertIsNotNone(stablecoin_webhook)
         self.assertIsNotNone(raw_tickers_spot_list)
         self.assertIsNotNone(coinmarketcap_base_url)
+        self.assertIsNotNone(binance_orderbooks_url)
+        self.assertIsNotNone(token_liquidity_webhook)
         self.assertIsNotNone(update_refresh_increment_mins)
         self.assertIsNotNone(manager_refresh_increment_mins)
-        self.assertIsNotNone(wx_tickers_spot_list_okx_format)
+        self.assertIsNotNone(tickers_spot_list_okx_format)
         self.assertIsNotNone(orderbooks_refresh_increment_mins)
         self.assertIsNotNone(defi_llama_refresh_increment_mins)
-        self.assertIsNotNone(wx_tickers_spot_list_binance_format)
+        self.assertIsNotNone(tickers_spot_list_binance_format)
 
     @okx_url_required
     @okx_headers_required

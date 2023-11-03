@@ -2,8 +2,8 @@ from okx_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from okx_ews_app.decorators.decorator_okx_headers_required import \
                                                okx_headers_required
-from ews_app.decorators.decorator_wx_tickers_spot_list_required import \
-                                                 wirex_spot_tickers_list
+from ews_app.decorators.decorator_tickers_spot_list_required import \
+                                           spot_tickers_list_required
 from okx_ews_app.decorators.decorator_okx_urls_required import okx_url_required
 from ews_app.service_interfaces.service_delisting_retriever_interface import \
                                             ServiceDelistingRetrieverInterface
@@ -13,16 +13,16 @@ class ServiceOkxDelistingRetriever(ServiceDelistingRetrieverInterface):
 
     @okx_url_required
     @okx_headers_required
-    @wirex_spot_tickers_list
+    @spot_tickers_list_required
     def __init__(self, 
                  okx_headers, 
                  okx_delist_url,
-                 wx_tickers_spot_list_okx_format,
+                 tickers_spot_list_okx_format,
                  **kwargs) -> None:
         self._logger_instance       = logger
         self._headers               = okx_headers
         self._okx_url               = okx_delist_url
-        self._raw_tickers_spot_list = wx_tickers_spot_list_okx_format
+        self._raw_tickers_spot_list = tickers_spot_list_okx_format
 
     @property
     def logger_instance(self):

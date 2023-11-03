@@ -1,7 +1,7 @@
 import os
 
-from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
-from ews_app.model.model_wirex_usdm_currency import ModelWirexUsdmCurrency
+from ews_app.model.model_spot_currency import ModelSpotCurrency
+from ews_app.model.model_usdm_currency import ModelUsdmCurrency
 
 
 class TaskPopulateCurrenciesFromEnv():
@@ -28,13 +28,13 @@ class TaskPopulateCurrenciesFromEnv():
         usdm_ccys = {(index, currency) for index, currency in enumerate(sorted(usdm_currencies))}
                 
         try:
-            spot_ccy_instances = [ModelWirexSpotCurrency(id=i, currency=x) for i, x in spot_ccys]
-            usdm_ccy_instances = [ModelWirexUsdmCurrency(id=i, currency=x) for i, x in usdm_ccys]
+            spot_ccy_instances = [ModelSpotCurrency(id=i, currency=x) for i, x in spot_ccys]
+            usdm_ccy_instances = [ModelUsdmCurrency(id=i, currency=x) for i, x in usdm_ccys]
         except Exception as e:
             raise Exception(f"Error populating models: {e}")
 
         try:
-            ModelWirexSpotCurrency.objects.bulk_create(spot_ccy_instances, ignore_conflicts=True)
-            ModelWirexUsdmCurrency.objects.bulk_create(usdm_ccy_instances, ignore_conflicts=True)
+            ModelSpotCurrency.objects.bulk_create(spot_ccy_instances, ignore_conflicts=True)
+            ModelUsdmCurrency.objects.bulk_create(usdm_ccy_instances, ignore_conflicts=True)
         except Exception as e:
             raise Exception(f"Error populating models: {e}")

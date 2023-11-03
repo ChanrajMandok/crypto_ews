@@ -7,8 +7,7 @@ from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 from token_risk_view_app.enum.enum_orderbook_updated_increment import \
                                           EnumOrderbookUpdatedIncrement
-from token_risk_view_app.decorators.decorator_base_trading_urls import \
-                                                       base_trading_urls
+from ews_app.decorators.decorator_base_trading_urls import base_trading_urls
 from ews_app.observer_interfaces.observer_interface import ObserverInterface
 from token_risk_view_app.store.stores_token_risk_view import StoreTokenRiskView
 from token_risk_view_app.services.service_token_volatility_event_manager import \

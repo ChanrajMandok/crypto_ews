@@ -15,9 +15,9 @@ from ews_app.model_interfaces.model_article_interface import \
                                          ModelArticleInterface
 from ews_app.converters.converter_str_to_model_ticker import \
                                      ConverterStrToModelTicker
+from ews_app.model.model_spot_currency import ModelSpotCurrency
 from ews_app.services.service_extract_article_content_from_html import \
                                     ServiceExtractArticleContentFromHtml
-from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
 from ews_app.model_interfaces.model_event_interface import ModelEventInterface
 
 
@@ -112,12 +112,12 @@ class ServiceModelArticleHtmlHandlerInterface(metaclass=abc.ABCMeta):
                                                             alert_category=category)
             network_tokens = self.extract_network_token(content=article_content_text,
                                                             alert_category=category)
-            wx_ccy_affected = any(ModelWirexSpotCurrency.objects.filter(currency=x).exists() \
+            internal_ccy_affected = any(ModelSpotCurrency.objects.filter(currency=x).exists() \
                                                                             for x in network_tokens)
             
             if (h_spot_tickers or h_usdm_tickers) or \
                 (category.value in ['hard', 'fork', 'upgrade', 'contract'] \
-                                    and trading_affected and wx_ccy_affected):
+                                    and trading_affected and internal_ccy_affected):
                 article.alert_priority = EnumPriority.HIGH.name
             
             event = self.converter_a_to_e().convert(

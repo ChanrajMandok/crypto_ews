@@ -2,8 +2,9 @@ from binance_ews_app.converters import logger
 from ews_app.model.model_ticker import ModelTicker
 from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_currency_type import EnumCurrencyType
-from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
-from ews_app.model.model_wirex_usdm_currency import ModelWirexUsdmCurrency
+from ews_app.model.model_spot_currency import ModelSpotCurrency
+from ews_app.model.model_usdm_currency import ModelUsdmCurrency
+
 
 class ConverterStrToModelTicker:
 
@@ -27,12 +28,12 @@ class ConverterStrToModelTicker:
             priority = EnumPriority.LOW.name
             
             if type == EnumCurrencyType.SPOT:
-                if ModelWirexSpotCurrency.objects.filter(currency=base).exists() and \
+                if ModelSpotCurrency.objects.filter(currency=base).exists() and \
                 quote in ['BTC', 'USDT']:
                     priority = EnumPriority.HIGH.name
                     
             elif type == EnumCurrencyType.USDM:
-                if ModelWirexUsdmCurrency.objects.filter(currency=base).exists():
+                if ModelUsdmCurrency.objects.filter(currency=base).exists():
                     priority = EnumPriority.HIGH.name
 
             ticker = ModelTicker(

@@ -6,7 +6,7 @@ from ews_app.enum.enum_priority import EnumPriority
 from ews_app.enum.enum_blockchain import EnumBlockchain
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
-from ews_app.model.model_wirex_spot_currency import ModelWirexSpotCurrency
+from ews_app.model.model_spot_currency import ModelSpotCurrency
 
 
 class ConverterListToModelHackInterface(metaclass=abc.ABCMeta):
@@ -88,7 +88,7 @@ class ConverterListToModelHackInterface(metaclass=abc.ABCMeta):
                         e = None
                     if e:
                         network_tokens.append(e)  
-                        if ModelWirexSpotCurrency.objects.filter(currency=e.upper()).exists():
+                        if ModelSpotCurrency.objects.filter(currency=e.upper()).exists():
                             alert_priority   = EnumPriority.HIGH.name
                             trading_affected = True 
                     

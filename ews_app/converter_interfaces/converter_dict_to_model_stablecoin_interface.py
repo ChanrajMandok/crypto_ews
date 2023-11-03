@@ -5,11 +5,11 @@ from decimal import Decimal
 from datetime import datetime
 
 from ews_app.enum.enum_priority import EnumPriority
+from ews_app.model.model_stablecoin import ModelStableCoin
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
-from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
 from defi_llama_ews_app.model.model_defi_stablecoin import ModelDefiStablecoin
 
 
@@ -66,7 +66,7 @@ class ConverterDictToModelStablecoinInterface(metaclass=abc.ABCMeta):
         
         try:
             name = dict.get(self.stablecoin_key)
-            model_wx_stablecoin = ModelWirexStableCoin.objects.get(currency=name)
+            model_stablecoin = ModelStableCoin.objects.get(currency=name)
         except Exception as e:
             self.logger_instance.error(f"{self.class_name} - ERROR: {e}")
 
@@ -80,7 +80,7 @@ class ConverterDictToModelStablecoinInterface(metaclass=abc.ABCMeta):
                                         alert_category       = alert_category,
                                         alert_priority       = alert_priority,
                                         trading_affected     = trading_affected,
-                                        stablecoin           = model_wx_stablecoin,
+                                        stablecoin           = model_stablecoin,
                                         price                = Decimal(str(dict.get(self.price_key))),
                                         mechanism            = str(dict.get(self.mechanism_key)),
                                         peg_deviation        = Decimal(str(dict.get(self.peg_deviation_key))),

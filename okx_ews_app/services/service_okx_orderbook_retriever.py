@@ -2,8 +2,8 @@ from okx_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
 from ews_app.decorators.decorator_orderbooks_urls_required import \
                                            orderbooks_urls_required
-from ews_app.decorators.decorator_wx_tickers_spot_list_required import \
-                                                 wirex_spot_tickers_list
+from ews_app.decorators.decorator_tickers_spot_list_required import \
+                                           spot_tickers_list_required
 from ews_app.service_interfaces.service_orderbook_retriever_interface import \
                                             ServiceOrderBookRetrieverInterface
 
@@ -11,16 +11,16 @@ from ews_app.service_interfaces.service_orderbook_retriever_interface import \
 class ServiceOkxOrderbookRetriever(ServiceOrderBookRetrieverInterface):
 
     @orderbooks_urls_required
-    @wirex_spot_tickers_list
+    @spot_tickers_list_required
     def __init__(self, 
                  base_ccys,
                  okx_orderbooks_url, 
-                 wx_tickers_spot_list_okx_format,
+                 tickers_spot_list_okx_format,
                  **kwargs) -> None:
         self._logger_instance       = logger
         self._base_ccys             = base_ccys
         self._okx_url               = okx_orderbooks_url
-        self._raw_tickers_spot_list = wx_tickers_spot_list_okx_format
+        self._raw_tickers_spot_list = tickers_spot_list_okx_format
 
     @property
     def logger_instance(self):

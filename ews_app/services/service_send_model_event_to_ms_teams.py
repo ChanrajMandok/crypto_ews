@@ -12,13 +12,17 @@ class ServiceSendModelEventToMsTeams:
                  cex_webhook,
                  defi_webhook,
                  token_webhook, 
+                 pte_webhook,
                  stablecoin_webhook,
+                 token_liquidity_webhook,
                  **kwargs
                  ) -> None:
         self.cex_webhook        = cex_webhook
         self.defi_webhook       = defi_webhook 
-        self.stablecoin_webhook = stablecoin_webhook
+        self.pte_webhook        = pte_webhook
         self.token_webhook      = token_webhook 
+        self.stablecoin_webhook = stablecoin_webhook
+        self.token_liq_webhook  = token_liquidity_webhook
         self.headers            = {'Content-Type': 'application/json'}
 
     def send_message(self,
@@ -33,7 +37,12 @@ class ServiceSendModelEventToMsTeams:
             if source == EnumSource.DEFI_LLAMA_STABLECOINS.name:
                 webhook = self.stablecoin_webhook
             if source == EnumSource.BINANCE_ORDERBOOKS.name:
-                webhook = self.token_webhook 
+                if 'Twenty Four Hours' in ms_teams_message['title']: 
+                    webhook = self.pte_webhook
+                else:
+                    webhook = self.token_webhook 
+            if source == EnumSource.COINMARKETCAP.name:
+                webhook = self.token_liq_webhook
 
             response = requests.post(webhook, json=ms_teams_message, headers=self.headers)
             response.raise_for_status()

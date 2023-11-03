@@ -1,5 +1,5 @@
 """
-ASGI config for wx_ews project.
+ASGI config for crypto_ews project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wx_ews.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crypto_ews.settings')
 
 application = get_asgi_application()

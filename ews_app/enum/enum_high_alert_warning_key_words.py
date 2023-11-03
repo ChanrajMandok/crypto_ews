@@ -16,3 +16,4 @@ class EnumHighAlertWarningKeyWords(NoValue):
     DEPEG                     = 'depeg'
     BRIDGE_HACK               = 'bridge hack'
     TOKEN_PRICE_VOLATILITY    = 'token_price_volatility'
+    TOKEN_LIQUIDITY_EVENT     = 'low_liquidity_event'

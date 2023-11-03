@@ -8,6 +8,7 @@ from datetime import datetime
 from ews_app.model.model_quote import ModelQuote
 from ews_app.model.model_order_book import ModelOrderBook
 
+
 class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
     
     @classmethod
@@ -125,13 +126,13 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                         continue
 
                     if '-' in symbol:
-                        wx_symbol = symbol.replace('-', '/')
+                        internal_symbol = symbol.replace('-', '/')
                     else:
                         for base_ccy in self.base_ccys:
                             # Check if symbol ends with one of the base currencies
                             if symbol.endswith(base_ccy):
                                 # Split the symbol into its constituents and join them with '/'
-                                wx_symbol = f"{symbol[:-len(base_ccy)]}/{base_ccy}"
+                                internal_symbol = f"{symbol[:-len(base_ccy)]}/{base_ccy}"
                                 break
 
                     if self.time_key:
@@ -159,7 +160,7 @@ class ServiceOrderBookRetrieverInterface(metaclass=abc.ABCMeta):
                                      source    = self.source
                                     )
 
-                    prices_dict[wx_symbol] = ModelOrderBook(symbol=wx_symbol, source_symbol=symbol, bid=bid, ask=ask, source=self.source)
+                    prices_dict[internal_symbol] = ModelOrderBook(symbol=internal_symbol, source_symbol=symbol, bid=bid, ask=ask, source=self.source)
 
                 # self.logger_instance.info(
                 #     f"{self.class_name}: {len(prices_dict)} {self.source.name} orderbooks retrieved..")

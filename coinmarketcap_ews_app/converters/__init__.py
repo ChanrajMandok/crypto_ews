@@ -1,7 +1,7 @@
 import logging
 
 # create logger
-logger = logging.getLogger('token_risk_view_app.decorators')
+logger = logging.getLogger('coinmarketcap_ews_app.converters')
 logger.setLevel(logging.DEBUG)
 
 logger.propagate = 0

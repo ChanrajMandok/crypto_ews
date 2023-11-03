@@ -1,6 +1,6 @@
 from decimal import Decimal
-
 from django.test import TestCase
+
 from ews_app.model.model_order_book import ModelOrderBook
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
@@ -61,17 +61,17 @@ class TestBinanceEwsAppAllServicesTestCase(TestCase):
         try:
             # Initialize and retrieve
             service_binance_orderbook_retriever = ServiceBinanceOrderbookRetriever()
-            wirex_asset_orderbooks = service_binance_orderbook_retriever.retrieve()
+            spot_asset_orderbooks = service_binance_orderbook_retriever.retrieve()
 
-            # Check if wirex_asset_orderbooks is not None and is a dictionary
-            self.assertIsNotNone(wirex_asset_orderbooks)
-            self.assertTrue(isinstance(wirex_asset_orderbooks, dict))
+            # Check if spot_asset_orderbooks is not None and is a dictionary
+            self.assertIsNotNone(spot_asset_orderbooks)
+            self.assertTrue(isinstance(spot_asset_orderbooks, dict))
 
-            # Check if wirex_asset_orderbooks is not empty
-            self.assertTrue(len(wirex_asset_orderbooks) > 0)
+            # Check if spot_asset_orderbooks is not empty
+            self.assertTrue(len(spot_asset_orderbooks) > 0)
 
             # Iterate over items and check values
-            for key, orderbook in wirex_asset_orderbooks.items():
+            for key, orderbook in spot_asset_orderbooks.items():
                 # Check if orderbook is of type ModelOrderBook
                 self.assertIsInstance(orderbook, ModelOrderBook)
 

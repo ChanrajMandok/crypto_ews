@@ -78,6 +78,9 @@ class ConverterModelEventToMsTeamsMessage:
         if alert_category == EnumHighAlertWarningKeyWords.DEPEG:
             event_status = EnumEventStatus.ONGOING.name
 
+        if alert_category == EnumHighAlertWarningKeyWords.TOKEN_LIQUIDITY_EVENT:
+            event_status = EnumEventStatus.ONGOING.name
+
         formatted_dates = [datetime.fromtimestamp(ts/1000).strftime('%Y-%m-%d %H:%M') \
                            for ts in important_dates] if important_dates else None
         

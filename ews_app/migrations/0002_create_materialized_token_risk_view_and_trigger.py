@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ews_app', '0004_alter_modeleventinterface_h_spot_tickers_and_more'),
+        ('ews_app', '0001_initial'),
     ]
 
     operations = [

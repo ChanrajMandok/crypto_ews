@@ -1,8 +1,9 @@
 from django.test import TestCase
+
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
 from ews_app.tasks.task_populate_stablecoins_from_env import \
-                           TaskPopulateWirexStableCoinsFromEnv
+                                TaskPopulateStableCoinsFromEnv
 from defi_llama_ews_app.model.model_defi_llama_bridge_hack import \
                                            ModelDefiLlamaBridgeHack
 from defi_llama_ews_app.services.service_defi_lama_url_retriever import \
@@ -16,11 +17,12 @@ from defi_llama_ews_app.services.service_defi_llama_bridge_hack_retriever import
 from defi_llama_ews_app.services.service_defi_llama_model_stablecoin_retriever import \
                                                ServiceDefiLlamaModelStablecoinRetriever
 
+
 class TestDefiLlamaServicesTestCase(TestCase):
 
     def setUp(self):
         TaskPopulateCurrenciesFromEnv().populate()
-        TaskPopulateWirexStableCoinsFromEnv().populate()
+        TaskPopulateStableCoinsFromEnv().populate()
         self.__service_defi_lama_url_retriever = ServiceDefiLamaUrlRetriever()
         self.__service_defi_llama_model_hack_retriever = ServiceDefiLlamaModelHackRetriever()
         self.__service_defi_llama_bridge_hack_retriever = ServiceDefiLlamaBridgeHackRetriever()

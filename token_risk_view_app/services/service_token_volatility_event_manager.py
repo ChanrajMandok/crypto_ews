@@ -1,7 +1,7 @@
 from datetime import datetime
+from django.db import transaction
 from singleton_decorator import singleton
 
-from django.db import transaction
 from ews_app.enum.enum_source import EnumSource
 from token_risk_view_app.services import logger
 from ews_app.services.service_send_model_event_to_ms_teams import \
@@ -17,7 +17,7 @@ class ServiceTokenVolatilityEventManager():
         self.logger_instance = logger
         self._is_locked = False
         self.class_name = self.__class__.__name__
-        self._service_send_model_event_to_ms_teams = ServiceSendModelEventToMsTeams()
+        self.service_send_model_event_to_ms_teams = ServiceSendModelEventToMsTeams()
 
     @transaction.atomic
     def manage_db(self, pretty_increment: str, token_volatility_event: ModelTokenVolatilityEvent):
@@ -64,8 +64,8 @@ class ServiceTokenVolatilityEventManager():
             # Directly update expired events outside of the loop
             ModelTokenVolatilityEvent.objects.filter(id__in=expired_event_ids).update(event_completed=True)
 
-            self._service_send_model_event_to_ms_teams().send_message(source=EnumSource.BINANCE_ORDERBOOKS, 
-                                                                        ms_teams_message=token_volatility_event.ms_teams_message)
+            self.service_send_model_event_to_ms_teams.send_message(source=EnumSource.BINANCE_ORDERBOOKS.name, 
+                                                                   ms_teams_message=token_volatility_event.ms_teams_message)
 
             token_volatility_event.save()
 

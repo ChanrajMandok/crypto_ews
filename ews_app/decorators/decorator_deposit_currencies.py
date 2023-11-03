@@ -1,8 +1,9 @@
 import os
-import json
+
 from ews_app.decorators import logger
 
-def wirex_deposit_currencies(function=None, env_variable=None):
+
+def deposit_currencies_required(function=None, env_variable=None):
     """
     Decorator that injects the Deposit spot tickers list from the environment and formats it.
     """

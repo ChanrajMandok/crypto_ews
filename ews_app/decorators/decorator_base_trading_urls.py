@@ -1,6 +1,6 @@
 import os
 
-from token_risk_view_app.decorators import logger
+from ews_app.decorators import logger
 
 
 def base_trading_urls(function=None, env_variable=None):

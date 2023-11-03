@@ -6,13 +6,13 @@ import requests
 from singleton_decorator import singleton
 
 from token_risk_view_app.services import logger
-from token_risk_view_app.decorators.decorator_base_trading_urls import \
-                                                       base_trading_urls
-from ews_app.model.model_wirex_deposit_currency import ModelWirexDepositCurrency
+from ews_app.model.model_deposit_currency import ModelDepositCurrency
+from ews_app.decorators.decorator_base_trading_urls import base_trading_urls
 
 
 @singleton
-class ServiceCoinMarketCapChecker():
+class ServiceCoinmarketcapMarketLiquidityRetriever():
+
 
     @base_trading_urls
     def __init__(self,
@@ -22,9 +22,10 @@ class ServiceCoinMarketCapChecker():
         self.logger_instance = logger
         self.class_name = self.__class__.__name__
         self._coinmarketcap_ccy_url = coinmarketcap_ccy_url
+        self.minimum_liquidity = float(os.environ.get('MINIMUM_LIQUIDITY_THRESHOLD', 10))
 
 
-    def token_liquidity_check(self):
+    def retrieve(self) -> list[dict]:
             
         timeout = int(os.environ.get('TIMEOUT', 10))
         ssl_verify = False if os.environ.get('SSL_VERIFY', 'True') == "False" else True
@@ -32,7 +33,7 @@ class ServiceCoinMarketCapChecker():
         session = requests.Session()
         session.verify = ssl_verify
         all_current_tokens = \
-            list(set(ModelWirexDepositCurrency.objects.all()))
+            list(set(ModelDepositCurrency.objects.all()))
         
         low_volume_tokens = []
         for token in all_current_tokens:
@@ -42,25 +43,25 @@ class ServiceCoinMarketCapChecker():
                 response = session.get(url, 
                                     timeout=timeout)
                 if response.status_code != 200: 
-                    low_volume_tokens.append(token.currency)
+                    low_volume_tokens.append({'token': token.currency,'url': url})
                     continue
 
                 json_response = response.json()
 
                 if not "data" in json_response:
-                    low_volume_tokens.append(token.currency)
+                    low_volume_tokens.append({'token': token.currency,'url': url})
                     continue
 
                 data = json_response['data']
-
+                
                 if not 'marketPairs' in data:
-                    low_volume_tokens.append(token.currency)
+                    low_volume_tokens.append({'token': token.currency,'url': url})
                     continue
 
                 market_pairs_data = data['marketPairs']
 
                 if not isinstance(market_pairs_data, list) or not market_pairs_data:
-                    low_volume_tokens.append(token.currency)
+                    low_volume_tokens.append({'token': token.currency,'url': url})
                     continue
 
                 max_volume = None
@@ -69,13 +70,13 @@ class ServiceCoinMarketCapChecker():
                         if max_volume is None or pair_data['volumeUsd'] > max_volume:
                             max_volume = pair_data['volumeUsd']
 
-                if max_volume is None or max_volume < 5000.0:
-                    low_volume_tokens.append(token.currency)
+                if max_volume is None or max_volume < self.minimum_liquidity:
+                    low_volume_tokens.append({'token': token.currency,'url': url})
 
                 time.sleep(random.uniform(1, 2))
 
             except Exception as e:
                 self.logger_instance.error(f"Error while fetching data for {token.currency}: {str(e)}")
-                low_volume_tokens.append(token.currency)
+                low_volume_tokens.append({'token': token.currency,'url': url})
         
         return low_volume_tokens

@@ -3,10 +3,13 @@ import os
 from singleton_decorator import singleton
 
 from token_risk_view_app.services import logger
-from token_risk_view_app.services.service_token_risk_view_app_store_event_updater import ServiceStoreEventUpdater
+from token_risk_view_app.observers.observer_store_token_price_change import \
+                                                ObserverStoreTokenPriceChange
 from ews_app.scheduler_interfaces.scheduler_store_event_updater_interface import \
                                                SchedularStoreEventUpdaterInterface
-from token_risk_view_app.observers.observer_store_token_price_change import ObserverStoreTokenPriceChange
+from token_risk_view_app.services.service_token_risk_view_app_store_event_updater import \
+                                                                  ServiceStoreEventUpdater
+
 
 @singleton
 class SchedulerTokenPriceChangeStoreUpdater(SchedularStoreEventUpdaterInterface):

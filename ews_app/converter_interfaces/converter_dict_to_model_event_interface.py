@@ -1,6 +1,5 @@
 import abc
 
-from decimal import Decimal
 from datetime import datetime
 from typing import Union, Optional
 
@@ -14,7 +13,7 @@ from ews_app.converters.converter_model_event_to_ms_teams_message import \
                                        ConverterModelEventToMsTeamsMessage
                                        
                                        
-class ConverterDictToModelTokenVolatilityEventInterface(metaclass=abc.ABCMeta):
+class ConverterDictToModelEventInterface(metaclass=abc.ABCMeta):
 
     @classmethod
     def __subclasshook__(cls, subclass):
@@ -51,17 +50,18 @@ class ConverterDictToModelTokenVolatilityEventInterface(metaclass=abc.ABCMeta):
                 increment_in_seconds: int,
                 alert_category:Union[EnumLowAlertWarningKeyWords, 
                                       EnumHighAlertWarningKeyWords],
-                network_tokens  : Optional[list[str]] = None,
-                h_spot_tickers  : Optional[list[str]] = None,
-                h_usdm_tickers  : Optional[list[str]] = None,
-                l_spot_tickers  : Optional[list[str]] = None,
-                l_usdm_tickers  : Optional[list[str]] = None
+                trading_affected: Optional[bool]       = False, 
+                source          : Optional[EnumSource] = EnumSource.BINANCE_ORDERBOOKS,
+                network_tokens  : Optional[list[str]]  = None,
+                h_spot_tickers  : Optional[list[str]]  = None,
+                h_usdm_tickers  : Optional[list[str]]  = None,
+                l_spot_tickers  : Optional[list[str]]  = None,
+                l_usdm_tickers  : Optional[list[str]]  = None,
                 ):
         """
         Abstract method to convert an article model into an event model.
         """
-        source = EnumSource.BINANCE_ORDERBOOKS
-        trading_affected = False
+
         alert_priority = EnumPriority.HIGH.name
         
         id = int(release_date/int(increment_in_seconds))

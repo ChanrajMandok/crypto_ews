@@ -29,6 +29,16 @@ def webhooks_urls_required(function=None, env_variable=None):
                 logger.warning("Environment variable 'TOKEN_VOLATILITY_WEBHOOK' not set.")
             kwargs["token_webhook"] = token_webhook
 
+            pte_webhook = os.environ.get('PTE_VOLATILITY_WEBHOOK', None)
+            if not pte_webhook:
+                logger.warning("Environment variable 'PTE_VOLATILITY_WEBHOOK' not set.")
+            kwargs["pte_webhook"] = pte_webhook
+
+            token_liquidity_webhook = os.environ.get('TOKEN_LIQUIDITY_WEBHOOK_URL', None)
+            if not token_liquidity_webhook:
+                logger.warning("Environment variable 'TOKEN_LIQUIDITY_WEBHOOK_URL' not set.")
+            kwargs["token_liquidity_webhook"] = token_liquidity_webhook
+
             return func(*args, **kwargs)
         
         return wrapper

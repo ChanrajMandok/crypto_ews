@@ -6,19 +6,19 @@ from datetime import datetime
 from django.test import TestCase
 from ews_app.enum.enum_source import EnumSource
 from ews_app.enum.enum_priority import EnumPriority
+from ews_app.model.model_stablecoin import ModelStableCoin
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
 from ews_app.tasks.task_populate_currencies_from_env import \
                                 TaskPopulateCurrenciesFromEnv
 from ews_app.tasks.task_populate_stablecoins_from_env import \
-                           TaskPopulateWirexStableCoinsFromEnv
+                                TaskPopulateStableCoinsFromEnv
 from defi_llama_ews_app.model.model_defi_stablecoin_event import \
                                           ModelDefiStableCoinEvent
 from defi_llama_ews_app.model.model_defi_llama_bridge_hack import \
                                            ModelDefiLlamaBridgeHack
 from defi_llama_ews_app.model.model_defi_bridge_hack_event import \
                                            ModelDefiBridgeHackEvent
-from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
 from defi_llama_ews_app.model.model_defi_hack_event import ModelDefiHackEvent
 from defi_llama_ews_app.model.model_defi_llama_hack import ModelDefiLlamaHack
 from defi_llama_ews_app.model.model_defi_stablecoin import ModelDefiStablecoin
@@ -40,7 +40,7 @@ class TestDefiLlamaConvertersTestCase(TestCase):
 
     def setUp(self):
         TaskPopulateCurrenciesFromEnv().populate()
-        TaskPopulateWirexStableCoinsFromEnv().populate()
+        TaskPopulateStableCoinsFromEnv().populate()
         self.converter_dict_to_model_bridge_hack                = ConverterDictToModelBridgeHack()
         self.converter_defi_llama_list_to_model_hack            = ConverterDefiLlamaListToModelHack()
         self.convert_model_stablecoin_to_model_event            = ConvertModelStablecoinToModelEvent()
@@ -97,13 +97,13 @@ class TestDefiLlamaConvertersTestCase(TestCase):
         source = EnumSource.DEFI_LLAMA
         now = int(datetime.now().timestamp()) * 1000
 
-        wx_stablecoin = ModelWirexStableCoin.objects.get(currency=data_dict['symbol'])
+        m_stablecoin = ModelStableCoin.objects.get(currency=data_dict['symbol'])
 
         model_stablecoin = \
             ModelDefiStablecoin(
                                 release_date         = now,
                                 trading_affected     = True,
-                                stablecoin           = wx_stablecoin,
+                                stablecoin           = m_stablecoin,
                                 alert_priority       = EnumPriority.HIGH,
                                 price                = Decimal(str(data_dict['price'])),
                                 one_day_price_change = Decimal(str(data_dict['change_1d'])),

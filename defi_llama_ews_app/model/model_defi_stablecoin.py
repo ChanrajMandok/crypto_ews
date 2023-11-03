@@ -1,10 +1,10 @@
 from django.db import models
 from ews_app.enum.enum_priority import EnumPriority
+from ews_app.model.model_stablecoin import ModelStableCoin
 from ews_app.enum.enum_low_alert_warning_key_words import \
                                 EnumLowAlertWarningKeyWords
 from ews_app.enum.enum_high_alert_warning_key_words import \
-                                 EnumHighAlertWarningKeyWords
-from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
+                                EnumHighAlertWarningKeyWords
 
 
 class ModelDefiStablecoin(models.Model):
@@ -13,7 +13,7 @@ class ModelDefiStablecoin(models.Model):
     release_date         = models.BigIntegerField(null=True)
     trading_affected     = models.BooleanField(default=False)
     mechanism            = models.CharField(null=True)
-    stablecoin           = models.OneToOneField(ModelWirexStableCoin, on_delete=models.CASCADE)
+    stablecoin           = models.OneToOneField(ModelStableCoin, on_delete=models.CASCADE)
     peg_deviation        = models.DecimalField(max_digits=20, decimal_places=8, null=True)
     one_day_price_change = models.DecimalField(max_digits=20, decimal_places=8, null=True)
     url                  = models.URLField(max_length=200, null=True)

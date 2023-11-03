@@ -57,10 +57,10 @@ class TestOkxEwsAppAllServicesTestCase(TestCase):
     def test_service_okx_orderbook_retriever(self):
         try:
             service_okx_orderbook_retriever = ServiceOkxOrderbookRetriever()
-            wirex_asset_orderbooks = service_okx_orderbook_retriever.retrieve()
+            spot_asset_orderbooks = service_okx_orderbook_retriever.retrieve()
             
-            self.assertIsNotNone(wirex_asset_orderbooks)
-            self.assertTrue(isinstance(wirex_asset_orderbooks, dict))
-            self.assertTrue(list(wirex_asset_orderbooks.values())[0], ModelOrderBook)
+            self.assertIsNotNone(spot_asset_orderbooks)
+            self.assertTrue(isinstance(spot_asset_orderbooks, dict))
+            self.assertTrue(list(spot_asset_orderbooks.values())[0], ModelOrderBook)
         except Exception as e:
             raise Exception(f"Failure in service_okx_orderbook_retriever: {e}")

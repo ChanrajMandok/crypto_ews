@@ -4,9 +4,9 @@ from singleton_decorator import singleton
 
 from defi_llama_ews_app.services import logger
 from ews_app.enum.enum_priority import EnumPriority
+from ews_app.model.model_stablecoin import ModelStableCoin
 from ews_app.enum.enum_high_alert_warning_key_words import \
                                 EnumHighAlertWarningKeyWords
-from ews_app.model.model_wirex_stablecoin import ModelWirexStableCoin
 from defi_llama_ews_app.converters.converter_dict_to_model_stablecoin import \
                                        ConverterDefiLlamaDictToModelStableCoin
 from defi_llama_ews_app.decorators.decorator_defi_llama_json_headers_required import \
@@ -19,7 +19,8 @@ from defi_llama_ews_app.service_interfaces.service_defi_llama_json_retriever_int
 class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInterface):
       
     @defi_llama_json_headers_required
-    def __init__(self, defi_llama_json_headers) -> None:
+    def __init__(self, 
+                 defi_llama_json_headers) -> None:
         super().__init__()
         self._logger_instance     = logger
         self._headers             = defi_llama_json_headers
@@ -55,7 +56,7 @@ class ServiceDefiLlamaModelStablecoinRetriever(ServiceDefiLlamaJsonRetrieverInte
         
         # Fetching currency list and handling potential exceptions
         try:
-            currency_list = ModelWirexStableCoin.objects.values_list('currency', flat=True)
+            currency_list = ModelStableCoin.objects.values_list('currency', flat=True)
             if test:
                 test_stables = [x for x in object_list if x['symbol'] in currency_list]
                 return test_stables

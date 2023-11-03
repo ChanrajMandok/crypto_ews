@@ -1,9 +1,9 @@
 from binance_ews_app.services import logger
 from ews_app.enum.enum_source import EnumSource
+from ews_app.decorators.decorator_tickers_spot_list_required import \
+                                           spot_tickers_list_required
 from binance_ews_app.decorators.decorator_binance_urls_required import \
                                                     binance_url_required
-from ews_app.decorators.decorator_wx_tickers_spot_list_required import \
-                                                 wirex_spot_tickers_list
 from binance_ews_app.decorators.decorator_binance_headers_required import \
                                                    binance_headers_required
 from ews_app.service_interfaces.service_delisting_retriever_interface import \
@@ -13,17 +13,17 @@ from ews_app.service_interfaces.service_delisting_retriever_interface import \
 class ServiceBinanceDelistingRetriever(ServiceDelistingRetrieverInterface):
 
     @binance_url_required
-    @wirex_spot_tickers_list
     @binance_headers_required
+    @spot_tickers_list_required
     def __init__(self, 
                  binance_delist_url,
                  binance_delist_headers, 
-                 wx_tickers_spot_list_binance_format,
+                 tickers_spot_list_binance_format,
                  **kwargs) -> None:
         self._logger_instance       = logger
         self._binance_url           = binance_delist_url
         self._headers               = binance_delist_headers
-        self._raw_tickers_spot_list = wx_tickers_spot_list_binance_format
+        self._raw_tickers_spot_list = tickers_spot_list_binance_format
 
     @property
     def logger_instance(self):
